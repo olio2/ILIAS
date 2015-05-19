@@ -75,21 +75,8 @@ class ilMembershipCronNotifications extends ilCronJob
 			$status_details = "Switched from daily runs to open schedule.";			
 		}
 		
-		// gather objects and participants with notification setting
-		$objects = array();
-		$set = $ilDB->query("SELECT usr_id,keyword FROM usr_pref".
-			" WHERE ".$ilDB->like("keyword", "text", "grpcrs_ntf_%").
-			" AND value = ".$ilDB->quote("1", "text"));
-		while($row = $ilDB->fetchAssoc($set))
-		{
-			$ref_id = substr($row["keyword"], 11);
-			$type = ilObject::_lookupType($ref_id, true);
-			if($type)
-			{
-				$objects[$type][$ref_id][] = $row["usr_id"];
-			}
-		}
-
+		include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
+		$objects = ilMembershipNotifications::getActiveUsersforAllObjects();
 		if(sizeof($objects))
 		{				
 			// gather news for each user over all objects
@@ -97,28 +84,24 @@ class ilMembershipCronNotifications extends ilCronJob
 			$user_news_aggr = array();
 						
 			include_once "Services/News/classes/class.ilNewsItem.php";
-			foreach($objects as $type => $ref_ids)
+			foreach($objects as $ref_id => $user_ids)
 			{
-				// type is not needed for now
-				foreach($ref_ids as $ref_id => $user_ids)
+				// gather news per object
+				$news_item = new ilNewsItem();
+				if($news_item->checkNewsExistsForGroupCourse($ref_id, $last_run))
 				{
-					// gather news per object
-					$news_item = new ilNewsItem();
-					if($news_item->checkNewsExistsForGroupCourse($ref_id, $last_run))
+					foreach($user_ids as $user_id)
 					{
-						foreach($user_ids as $user_id)
+						// gather news for user
+						$user_news = $news_item->getNewsForRefId($ref_id,
+							false, false, $last_run, false, false, false, false,
+							$user_id);
+						if($user_news)
 						{
-							// gather news for user
-							$user_news = $news_item->getNewsForRefId($ref_id,
-								false, false, $last_run, false, false, false, false,
-								$user_id);
-							if($user_news)
-							{
-								$user_news_aggr[$user_id][$ref_id] = $user_news;								
-							}
+							$user_news_aggr[$user_id][$ref_id] = $user_news;								
 						}
 					}
-				}
+				}				
 			}
 			unset($objects);
 

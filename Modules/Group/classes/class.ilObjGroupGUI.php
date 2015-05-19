@@ -2414,12 +2414,20 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * :TEMP: Save notification setting (from infoscreen)
 	 */
 	function saveNotificationObject()
-	{
-		global $ilUser;
-
-		$ilUser->setPref("grpcrs_ntf_".$this->ref_id, (bool)$_REQUEST["grp_ntf"]);
-		$ilUser->writePrefs();
-		
+	{		
+		include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
+		$noti = new ilMembershipNotifications($this->ref_id);
+		if($noti->canCurrentUserEdit())
+		{
+			if((bool)$_REQUEST["grp_ntf"])
+			{
+				$noti->activateUser();
+			}
+			else
+			{
+				$noti->deactivateUser();
+			}
+		}
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		$this->ctrl->redirect($this, "infoScreen");
 	}
@@ -3018,38 +3026,44 @@ class ilObjGroupGUI extends ilContainerGUI
 	
 	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) 
 	{
-		global $ilSetting, $ilUser;
+		global $ilUser;
 		
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 				
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
-		if($ilSetting->get("crsgrp_ntf") &&
-			ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
-		{						
-			if(!$ilUser->getPref("grpcrs_ntf_".$this->ref_id))
+		if(ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
+		{				
+			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";			
+			if(ilMembershipNotifications::isActive())
 			{
-				$lg->addHeaderIcon("not_icon",
-					ilUtil::getImagePath("notification_off.svg"),
-					$this->lng->txt("grp_notification_deactivated"));
-				
-				$this->ctrl->setParameter($this, "grp_ntf", 1);
-				$caption = "grp_activate_notification";
+				$noti = new ilMembershipNotifications($this->ref_id);					
+				if(!$noti->isCurrentUserActive())
+				{
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_off.svg"),
+						$this->lng->txt("grp_notification_deactivated"));
+
+					$this->ctrl->setParameter($this, "grp_ntf", 1);
+					$caption = "grp_activate_notification";
+				}
+				else
+				{				
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_on.svg"),
+						$this->lng->txt("grp_notification_activated"));
+
+					$this->ctrl->setParameter($this, "grp_ntf", 0);
+					$caption = "grp_deactivate_notification";
+				}
+
+				if($noti->canCurrentUserEdit())
+				{
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this, "saveNotification"),
+						$caption);
+				}
+
+				$this->ctrl->setParameter($this, "grp_ntf", "");
 			}
-			else
-			{				
-				$lg->addHeaderIcon("not_icon",
-					ilUtil::getImagePath("notification_on.svg"),
-					$this->lng->txt("grp_notification_activated"));
-				
-				$this->ctrl->setParameter($this, "grp_ntf", 0);
-				$caption = "grp_deactivate_notification";
-			}
-			
-			$lg->addCustomCommand($this->ctrl->getLinkTarget($this, "saveNotification"),
-				$caption);
-			
-			
-			$this->ctrl->setParameter($this, "grp_ntf", "");
 		}		
 		
 		return $lg;
