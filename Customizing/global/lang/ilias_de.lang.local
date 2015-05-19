@@ -1,0 +1,10 @@
+<!-- language file start -->
+membership#:#mem_force_notification#:#Notification
+membership#:#mem_force_notification_mode_self#:#Inaktiv
+membership#:#mem_force_notification_mode_self_info#:#Default: aus; frei veränderbar
+membership#:#mem_force_notification_mode_all#:#Aktiv
+membership#:#mem_force_notification_mode_all_info#:#Default: an; frei veränderbar
+membership#:#mem_force_notification_mode_blocked#:#Festgelegt
+membership#:#mem_force_notification_mode_blocked_info#:#Default: an; nicht änderbar
+membership#:#mem_force_notification_mode_custom#:#Individuell
+membership#:#mem_force_notification_mode_custom_info#:#Einstellungen für jedes Mitglied
