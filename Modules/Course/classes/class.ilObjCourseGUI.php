@@ -928,7 +928,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if($this->object->validate())
 		{
-			$this->object->update();
+			$this->object->update();						
 			
 			// BEGIN ChangeEvent: Record write event
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -950,6 +950,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				)
 			);
 			
+			
+			//
+			// TEMP 
+			// 
+	
+			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
+			ilMembershipNotifications::importFromForm($this->object, $form);
+
 			// Update ecs export settings
 			include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';	
 			$ecs = new ilECSCourseSettings($this->object);			
@@ -1345,6 +1353,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		$not->setChecked( $this->object->getAutoNotification() );
 		$form->addItem($not);
 		
+		
+		//
+		// TEMP
+		//
+		
+		include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
+		ilMembershipNotifications::addToSettingsForm($this->object, $form);
 
 		// Further information
 		//$further = new ilFormSectionHeaderGUI();

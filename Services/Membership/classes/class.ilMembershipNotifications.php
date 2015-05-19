@@ -40,6 +40,19 @@ class ilMembershipNotifications
 			$this->read();
 		}	
 	}
+		
+	/**
+	 * Is feature active?
+	 * 
+	 * @return bool
+	 */
+	public static function isActive()
+	{
+		global $ilSetting;
+						
+		// :TODO: what about active news service?
+		return (bool)$ilSetting->get("crsgrp_ntf", false);		
+	}
 	
 	/**
 	 * Read from DB
@@ -67,20 +80,12 @@ class ilMembershipNotifications
 				}
 			}
 		}
-	}
+	}	
 	
-	/**
-	 * Is feature active?
-	 * 
-	 * @return bool
-	 */
-	public static function isActive()
-	{
-		global $ilSetting;
-						
-		// :TODO: what about active news service?
-		return (bool)$ilSetting->get("crsgrp_ntf", false);		
-	}
+	
+	//
+	// MODE
+	//
 	
 	/**
 	 * Get mode
@@ -99,7 +104,27 @@ class ilMembershipNotifications
 	 */
 	protected function setMode($a_value)
 	{		
-		$this->mode = $a_value;
+		if($this->isValidMode($a_value))
+		{
+			$this->mode = $a_value;
+		}
+	}
+	
+	/**
+	 * Is given mode valid?
+	 * 
+	 * @param int $a_value
+	 * @return bool
+	 */
+	protected function isValidMode($a_value)
+	{
+		$valid = array(
+			self::MODE_SELF
+			,self::MODE_ALL
+			,self::MODE_ALL_BLOCKED
+			// ,self::MODE_CUSTOM currently used in forum
+		);
+		return in_array($a_value, $valid);
 	}
 	
 	/**
@@ -118,7 +143,8 @@ class ilMembershipNotifications
 		}
 				
 		if($this->mode &&
-			$this->mode != $a_new_mode)
+			$this->mode != $a_new_mode &&
+			$this->isValidMode($a_new_mode))
 		{		
 			$ilDB->manipulate("DELETE FROM member_noti".
 				" WHERE ref_id = ".$ilDB->quote($this->ref_id, "integer"));				
@@ -149,6 +175,11 @@ class ilMembershipNotifications
 		
 		$this->setMode($a_new_mode);
 	}	
+	
+	
+	//
+	// ACTIVE USERS
+	//
 	
 	/**
 	 * Init participants for current object
@@ -247,6 +278,11 @@ class ilMembershipNotifications
 		return  array_intersect($all, $users);
 	}
 	
+	
+	//
+	// USER STATUS
+	//
+	
 	/**
 	 * Activate notification for user
 	 * 
@@ -321,7 +357,7 @@ class ilMembershipNotifications
 				if($user)
 				{
 					// blocked value not supported in user pref!
-					$user->setPref("grpcrs_ntf_".$this->ref_id, (bool)$a_status);	
+					$user->setPref("grpcrs_ntf_".$this->ref_id, (int)(bool)$a_status);	
 					$user->writePrefs();
 					return true;
 				}
@@ -360,6 +396,11 @@ class ilMembershipNotifications
 				
 		return false;
 	}
+	
+	
+	//
+	// CURRENT USER
+	//
 	
 	/**
 	 * Get user notification status
@@ -402,6 +443,11 @@ class ilMembershipNotifications
 					$this->custom[$user_id] == self::VALUE_BLOCKED);			
 		}
 	}
+	
+	
+	//
+	// CRON
+	//
 	
 	/**
 	 * Get active notifications for all objects
@@ -452,5 +498,86 @@ class ilMembershipNotifications
 		}
 		
 		return $objects;		
+	}
+	
+	
+	//
+	// (OBJECT SETTINGS) FORM
+	//
+	
+	/**
+	 * Add notification settings to form 
+	 *
+	 * @param ilObject $a_object
+	 * @param ilPropertyFormGUI $a_form
+	 */
+	public static function addToSettingsForm(ilObject $a_object, ilPropertyFormGUI $a_form)
+	{
+		global $lng;
+		
+		$ref_id = $a_object->getRefId();
+		
+		if(self::isActive() &&
+			$ref_id)
+		{				
+			$lng->loadLanguageModule("membership");			
+			$noti = new self($ref_id);
+			
+			$force_noti = new ilRadioGroupInputGUI($lng->txt("mem_force_notification"), "force_noti");
+			$a_form->addItem($force_noti);
+			
+			if($noti->isValidMode(self::MODE_SELF))
+			{
+				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_self"), self::MODE_SELF);
+				$option->setInfo($lng->txt("mem_force_notification_mode_self_info"));
+				$force_noti->addOption($option);
+			}
+			if($noti->isValidMode(self::MODE_ALL))
+			{
+				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_all"), self::MODE_ALL);
+				$option->setInfo($lng->txt("mem_force_notification_mode_all_info"));
+				$force_noti->addOption($option);
+			}
+			if($noti->isValidMode(self::MODE_ALL_BLOCKED))
+			{
+				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_blocked"), self::MODE_ALL_BLOCKED);
+				$option->setInfo($lng->txt("mem_force_notification_mode_blocked_info"));
+				$force_noti->addOption($option);	
+			}
+			if($noti->isValidMode(self::MODE_CUSTOM))
+			{
+				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_custom"), self::MODE_CUSTOM);
+				$option->setInfo($lng->txt("mem_force_notification_mode_custom_info"));
+				$force_noti->addOption($option);	
+			}
+						
+			$force_noti->setValue($noti->getMode());
+		}
+	}
+	
+	/**
+	 * Import notification settings from form 
+	 *
+	 * @param ilObject $a_object
+	 * @param ilPropertyFormGUI $a_form
+	 */
+	public static function importFromForm(ilObject $a_object, ilPropertyFormGUI $a_form = null)
+	{
+		$ref_id = $a_object->getRefId();
+		
+		if(self::isActive() &&
+			$ref_id)
+		{			
+			if(!$a_form)
+			{
+				$value = (int)$_POST["force_noti"];
+			}
+			else
+			{
+				$value = $a_form->getInput("force_noti");
+			}						
+			$noti = new self($ref_id);
+			$noti->switchMode($value);			
+		}
 	}
 }
