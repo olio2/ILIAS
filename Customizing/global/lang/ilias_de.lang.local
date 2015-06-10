@@ -234,3 +234,10 @@ forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber
 crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
 crs#:#crs_intro_course_group_notification_period#:#Diese Mail umfasst Nachrichten für den Zeitraum von %1$s bis %2$s.
 crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen:
+common#:#obj_logs#:#Protokollierung
+common#:#obj_logs_desc#:#Enthält globale Einstellungen für die ILIAS-Protokollierung
+rbac#:#logs_edit_permission#:#Rechteeinstellung der Protokollierung ändern
+rbac#:#logs_read#:#Lesezugriff auf Einstellungen der Protokollierung
+rbac#:#logs_visible#:#Protokollierungs-Administration ist sichtbar
+rbac#:#logs_write#:#Einstellungen der Protokollierungs-Administration bearbeiten
+logging#:#logs_settings#:#Protokollierungseinstellungen

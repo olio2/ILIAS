@@ -34,7 +34,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRemoteGlossaryGUI, ilObjRemoteFileGUI, ilObjRemoteGroupGUI, ilObjECSSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCloudGUI, ilObjRepositorySettingsGUI, ilObjWebResourceAdministrationGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCourseAdministrationGUI, ilObjGroupAdministrationGUI, ilObjExerciseAdministrationGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjTaxonomyAdministrationGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjTaxonomyAdministrationGUI, ilObjLoggingSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBibliographicAdminGUI, ilObjBibliographicGUI
 * // BEGIN WebDAV
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
@@ -441,7 +441,7 @@ class ilAdministrationGUI
 		$layout = array(
 			1 => array(
 				"basic" =>
-					array("adm", "stys", "adve", "lngf", "cmps", "accs", "hlps", "trac"),
+					array("adm", "stys", "adve", "lngf", "cmps", "accs", "hlps", "trac",'logs'),
 				"users" =>
 					array("usrf", 'tos', "rolf", "auth", "ps", "orgu")
 				),
