@@ -1,0 +1,85 @@
+<?php
+
+/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ *  
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesAwareness
+ */
+class ilAwarenessData
+{
+	protected $user_id;
+	protected $user_collector;
+	protected $feature_collector;
+	protected $user_collection;
+
+	/**
+	 * Constructor
+	 *
+	 * @param
+	 * @return
+	 */
+	function __construct($a_user_id)
+	{
+		$this->user_id = $a_user_id;
+
+		include_once("./Services/Awareness/classes/class.ilAwarenessUserCollector.php");
+		$this->user_collector = ilAwarenessUserCollector::getInstance($a_user_id);
+		include_once("./Services/Awareness/classes/class.ilAwarenessFeatureCollector.php");
+		$this->feature_collector = ilAwarenessFeatureCollector::getInstance($a_user_id);
+	}
+
+
+	/**
+	 * Get data
+	 *
+	 * @return array array of data objects
+	 */
+	function getData()
+	{
+		$this->user_collection = $this->user_collector->collectUsers();
+
+		$user_ids = $this->user_collection->getUsers();
+
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$names = ilUserUtil::getNamePresentation($user_ids, true,
+			false, "", false, false, true, true);
+
+
+		// todo: use adv data types with a PHP object (stdClass) bridge that is transferable to JSON in a trivial manner
+
+		$data = array();
+		foreach ($names as $n)
+		{
+			$obj = new stdClass;
+			$obj->lastname = $n["lastname"];
+			$obj->firstname = $n["firstname"];
+			$obj->login = $n["login"];
+			$obj->id = $n["id"];
+			//$obj->img = $n["img"];
+			$obj->img = ilObjUser::_getPersonalPicturePath($n["id"], "xsmall");
+			$obj->public_profile = $n["public_profile"];
+
+			// get features
+			$feature_collection = $this->feature_collector->getFeaturesForTargetUser($n["id"]);
+			$obj->features = array();
+			foreach ($feature_collection->getFeatures() as $feature)
+			{
+				$f = new stdClass;
+				$f->text = $feature->getText();
+				$f->href = $feature->getHref();
+				$obj->features[] = $f;
+			}
+
+			$data[] = $obj;
+		}
+
+		return $data;
+	}
+
+}
+
+?>

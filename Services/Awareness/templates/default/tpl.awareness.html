@@ -1,0 +1,203 @@
+<li><a data-toggle="popover" id="awareness_trigger"><span class="glyphicon glyphicon-user"></span> <!-- BEGIN status_text --><span class="badge">{STATUS_TXT}</span><span class="ilBadgeSpacer">{STATUS_TXT}</span><!-- END status_text --></a></li>
+<script>
+	$('#awareness_trigger').popover({
+		html : true,
+		placement : "bottom",
+		viewport : { selector: 'body', padding: 10 },
+		title: function() {
+			return $("#awareness-head").html();
+		}
+	});
+
+	$('#awareness_trigger').on('show.bs.popover', function () {
+		//$("#awareness-content").html();
+		console.log(this);
+
+	}).on('shown.bs.popover', function () {
+		$('#awareness_trigger').siblings(".popover").children(".popover-content").html(il.Awareness.getContent());
+		$('.dropdown-toggle').dropdown();
+
+		//il.Awareness.checkScrollbar();
+		$("body").addClass("modal-open");
+		//il.Awareness.setScrollbar();
+	}).on('hidden.bs.popover', function () {
+		$("body").removeClass("modal-open");
+	})
+
+	il.Awareness = {
+
+		rendered: false,
+		$body:  $(document.body),
+
+		checkScrollbar: function () {
+			if (document.body.clientWidth >= window.innerWidth) return
+			this.scrollbarWidth = this.scrollbarWidth || this.measureScrollbar()
+		},
+
+		setScrollbar: function () {
+			var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
+			if (this.scrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
+		},
+
+		resetScrollbar: function () {
+			this.$body.css('padding-right', '')
+		},
+
+		measureScrollbar: function () { // thx walsh
+			var scrollDiv = document.createElement('div')
+			scrollDiv.className = 'modal-scrollbar-measure'
+			this.$body.append(scrollDiv)
+			var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
+			this.$body[0].removeChild(scrollDiv)
+			return scrollbarWidth
+		},
+
+		getContent: function () {
+			if (!il.Awareness.rendered) {
+				il.Awareness.content = $("#awareness-content-container").html();
+				$("#awareness-content-container").html("");
+				il.Awareness.rendered = true;
+			}
+			return il.Awareness.content;
+		}
+	}
+
+
+	//class="modal-open"
+
+	$('body').on('click', function (e) {
+		$('[data-toggle="popover"]').each(function () {
+			//the 'is' for buttons that trigger popups
+			//the 'has' for icons within a button that triggers a popup
+			if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+				$(this).popover('hide');
+			}
+		});
+	});
+</script>
+<style>
+	.popover {
+		max-width: 300px;
+		color:#000000;
+		min-width: 250px;
+		max-height:400px;
+		overflow: auto;
+	}
+	.popover-content {
+		padding: 0;
+
+
+	}
+	.media-body, .media-left, .media-right {
+		display: table-cell;
+		vertical-align: top;
+	}
+	.media-left {
+		padding-right: 10px;
+	}
+	.media {
+		padding: 10px;
+	}
+
+	#awareness-content .media:hover {
+		background-color: #ffeeaa;
+	}
+
+	#awareness-content .dropdown-menu {
+		position: static;
+		float: none;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+	}
+
+	#awareness-content .media {
+		padding: 0;
+	}
+
+	#awareness-content .media-left img {
+		width: 45px;
+		height: 45px;
+	}
+
+	.ilAwarenessItem {
+		border-bottom: 1px solid #E9E9E9;
+	}
+
+	#awareness-content .media-body {
+		white-space: nowrap;
+	}
+
+	#awareness-content .media-body {
+		padding-top: 8px;
+	}
+
+	#awareness-content .media-body h4, #awareness-content .media-body p {
+		color: #A0A0A0;
+		font-size: 12px;
+		padding: 5px 3px 0 3px;
+		line-height: 1em;
+		margin: 0;
+	}
+
+	#awareness-content .media-body h4 {
+		padding-top: 0px;
+		color: #606060;
+	}
+
+	#awareness-content .dropdown-menu {
+		background-color: #f0f0f0;
+		padding: 10px 0;
+		font-size: 12px;
+	}
+
+	#awareness-content .dropdown-menu a {
+		color: #606060;
+	}
+
+	#awareness-content .dropdown-menu a:hover {
+		color: #202020;
+	}
+
+	#awareness-content .arrow-down {
+		width: 0;
+		height: 0;
+		border-left: 11px solid transparent;
+		border-right: 11px solid transparent;
+		border-top: 11px solid #fff;
+		margin-top: -10px;
+		margin-left: 100px;
+		position: absolute;
+	}
+
+</style>
+<div id="awareness-head" class="hide">
+	Users Online
+</div>
+<div id="awareness-content-container" class="hide">
+	<div id="awareness-content">
+		<!-- BEGIN user -->
+		<div class="ilAwarenessItem">
+			<div class="media" id="dropdownMenu{CNT}" data-toggle="dropdown" aria-expanded="true">
+				<div class="media-left">
+					<a href="#">
+						<img class="media-object" src="{USERIMAGE}" alt="">
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading">{UNAME}</h4>
+					<p>[{UACCOUNT}]</p>
+				</div>
+			</div>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu{CNT}">
+				<!-- BEGIN feature -->
+				<li role="presentation">
+					<!-- BEGIN arrow --><div class="arrow-down"></div><!-- END arrow -->
+					<a role="menuitem" tabindex="-1" href="{FEATURE_HREF}">{FEATURE_TEXT}</a>
+				</li>
+				<!-- END feature -->
+			</ul>
+		</div>
+		<!-- END user -->
+	</div>
+</div>

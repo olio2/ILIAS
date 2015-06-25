@@ -65,3 +65,4 @@ membership#:#mem_force_notification_mode_blocked#:#Prescribed
 membership#:#mem_force_notification_mode_blocked_info#:#Default: on; not changeable
 membership#:#mem_force_notification_mode_custom#:#Custom
 membership#:#mem_force_notification_mode_custom_info#:#Individual mode for each member
+crs#:#crs_mem_contact#:#Support Contact

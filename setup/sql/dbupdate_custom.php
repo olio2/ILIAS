@@ -176,3 +176,19 @@ if( !$ilDB->tableExists('member_noti_user') )
 	$ilDB->addPrimaryKey('member_noti_user', array('ref_id', 'user_id'));
 }
 ?>
+<#17>
+<?php
+
+if(!$ilDB->tableColumnExists('obj_members','contact'))
+{
+	$ilDB->addTableColumn(
+		'obj_members',
+		'contact',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>
