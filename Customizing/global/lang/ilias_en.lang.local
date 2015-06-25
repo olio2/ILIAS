@@ -66,3 +66,10 @@ membership#:#mem_force_notification_mode_blocked_info#:#Default: on; not changea
 membership#:#mem_force_notification_mode_custom#:#Custom
 membership#:#mem_force_notification_mode_custom_info#:#Individual mode for each member
 crs#:#crs_mem_contact#:#Support Contact
+awrn#:#awareness_now_online#:#Online Now
+awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
+common#:#obj_awra_desc#:#Manage awareness tool
+common#:#obj_awra#:#Awareness Tool
+awrn#:#awareness_settings#:#Settings
+awrn#:#awrn_enable#:#Enable Awareness Tool
+crs#:#crs_mem_contacts#:#Support Contacts

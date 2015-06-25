@@ -36,17 +36,26 @@ class ilAwarenessGUI
 	{
 		global $ilUser;
 
+		$awrn_set = new ilSetting("awrn");
+		if (!$awrn_set->get("awrn_enabled", false))
+		{
+			return "";
+		}
+
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
-
-
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
 		$act = ilAwarenessAct::getInstance($ilUser->getId());
 		$users = $act->getAwarenessData();
 
-		$tpl->setCurrentBlock("status_text");
-		$tpl->setVariable("STATUS_TXT", count($users));
-		$tpl->parseCurrentBlock();
+		$act->notifyOnNewOnlineContacts();
+
+		if (count($users) > 0)
+		{
+			$tpl->setCurrentBlock("status_text");
+			$tpl->setVariable("STATUS_TXT", count($users));
+			$tpl->parseCurrentBlock();
+		}
 
 		$ucnt = 0;
 		foreach ($users as $u)
@@ -87,6 +96,5 @@ class ilAwarenessGUI
 
 		return $tpl->get();
 	}
-
 }
 ?>

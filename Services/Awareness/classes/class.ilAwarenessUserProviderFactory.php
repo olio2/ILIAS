@@ -17,6 +17,12 @@ class ilAwarenessUserProviderFactory
 			"class" => "ilAwarenessUserProviderAllUsers"
 		)
 	);
+	/*protected static $providers = array(
+		array (
+			"component" => "Services/Awareness",
+			"class" => "ilAwarenessUserProviderCourseContacts"
+		)
+	);*/
 
 	/**
 	 * Get all awareness providers
