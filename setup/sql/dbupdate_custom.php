@@ -178,7 +178,6 @@ if( !$ilDB->tableExists('member_noti_user') )
 ?>
 <#17>
 <?php
-
 if(!$ilDB->tableColumnExists('obj_members','contact'))
 {
 	$ilDB->addTableColumn(
