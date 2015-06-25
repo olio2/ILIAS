@@ -11,13 +11,32 @@
  */
 class ilAwarenessGUI
 {
+	protected $ctrl;
+
 	/**
 	 * Constructor
 	 */
-	protected function __construct()
+	function __construct()
 	{
+		global $ilCtrl;
+
 		$this->ref_id = (int) $_GET["ref_id"];
+		$this->ctrl = $ilCtrl;
 	}
+
+	/**
+	 * Execute command
+	 */
+	function executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd();
+
+		if (in_array($cmd, array("getAwarenessList")))
+		{
+			$this->$cmd();
+		}
+	}
+
 
 	/**
 	 * Get instance
@@ -42,25 +61,77 @@ class ilAwarenessGUI
 			return "";
 		}
 
+		$cache_period = (int) $awrn_set->get("caching_period");
+		$last_update = ilSession::get("awrn_last_update");
+		$now = time();
+
+		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('".$this->ctrl->getLinkTarget($this,
+				"", "", true, false)."')");
+		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('".ilUtil::getImagePath("loader.svg")."')");
+
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
 		$act = ilAwarenessAct::getInstance($ilUser->getId());
 		$act->setRefId($this->ref_id);
-		$users = $act->getAwarenessData();
 
-		$act->notifyOnNewOnlineContacts();
-
-		if (count($users) > 0)
+		if ($last_update == "" || ($now - $last_update) >= $cache_period)
 		{
-			$tpl->setCurrentBlock("status_text");
-			$tpl->setVariable("STATUS_TXT", count($users));
-			$tpl->parseCurrentBlock();
+			$cnt = $act->getAwarenessUserCounter();
+			$act->notifyOnNewOnlineContacts();
+			ilSession::set("awrn_last_update", $now);
+			ilSession::set("awrn_nr_users", $cnt);
+		}
+		else
+		{
+			$cnt = (int) ilSession::get("awrn_nr_users");
 		}
 
+		if ($cnt > 0)
+		{
+			$tpl->setCurrentBlock("status_text");
+			$tpl->setVariable("STATUS_TXT", $cnt);
+			$tpl->parseCurrentBlock();
+
+			$tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
+
+			return $tpl->get();
+		}
+
+		return "";
+	}
+	
+	/**
+	 * Get awareness list (ajax)
+	 */
+	function getAwarenessList()
+	{
+		global $ilUser;
+
+		$filter = $_GET["filter"];
+
+		$tpl = new ilTemplate("tpl.awareness_list.html", true, true, "Services/Awareness");
+
+		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
+		$act = ilAwarenessAct::getInstance($ilUser->getId());
+		$act->setRefId($this->ref_id);
+
+		$users = $act->getAwarenessData($filter);
+
 		$ucnt = 0;
+		$last_uc_title = "";
 		foreach ($users as $u)
 		{
+			if ($u->collector != $last_uc_title)
+			{
+				$tpl->setCurrentBlock("uc_title");
+				$tpl->setVariable("UC_TITLE", $u->collector);
+				$tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("item");
+				$tpl->parseCurrentBlock();
+			}
+			$last_uc_title = $u->collector;
+
 			$ucnt++;
 
 			$fcnt = 0;
@@ -79,6 +150,11 @@ class ilAwarenessGUI
 				$tpl->parseCurrentBlock();
 			}
 
+			if ($u->online)
+			{
+				$tpl->touchBlock("uonline");
+			}
+
 			$tpl->setCurrentBlock("user");
 			if ($u->public_profile)
 			{
@@ -93,9 +169,19 @@ class ilAwarenessGUI
 			$tpl->setVariable("USERIMAGE", $u->img);
 			$tpl->setVariable("CNT", $ucnt);
 			$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("item");
+			$tpl->parseCurrentBlock();
 		}
 
-		return $tpl->get();
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+		$tpl->setCurrentBlock("filter");
+		$tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
+		$tpl->setVariable("VAL_FILTER", ilUtil::prepareFormOutput($filter));
+		$tpl->parseCurrentBlock();
+
+		echo $tpl->get();
+		exit;
 	}
+	
 }
 ?>

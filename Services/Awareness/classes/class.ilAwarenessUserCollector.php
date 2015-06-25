@@ -13,11 +13,13 @@ class ilAwarenessUserCollector
 {
 	protected static $instances = array();
 	protected static $online_users = false;
+	protected static $online_user_ids = array();
 
 	/**
 	 * @var ilAwarenessUserCollection
 	 */
 	protected $collection;
+	protected $collections;
 	protected $user_id;
 	protected $ref_id;
 
@@ -68,53 +70,134 @@ class ilAwarenessUserCollector
 	}
 
 	/**
+	 * Get online users
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getOnlineUsers()
+	{
+		if (self::$online_users === false)
+		{
+			self::$online_user_ids = array();
+			include_once("./Services/User/classes/class.ilObjUser.php");
+			self::$online_users = ilObjUser::_getUsersOnline();
+			foreach (ilObjUser::_getUsersOnline() as $u)
+			{
+				self::$online_user_ids[] = $u["user_id"];
+			}
+		}
+		return self::$online_users;
+	}
+
+
+	/**
 	 * Collect users
 	 *
 	 * @return ilAwarenessUserCollection user collection
 	 */
-	public function collectUsers()
+	public function collectUsers($a_online_only = false)
 	{
-		if (self::$online_users === false)
-		{
-			include_once("./Services/User/classes/class.ilObjUser.php");
-			foreach (ilObjUser::_getUsersOnline() as $u)
-			{
-				self::$online_users[] = $u["user_id"];
-			}
-		}
-
-		// overall collection of users
-		include_once("./Services/Awareness/classes/class.ilAwarenessUserCollection.php");
-		$this->collection = ilAwarenessUserCollection::getInstance();
-
+		$this->collections = array();
+		self::getOnlineUsers();
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
+		$all_users = array();
 		foreach (ilAwarenessUserProviderFactory::getAllProviders() as $prov)
 		{
+			// overall collection of users
+			include_once("./Services/Awareness/classes/class.ilAwarenessUserCollection.php");
+			$collection = ilAwarenessUserCollection::getInstance();
+
 			if ($prov->getActivationMode() != ilAwarenessUserProvider::MODE_INACTIVE)
 			{
 				$prov->setUserId($this->user_id);
 				$prov->setRefId($this->ref_id);
 				$prov->setOnlineUserFilter(false);
-				if ($prov->getActivationMode() == ilAwarenessUserProvider::MODE_ONLINE_ONLY)
+				if ($prov->getActivationMode() == ilAwarenessUserProvider::MODE_ONLINE_ONLY || $a_online_only)
 				{
-					$prov->setOnlineUserFilter(self::$online_users);
+					$prov->setOnlineUserFilter(self::$online_user_ids);
 				}
+
 				$coll = $prov->collectUsers();
 				foreach ($coll->getUsers() as $user_id)
 				{
-					// cross check online
-					if ($prov->getActivationMode() == ilAwarenessUserProvider::MODE_INCL_OFFLINE
-						|| in_array($user_id, self::$online_users))
+					// filter out the anonymous user
+					if ($user_id == ANONYMOUS_USER_ID)
 					{
-						$this->collection->addUser($user_id);
+						continue;
+					}
+
+					// cross check online, filter out offline users (if necessary)
+					if ((!$a_online_only && $prov->getActivationMode() == ilAwarenessUserProvider::MODE_INCL_OFFLINE)
+						|| in_array($user_id, self::$online_user_ids))
+					{
+						$collection->addUser($user_id);
+						if (!in_array($user_id, $all_users))
+						{
+							$all_users[] = $user_id;
+						}
 					}
 				}
 			}
+			$this->collections[] = array(
+				"uc_title" => $prov->getTitle(),
+				"collection" => $collection
+			);
 		}
 
-		return $this->collection;
+		$remove_users = array();
+
+		// todo: move these code blocks to the user service
+
+		// remove all users that hide their online status
+		global $ilDB;
+		$set = $ilDB->query("SELECT usr_id FROM usr_pref ".
+			" WHERE keyword = ".$ilDB->quote("hide_own_online_status", "text").
+			" AND ".$ilDB->in("usr_id", $all_users, false, "integer").
+			" AND value = ".$ilDB->quote("y", "text")
+			);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$remove_users[] = $rec["usr_id"];
+		}
+
+		// remove all users that have not accepted the terms of service yet
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+		if(ilTermsOfServiceHelper::isEnabled())
+		{
+			global $ilDB;
+			$set = $ilDB->query("SELECT usr_id FROM usr_data ".
+				" WHERE agree_date IS NULL ".
+				" AND ".$ilDB->in("usr_id", $all_users, false, "integer").
+				" AND usr_id <> ".$ilDB->quote(SYSTEM_USER_ID, 'integer')
+			);
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$remove_users[] = $rec["usr_id"];
+			}
+		}
+
+		$this->removeUsersFromCollections($remove_users);
+
+		return $this->collections;
 	}
 
+	/**
+	 * Remove users from collection
+	 *
+	 * @param array $a_remove_users array of user IDs
+	 */
+	protected function removeUsersFromCollections($a_remove_users)
+	{
+		foreach ($this->collections as $c)
+		{
+			reset($a_remove_users);
+			foreach ($a_remove_users as $u)
+			{
+				$c["collection"]->removeUser($u);
+			}
+		}
+	}
 
 }
 

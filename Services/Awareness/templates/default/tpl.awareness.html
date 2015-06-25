@@ -1,25 +1,23 @@
-<li><a data-toggle="popover" id="awareness_trigger"><span class="glyphicon glyphicon-user"></span> <!-- BEGIN status_text --><span class="badge">{STATUS_TXT}</span><span class="ilBadgeSpacer">{STATUS_TXT}</span><!-- END status_text --></a></li>
+<li class="ilAwarenessDropDown"><a data-toggle="popover" id="awareness_trigger"><span class="glyphicon glyphicon-user"></span> <!-- BEGIN status_text --><span class="badge">{STATUS_TXT}</span><span class="ilBadgeSpacer">{STATUS_TXT}</span><!-- END status_text --></a></li>
 <script>
 	$('#awareness_trigger').popover({
 		html : true,
 		placement : "bottom",
 		viewport : { selector: 'body', padding: 10 },
-		title: function() {
-			return $("#awareness-head").html();
-		}
+		title: " "
 	});
 
 	$('#awareness_trigger').on('show.bs.popover', function () {
 		//$("#awareness-content").html();
-		console.log(this);
+//		console.log(this);
 
 	}).on('shown.bs.popover', function () {
 		$('#awareness_trigger').siblings(".popover").children(".popover-content").html(il.Awareness.getContent());
-		$('.dropdown-toggle').dropdown();
 
-		//il.Awareness.checkScrollbar();
 		$("body").addClass("modal-open");
-		//il.Awareness.setScrollbar();
+
+		il.Awareness.afterListUpdate();
+
 	}).on('hidden.bs.popover', function () {
 		$("body").removeClass("modal-open");
 	})
@@ -27,7 +25,30 @@
 	il.Awareness = {
 
 		rendered: false,
+		base_url: "",
 		$body:  $(document.body),
+		loader_src: "",
+
+
+		setBaseUrl: function(url) {
+			var t = il.Awareness;
+			t.base_url = url;
+		},
+
+		getBaseUrl: function() {
+			var t = il.Awareness;
+			return t.base_url;
+		},
+
+		setLoaderSrc: function(loader) {
+			var t = il.Awareness;
+			t.loader_src = loader;
+		},
+
+		getLoaderSrc: function() {
+			var t = il.Awareness;
+			return t.loader_src;
+		},
 
 		checkScrollbar: function () {
 			if (document.body.clientWidth >= window.innerWidth) return
@@ -53,12 +74,84 @@
 		},
 
 		getContent: function () {
-			if (!il.Awareness.rendered) {
-				il.Awareness.content = $("#awareness-content-container").html();
+			var t = il.Awareness;
+
+			if (!t.rendered) {
+				t.content = $("#awareness-content-container").html();
 				$("#awareness-content-container").html("");
-				il.Awareness.rendered = true;
+				t.updateList("");
+				t.rendered = true;
 			}
-			return il.Awareness.content;
+			return t.content;
+		},
+
+		ajaxReplaceSuccess: function(o) {
+			var t = il.Awareness;
+
+			// perform page modification
+			if(o.responseText !== undefined)
+			{
+				t.content = o.responseText;
+				$('#awareness-content').replaceWith(t.content);
+				t.afterListUpdate();
+			}
+		},
+
+		afterListUpdate: function() {
+			var t = il.Awareness;
+
+			t.fixHeight();
+
+			$('.ilAwarenessItem').on('shown.bs.dropdown', function () {
+				t.fixHeight();
+			}).on('hidden.bs.dropdown', function () {
+				// if done, height is corrected, but dd is not opened if clicked (when other dd has been opened before)
+//				t.fixHeight();
+			});
+
+			$("#il_awrn_filter_form").submit(function (e) {
+				var t = il.Awareness;
+				$("#il_awrn_filer_btn").html("<img src='" + t.loader_src + "' />");
+				t.updateList($("#il_awareness_filter").val());
+				e.preventDefault();
+			});
+			$("#il_awareness_filter").each(function() {
+				t = this;
+				t.focus();
+				if (t.setSelectionRange) {
+					var len = $(t).val().length * 2;
+					t.setSelectionRange(len, len);
+				}
+			});
+		},
+
+		fixHeight: function() {
+
+			$('.ilAwarenessDropDown .popover').css('height', "");
+			var st = $('#awareness-list').scrollTop();
+			$('#awareness-list').css('height', "");
+
+			var vp_reg = il.Util.getViewportRegion();
+			var awpop = il.Util.getRegion('.ilAwarenessDropDown .popover');
+			var awlist = il.Util.getRegion('#awareness-list');
+			var pad_bot = 15;
+			if ((awpop.top - vp_reg.top + awpop.height + pad_bot) > vp_reg.height) {
+				var popHeight = vp_reg.height - (awpop.top - vp_reg.top) - pad_bot;
+				$('.ilAwarenessDropDown .popover').css('height', popHeight + "px");
+
+				var listHeight = vp_reg.height - (awlist.top - vp_reg.top) - pad_bot;
+				$('#awareness-list').css('height', listHeight + "px");
+
+				$('#awareness-list').scrollTop(st);
+			}
+		},
+
+		updateList: function(filter) {
+			var t = il.Awareness;
+
+			il.Util.sendAjaxGetRequestToUrl (t.getBaseUrl() + "&cmd=getAwarenessList"
+					+ "&filter=" + encodeURIComponent(filter),
+					{}, {}, t.ajaxReplaceSuccess);
 		}
 	}
 
@@ -76,26 +169,28 @@
 	});
 </script>
 <style>
-	.popover {
+	.ilAwarenessDropDown .popover {
 		max-width: 300px;
 		color:#000000;
 		min-width: 250px;
-		max-height:400px;
+	}
+
+	#awareness-list {
 		overflow: auto;
 	}
-	.popover-content {
+
+	.ilAwarenessDropDown .popover-content {
 		padding: 0;
-
-
 	}
-	.media-body, .media-left, .media-right {
+
+	.ilAwarenessDropDown .media-body, .ilAwarenessDropDown .media-left, .ilAwarenessDropDown .media-right {
 		display: table-cell;
 		vertical-align: top;
 	}
-	.media-left {
+	.ilAwarenessDropDown .media-left {
 		padding-right: 10px;
 	}
-	.media {
+	.ilAwarenessDropDown .media {
 		padding: 10px;
 	}
 
@@ -167,37 +262,45 @@
 		border-top: 11px solid #fff;
 		margin-top: -10px;
 		margin-left: 100px;
-		position: absolute;
+	}
+
+	.ilAwarenessDropDown h3.popover-title {
+		display:none;
+	}
+
+	.ilAwarenessDropDown .media-body {
+		/* background-image: url('./templates/default/images/scorm/not_attempted.svg'); */
+		background-repeat: no-repeat;
+		background-size: 12px 12px;
+		width: 100%;
+		background-position: right 10px top 50%;
+	}
+
+	.ilAwarenessDropDown .media-body.ilAwarenessOnline {
+		background-image: url('./templates/default/images/scorm/completed.svg');
+	}
+
+	.ilAwarenessLoader {
+		display: block;
+		margin: 15px auto;
+		width: 30px;
+		height: 30px;
+	}
+
+	#il_awrn_filer_btn {
+		width: 30px;
+	}
+
+	#il_awrn_filer_btn img {
+		width: 10px;
+		height: 10px;
 	}
 
 </style>
 <div id="awareness-head" class="hide">
-	Users Online
 </div>
 <div id="awareness-content-container" class="hide">
 	<div id="awareness-content">
-		<!-- BEGIN user -->
-		<div class="ilAwarenessItem">
-			<div class="media" id="dropdownMenu{CNT}" data-toggle="dropdown" aria-expanded="true">
-				<div class="media-left">
-					<a href="#">
-						<img class="media-object" src="{USERIMAGE}" alt="">
-					</a>
-				</div>
-				<div class="media-body">
-					<h4 class="media-heading">{UNAME}</h4>
-					<p>[{UACCOUNT}]</p>
-				</div>
-			</div>
-			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu{CNT}">
-				<!-- BEGIN feature -->
-				<li role="presentation">
-					<!-- BEGIN arrow --><div class="arrow-down"></div><!-- END arrow -->
-					<a role="menuitem" tabindex="-1" href="{FEATURE_HREF}">{FEATURE_TEXT}</a>
-				</li>
-				<!-- END feature -->
-			</ul>
-		</div>
-		<!-- END user -->
+	<img class="ilAwarenessLoader" src="{LOADER}" />
 	</div>
 </div>

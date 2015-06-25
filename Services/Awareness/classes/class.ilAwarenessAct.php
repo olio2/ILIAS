@@ -67,19 +67,30 @@ class ilAwarenessAct
 	 *
 	 * @return ilAwarenessData awareness data
 	 */
-	function getAwarenessData()
+	function getAwarenessData($a_filter)
 	{
 		include_once("./Services/Awareness/classes/class.ilAwarenessData.php");
 		$data = ilAwarenessData::getInstance($this->user_id);
 		$data->setRefId($this->getRefId());
+		$data->setFilter($a_filter);
 		return $data->getData();
 	}
 
 	/**
+	 * Get awareness data
 	 *
-	 *
-	 * @param
-	 * @return
+	 * @return ilAwarenessData awareness data
+	 */
+	function getAwarenessUserCounter()
+	{
+		include_once("./Services/Awareness/classes/class.ilAwarenessData.php");
+		$data = ilAwarenessData::getInstance($this->user_id);
+		$data->setRefId($this->getRefId());
+		return $data->getUserCounter();
+	}
+
+	/**
+	 * Send OSD notification on new users
 	 */
 	function notifyOnNewOnlineContacts()
 	{
@@ -89,19 +100,21 @@ class ilAwarenessAct
 
 		$data = ilAwarenessData::getInstance($this->user_id);
 		$data->setRefId($this->getRefId());
-		$d = $data->getData();
+		$d = $data->getOnlineUserData($ts);
 
 		$new_online_users = array();
+		$no_ids = array();
 		foreach ($d as $u)
 		{
-			if ($ts == "" || $u->last_login > $ts)
+			$uname = "[".$u->login."]";
+			if ($u->public_profile)
 			{
-				$uname = "[".$u->login."]";
-				if ($u->public_profile)
-				{
-					$uname = "<a href='./goto.php?target=usr_".$u->id."'>".$u->lastname.", ".$u->firstname." ".$uname."</a>";
-				}
+				$uname = "<a href='./goto.php?target=usr_".$u->id."'>".$u->lastname.", ".$u->firstname." ".$uname."</a>";
+			}
+			if (!in_array($u->id, $no_ids))
+			{
 				$new_online_users[] = $uname;
+				$no_ids[] = $u->id;
 			}
 		}
 

@@ -237,3 +237,11 @@ if(!$ilDB->tableColumnExists('obj_members','contact'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#9>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#10>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
