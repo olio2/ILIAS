@@ -191,7 +191,7 @@ if(!$ilDB->tableColumnExists('obj_members','contact'))
 		));
 }
 ?>
-<#7>
+<#18>
 <?php
 	// register new object type 'awra' for awareness tool administration
 	$id = $ilDB->nextId("object_data");
@@ -233,19 +233,11 @@ if(!$ilDB->tableColumnExists('obj_members','contact'))
 		array("integer", "integer"),
 		array($typ_id, 4));
 ?>
-<#8>
+<#19>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-<#9>
-<?php
-	$ilCtrlStructureReader->getStructure();
-?>
-<#10>
-<?php
-	$ilCtrlStructureReader->getStructure();
-?>
-<#11>
+<#20>
 <?php
 	$s = new ilSetting("awrn");
 	$s->set("max_nr_entries", 50);
