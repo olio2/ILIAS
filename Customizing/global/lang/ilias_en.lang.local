@@ -75,7 +75,8 @@ buddysystem#:#buddy_bs_state_linked#:#Linked
 buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_bs_state_requested#:#Requested
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
-buddysystem#:#buddy_bs_no_new_requests#:#No new requestsmembership#:#mem_force_notification#:#Notification
+buddysystem#:#buddy_bs_no_new_requests#:#No new requests
+membership#:#mem_force_notification#:#Notification
 membership#:#mem_force_notification_mode_self#:#Inactive
 membership#:#mem_force_notification_mode_self_info#:#Default: off; free to change
 membership#:#mem_force_notification_mode_all#:#Active
