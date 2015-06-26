@@ -10621,6 +10621,9 @@ a.ilSubmitInactive:active {
 .bnt-split.dropdown-toggle:active {
   border-left: 1px solid white;
 }
+.split-btn-default {
+  float: left;
+}
 /* Services/Rating */
 img.ilRatingIcon {
   width: 16px;
