@@ -242,8 +242,7 @@ if(!$ilDB->tableColumnExists('obj_members','contact'))
 	$s = new ilSetting("awrn");
 	$s->set("max_nr_entries", 50);
 ?>
-?>
-<#15>
+<#21>
 <?php
 if(!$ilDB->tableExists('buddylist'))
 {
