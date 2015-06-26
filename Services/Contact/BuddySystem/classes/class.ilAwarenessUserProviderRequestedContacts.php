@@ -7,11 +7,11 @@ include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
 /**
  * All approved contacts listed
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Michael Jansen <mjansen@databay.de>
  * @version $Id$
  * @ingroup ServicesAwareness
  */
-class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
+class ilAwarenessUserProviderRequestedContacts extends ilAwarenessUserProvider
 {
 	/**
 	 * Get provider id
@@ -20,7 +20,7 @@ class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
 	 */
 	function getProviderId()
 	{
-		return "contact_approved";
+		return "contact_requested";
 	}
 
 	/**
@@ -31,7 +31,7 @@ class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
 	function getTitle()
 	{
 		$this->lng->loadLanguageModule("contact");
-		return $this->lng->txt("contact_awrn_ap_contacts");
+		return $this->lng->txt("contact_awrn_req_contacts");
 	}
 
 	/**
@@ -42,7 +42,7 @@ class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
 	function getInfo()
 	{
 		$this->lng->loadLanguageModule("contact");
-		return $this->lng->txt("contact_awrn_ap_contacts_info");
+		return $this->lng->txt("contact_awrn_req_contacts_info");
 	}
 
 	/**
@@ -52,22 +52,9 @@ class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
 	 */
 	function getInitialUserSet()
 	{
-		global $ilDB;
-
-		// currently a dummy implementation
-		// finally all approved contacts of $this->getUserId() should be returned
-
-		$ub = array();
-		$set = $ilDB->query("SELECT usr_id FROM usr_data ");
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			if (in_array(ilObjUser::_lookupPref($rec["usr_id"], "public_profile"),
-				array("y", "g")))
-			{
-				$ub[] = $rec["usr_id"];
-			}
-		}
-		return $ub;
+		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
+		$buddylist = ilBuddyList::getInstanceByGlobalUser();
+		return $buddylist->getRequestRelationsForOwner()->getKeys();
 	}
 }
 ?>
