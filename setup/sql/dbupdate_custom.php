@@ -301,3 +301,7 @@ if(!$ilDB->tableExists('buddylist_requests'))
 	$ilDB->addIndex('buddylist_requests', array('buddy_usr_id', 'ignored'), 'i1');
 }
 ?>
+<#22>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
