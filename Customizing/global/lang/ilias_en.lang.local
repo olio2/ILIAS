@@ -75,4 +75,43 @@ buddysystem#:#buddy_bs_state_linked#:#Linked
 buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_bs_state_requested#:#Requested
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
-buddysystem#:#buddy_bs_no_new_requests#:#No new requests
+buddysystem#:#buddy_bs_no_new_requests#:#No new requestsmembership#:#mem_force_notification#:#Notification
+membership#:#mem_force_notification_mode_self#:#Inactive
+membership#:#mem_force_notification_mode_self_info#:#Default: off; free to change
+membership#:#mem_force_notification_mode_all#:#Active
+membership#:#mem_force_notification_mode_all_info#:#Default: on; free to change
+membership#:#mem_force_notification_mode_blocked#:#Prescribed
+membership#:#mem_force_notification_mode_blocked_info#:#Default: on; not changeable
+membership#:#mem_force_notification_mode_custom#:#Custom
+membership#:#mem_force_notification_mode_custom_info#:#Individual mode for each member
+crs#:#crs_mem_contact#:#Support Contact
+awrn#:#awareness_now_online#:#Online Now
+awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
+common#:#obj_awra_desc#:#Manage awareness tool
+common#:#obj_awra#:#Awareness Tool
+awrn#:#awareness_settings#:#Settings
+awrn#:#awrn_enable#:#Enable Awareness Tool
+crs#:#crs_mem_contacts#:#Support Contacts
+user#:#user_awrn_all_users#:#All Users
+user#:#user_awrn_all_users_info#:#All users of the platform are listed.
+crs#:#crs_awrn_support_contacts#:#Course Support Contacts
+crs#:#crs_awrn_support_contacts_info#:#All support contacts of courses with membership of the current users are listed.
+awrn#:#awrn_inactive#:#Not Listed
+awrn#:#awrn_online_only#:#Online Only
+awrn#:#awrn_incl_offline#:#Online and Offline
+contact#:#contact_awrn_ap_contacts#:#Approved Contacts
+contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
+adm#:#adm_support_contacts#:#System Support Contacts
+adm#:#adm_awrn_support_contacts_info#:#All system contacts are listed.
+adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the awareness tool. Comma separated list of account logins.
+mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
+mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.
+crs#:#crs_awrn_current_course#:#Current Course
+crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.
+awrn#:#awrn_caching_period#:#Caching Period
+awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users in the top bar is updated and new online users are determined.
+awrn#:#awrn_seconds#:#sec
+awrn#:#awrn_max_nr_entries#:#Max. Number of Items
+awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the awareness list.
+awrn#:#awrn_hide_from_awareness#:#Hide Me From Awareness Tool
+awrn#:#awrn_hide_from_awareness_info#:#The awareness tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
