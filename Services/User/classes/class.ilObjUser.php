@@ -5474,7 +5474,16 @@ class ilObjUser extends ilObject
 	 */
 	public function isAnonymous()
 	{
-		return $this->getId() == ANONYMOUS_USER_ID;
+		return self::_isAnonymous($this->getId());
+	}
+
+	/**
+	 * @param int $usr_id
+	 * @return bool
+	 */
+	public static function _isAnonymous($usr_id)
+	{
+		return $usr_id == ANONYMOUS_USER_ID;
 	}
 	
 	public function activateDeletionFlag()
