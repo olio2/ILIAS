@@ -14,4 +14,7 @@
 		<cron id="mail_notification" class="ilMailCronNotification" />
 		<cron id="mail_address_sync" class="ilMailCronAddressbookSync" />
 	</crons>
+	<mailtemplates>
+		<context id="mail_template_generic" class="ilMailTemplateGenericContext" />
+	</mailtemplates>
 </service>
