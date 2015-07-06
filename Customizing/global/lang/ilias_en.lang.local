@@ -133,3 +133,7 @@ mail#:#mail_template_missing_id#:#Can't execute the action because the text temp
 mail#:#mail_template_no_valid_context#:#The given context is not valid.
 mail#:#mail_template_client#:#Text Template
 mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.
+rbac#:#redact#:#Redact
+common#:#il_blog_editor#:#Blog-Editor
+rbac#:#blog_redact#:#User can edit all postings
+blog#:#blog_contributors#:#Blog-Contributors
