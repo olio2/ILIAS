@@ -476,7 +476,7 @@ if($redact_ops_id)
 	);
 }
 
-?>?>
+?>
 <#31>
 <?php
 if(!$ilDB->tableColumnExists('frm_posts','pos_cens_date'))
