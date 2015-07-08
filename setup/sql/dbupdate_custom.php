@@ -476,4 +476,98 @@ if($redact_ops_id)
 	);
 }
 
+?>?>
+<#31>
+<?php
+if(!$ilDB->tableColumnExists('frm_posts','pos_cens_date'))
+{
+	$ilDB->addTableColumn('frm_posts', 'pos_cens_date', array(
+			'type' => 'timestamp',
+			'notnull' => false)
+	);
+}
+?>
+<#32>
+<?php
+if(!$ilDB->tableExists('frm_posts_deleted'))
+{
+	$ilDB->createTable('frm_posts_deleted',
+		array(
+			'deleted_id'   => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'deleted_date' => array(
+				'type'    => 'timestamp',
+				'notnull' => true
+			),
+			'deleted_by'  => array(
+				'type'    => 'text',
+				'length'  => 255,
+				'notnull' => true
+			),
+			'forum_title' => array(
+				'type'    => 'text',
+				'length'  => 255,
+				'notnull' => true
+			),
+			'thread_title'=> array(
+				'type'    => 'text',
+				'length'  => 255,
+				'notnull' => true
+			),
+			'post_title'  => array(
+				'type'    => 'text',
+				'length'  => 255,
+				'notnull' => true
+			),
+			'post_message'=> array(
+				'type'    => 'clob',
+				'notnull' => true
+			),
+			'post_date'   => array(
+				'type'    => 'timestamp',
+				'notnull' => true
+			),
+			'obj_id'      => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'ref_id'       => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'thread_id'   => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'forum_id'   => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'pos_display_user_id' => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'pos_usr_alias' => array(
+				'type'    => 'text',
+				'length'  => 255,
+				'notnull' => false
+			)
+		));
+
+	$ilDB->addPrimaryKey('frm_posts_deleted', array('deleted_id'));
+	$ilDB->createSequence('frm_posts_deleted');
+}
+?>
+<#33>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>

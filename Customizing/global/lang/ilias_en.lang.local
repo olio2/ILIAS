@@ -137,3 +137,12 @@ rbac#:#redact#:#Redact
 common#:#il_blog_editor#:#Blog-Editor
 rbac#:#blog_redact#:#User can edit all postings
 blog#:#blog_contributors#:#Blog-Contributors
+forum#:#post_deleted_subject#:#A posting was deleted in forum: "%1$s"
+forum#:#post_deleted_by#:#following posting in forum was deleted by "%1$s": "%2$s"
+forum#:#content_deleted_post#:#Content of the deleted posting:
+forum#:#post_updated_subject#:#A posting was edited in forum: "%1$s"
+forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"
+forum#:#content_post_updated#:#Content of the edited posting:
+forum#:#post_censored_subject#:#A posting was censored in forum: "%1$s"
+forum#:#post_censored_by#:#censored posting in forum by "%1$s": "%2$s"
+forum#:#content_censored_post#:#Content of the censored posting:

@@ -23,6 +23,69 @@ class ilForumAppEventListener
 	{
 		switch($a_component)
 		{
+			case "Modules/Forum": 
+				switch ($a_event)
+				{
+					case "createdPost":
+						include_once './Modules/Forum/classes/class.ilForumMailNotification.php';
+						$provider = $a_parameter['provider'];
+						$notification_type = ilForumMailNotification::TYPE_POST_NEW;
+						self::performNotification($provider, $notification_type);
+						break;
+					
+					case "updatedPost":
+						include_once './Modules/Forum/classes/class.ilForumMailNotification.php';
+						$provider = $a_parameter['provider'];
+						$notification_type = ilForumMailNotification::TYPE_POST_UPDATED;
+						self::performNotification($provider, $notification_type);
+						break;
+
+					case "censoredPost":
+						include_once './Modules/Forum/classes/class.ilForumMailNotification.php';
+						$provider = $a_parameter['provider'];
+						$notification_type = ilForumMailNotification::TYPE_POST_CENSORED;
+						self::performNotification($provider, $notification_type);
+						break;
+
+					case "deletedPost":
+						include_once './Modules/Forum/classes/class.ilForumMailNotification.php';
+						$provider = $a_parameter['provider'];
+						$notification_type = ilForumMailNotification::TYPE_POST_DELETED;
+						self::performNotification($provider, $notification_type);
+						break;
+					
+					case "activatePost":
+						include_once './Modules/Forum/classes/class.ilForumMailNotification.php';
+						$provider = $a_parameter['provider'];
+						
+						// get moderators to notify about needed activation
+						$rcps = $provider->getPostActivationRecipients();
+
+						if(count($rcps) > 0)
+						{
+							$mailNotification = new ilForumMailNotification($provider);
+							$mailNotification->setType(ilForumMailNotification::TYPE_POST_ACTIVATION);
+							$mailNotification->setRecipients($rcps);
+							$mailNotification->send();
+						}
+						break;
+					
+					case "answeredPost":
+						include_once './Modules/Forum/classes/class.ilForumMailNotification.php';
+						$provider = $a_parameter['provider'];
+						
+						// get recipient who wants to get deriect notifications   
+						$rcps = $provider->getPostAnsweredRecipients();
+						if(count($rcps) > 0)
+						{
+							$mailNotification = new ilForumMailNotification($provider);
+							$mailNotification->setType(ilForumMailNotification::TYPE_POST_ANSWERED);
+							$mailNotification->setRecipients($rcps);
+							$mailNotification->send();
+						}
+						break;
+				}
+				break;
 			case "Services/News":
 				switch ($a_event)
 				{
@@ -112,6 +175,35 @@ class ilForumAppEventListener
 			self::$ref_ids[$obj_id] = ilObject::_getAllReferences($obj_id);	
 		}
 		return self::$ref_ids[$obj_id];
+	}
+
+	/**
+	 * @param ilObjForumNotificationDataProvider $provider
+	 * @param 									 $notification_type
+	 */
+	private static function performNotification(ilObjForumNotificationDataProvider $provider, $notification_type)
+	{
+		include_once './Modules/Forum/classes/class.ilForumMailNotification.php';
+		
+		// get recipients who wants to get forum notifications   
+		$rcps = $provider->getForumNotificationRecipients();
+		if(count($rcps) > 0)
+		{
+			$mailNotification = new ilForumMailNotification($provider);
+			$mailNotification->setType($notification_type);
+			$mailNotification->setRecipients($rcps);
+			$mailNotification->send();
+		}
+
+		// get recipients who wants to get thread notifications
+		$rcps = $provider->getThreadNotificationRecipients();
+		if(count($rcps) > 0)
+		{
+			$mailNotification = new ilForumMailNotification($provider);
+			$mailNotification->setType($notification_type);
+			$mailNotification->setRecipients($rcps);
+			$mailNotification->send();
+		}
 	}
 }
 ?>
