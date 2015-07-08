@@ -56,3 +56,12 @@ style#:#sty_type_sub#:#Tiefgestellt
 style#:#sty_type_sup#:#Hochgestellt
 content#:#cont_text_sub#:#Tiefgestellt
 content#:#cont_text_sup#:#Hochgestellt
+forum#:#post_deleted_subject#:#Ein Beitrag wurde gelöscht im Forum: "%1$s"
+forum#:#post_deleted_by#:#folgender Beitrag im Forum wurde von "%1$s" gelöscht: "%2$s"
+forum#:#content_deleted_post#:#Inhalt des gelöschten Beitrags:
+forum#:#post_updated_subject#:#Ein Beitrag wurde geändert im Forum: "%1$s"
+forum#:#post_updated_by#:#folgender Beitrag im Forum wurde von "%1$s" geändert: "%2$s"
+forum#:#content_post_updated#:#Inhalt des geänderten Beitrags:
+forum#:#post_censored_subject#:#Ein Beitrag wurde zensiert im Forum:"%1$s"
+forum#:#post_censored_by#:#folgender Beitrag im Forum wurde von "%1$s" zensiert: "%2$s"
+forum#:#content_censored_post#:#Inhalt des zensierten Beitrags:

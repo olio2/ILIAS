@@ -11,6 +11,7 @@ require_once 'Modules/Forum/classes/class.ilForumTopic.php';
 require_once 'Services/RTE/classes/class.ilRTE.php';
 require_once 'Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
+require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
 
 
 /**
@@ -1019,6 +1020,26 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$first_node = $frm->getFirstPostNode($topic_id);
 			if((int)$first_node['pos_pk'])
 			{
+				require_once 'Services/Cron/classes/class.ilCronManager.php';
+				if(ilCronManager::isJobActive('frm_notification'))
+				{
+					// save information about deleted post for cronjob notification 
+					include_once './Modules/Forum/classes/class.ilForumPostsDeleted.php';
+					include_once './Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
+					
+					$postObj = new ilForumPost($first_node['pos_pk']);
+					$provider = new ilObjForumNotificationDataProvider($postObj, $forumObj->getRefId());
+					
+					$delObj = new ilForumPostsDeleted($provider);
+					$delObj->insert();
+				}
+				else if ($this->ilias->getSetting("forum_notification") == 1 )
+				{
+					// send notification about deleted post
+					$postObj = new ilForumPost($first_node['pos_pk']);
+					$this->sendNotifications($postObj, ilForumMailNotification::TYPE_POST_DELETED);
+				} 				
+				
 				$frm->deletePost($first_node['pos_pk']);
 				ilUtil::sendInfo($lng->txt('forums_post_deleted'), true);
 			}
@@ -1671,6 +1692,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$status,
 					$send_activation_mail					
 				);
+				// Send notification to moderators if they have to enable a post
+				if (!$status && $send_activation_mail)
+				{
+					$newObjPost =  new ilForumPost((int)$newPost, $this->is_moderator);
+					$this->sendPostActivationNotifications($newObjPost);
+				}
 
 				// mantis #8115: Mark parent as read
 				$this->object->markPostRead($ilUser->getId(), (int) $this->objCurrentTopic->getId(), (int) $this->objCurrentPost->getId());
@@ -1700,21 +1727,19 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$oFDForum->storeUploadedFile($file);
 				}
 
-				// FINALLY SEND MESSAGE
+				// FINALLY SEND MESSAGE 
 				if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
 				{
 					$objPost =  new ilForumPost((int)$newPost, $this->is_moderator);
 
-					$post_data = array();
-					$post_data = $objPost->getDataAsArray();
-					$titles = $this->getTitlesByRefId(array($this->object->getRefId()));
-					$post_data["top_name"] = $titles[0];
-					$post_data["ref_id"] = $this->object->getRefId();
-					
-					$frm->__sendMessage($objPost->getParentId(), $post_data);
-					
-					$frm->sendForumNotifications($post_data);
-					$frm->sendThreadNotifications($post_data);
+					// only if the current user is not the owner of the parent post and the parent's notification flag is set...
+					$parent_objPost = new ilForumPost($objPost->getParentId());
+					if($parent_objPost->isNotificationEnabled() && $parent_objPost->getPosAuthorId() != $ilUser->getId())
+					{
+						$this->sendPostAnsweredNotification($objPost);
+					}
+
+					$this->sendNotifications($objPost, ilForumMailNotification::TYPE_POST_NEW);
 				}
 				
 				$message = '';
@@ -1831,11 +1856,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 				if (!$status && $send_activation_mail)
 				{
-					$pos_data = $this->objCurrentPost->getDataAsArray();
-					$pos_data["top_name"] = $this->object->getTitle();
-					$frm->sendPostActivationNotification($pos_data);
+					$this->sendPostActivationNotifications($this->objCurrentPost);
 				}
 
+				if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
+				{
+					$this->sendNotifications($this->objCurrentPost, ilForumMailNotification::TYPE_POST_UPDATED);
+				}
 				ilUtil::sendSuccess($lng->txt('forums_post_modified'), true);
 				$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
@@ -2266,7 +2293,25 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 					$frm->setForumId($forumObj->getId());
 					$frm->setForumRefId($forumObj->getRefId());
-	
+
+					require_once 'Services/Cron/classes/class.ilCronManager.php';
+					if(ilCronManager::isJobActive('frm_notification'))
+					{
+						// save information about deleted post for cronjob notification 
+						include_once './Modules/Forum/classes/class.ilForumPostsDeleted.php';
+						include_once './Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
+
+						$provider = new ilObjForumNotificationDataProvider($this->objCurrentPost, $forumObj->getRefId());
+
+						$delObj = new ilForumPostsDeleted($provider);
+						$delObj->insert();
+					}
+					else if ($this->ilias->getSetting("forum_notification") == 1)
+					{
+						// send notification about deleted post
+						$this->sendNotifications($this->objCurrentPost, ilForumMailNotification::TYPE_POST_DELETED);
+					}
+
 					$dead_thr = $frm->deletePost($this->objCurrentPost->getId());
 	
 					// if complete thread was deleted ...
@@ -2295,13 +2340,24 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			// form processing (censor)			
 			if(!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'ready_censor')
 			{
+				$cens_message = $this->handleFormInput($_POST['formData']['cens_message']);
+				
 				if(($_POST['confirm'] != '' || $_POST['no_cs_change'] != '') && $_GET['action'] == 'ready_censor')
 				{
-					$frm->postCensorship($this->handleFormInput($_POST['formData']['cens_message']), $this->objCurrentPost->getId(), 1);
+					$frm->postCensorship($cens_message, $this->objCurrentPost->getId(), 1);
+
+					//send notification about censorship
+					$this->objCurrentPost->setCensorship(1);
+					$this->objCurrentPost->setCensorshipComment($cens_message);
+
+					if ($this->ilias->getSetting("forum_notification") == 1)
+					{
+						$this->sendNotifications($this->objCurrentPost, ilForumMailNotification::TYPE_POST_CENSORED);
+					}
 				}
 				else if(($_POST['cancel'] != '' || $_POST['yes_cs_change'] != '') && $_GET['action'] == 'ready_censor')
 				{
-					$frm->postCensorship($this->handleFormInput($_POST['formData']['cens_message']), $this->objCurrentPost->getId());
+					$frm->postCensorship($cens_message, $this->objCurrentPost->getId());
 				}
 			}
 
@@ -3717,19 +3773,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					ilObjMediaObject::_saveUsage($mob, 'frm:html', $newPost);
 				}
 			}
-			
+
+			// send notifivation new thread & post
 			if($this->ilias->getSetting('forum_notification') == 1)
 			{
-				// send notification about new topic
 				$objPost =  new ilForumPost((int)$newPost, $this->is_moderator);
-				$post_data = array();
-				$post_data = $objPost->getDataAsArray();
-				$titles = $this->getTitlesByRefId(array($this->object->getRefId()));
-				$post_data["top_name"] = $titles[0];
-				$post_data["ref_id"] =$this->object->getRefId();
-				
-				$frm->sendForumNotifications($post_data);
+				$this->sendNotifications($objPost, ilForumMailNotification::TYPE_POST_NEW);
 			}
+			
+			// Send notification to moderators if they have to enable a post
+			if (!$status && $this->objProperties->isPostActivationEnabled())
+			{
+				$objPost =  new ilForumPost((int)$newPost, $this->is_moderator);
+				$this->sendPostActivationNotifications($objPost);
+			}
+
 			if(!$a_prevent_redirect)
 			{
 				ilUtil::sendSuccess($this->lng->txt('forums_thread_new_entry'), true);
@@ -4871,5 +4929,49 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public function cancelMergeThreads()
 	{
 		$this->showThreadsObject();
+	}
+
+	/**
+	 * Send notifications to forum users who are assigned to forum- or thread-notification 
+	 * 
+	 * @param ilForumPost $objPost
+	 * @param ilForumMailNotification const $notification_type
+	 */
+
+	private function sendNotifications(ilForumPost $objPost, $notification_type)
+	{
+		include_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
+		$provider = new ilObjForumNotificationDataProvider($objPost, $this->object->getRefId());
+		$event = ilForumMailNotification::$events[$notification_type];
+		
+		$GLOBALS['ilAppEventHandler']->raise("Modules/Forum", $event, array('provider' => $provider));
+	}
+
+	/**
+	 * Send notification about post activation to forum moderators
+	 * 
+	 * @param $objPost
+	 */
+	private function sendPostActivationNotifications(ilForumPost $objPost)
+	{
+		include_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
+		$provider = new ilObjForumNotificationDataProvider($objPost, $this->object->getRefId());
+		$event = ilForumMailNotification::$events[ilForumMailNotification::TYPE_POST_ACTIVATION];
+
+		$GLOBALS['ilAppEventHandler']->raise("Modules/Forum", $event, array('provider' => $provider));
+	}
+
+	/**
+	 * Send notification to Post-Author if direct notification about new answers is enabled   
+	 * 
+	 * @param $objPost
+	 */
+	private function sendPostAnsweredNotification(ilForumPost $objPost)
+	{
+		include_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
+		$provider = new ilObjForumNotificationDataProvider($objPost, $this->object->getRefId());
+		$event = ilForumMailNotification::$events[ilForumMailNotification::TYPE_POST_ANSWERED];
+		
+		$GLOBALS['ilAppEventHandler']->raise("Modules/Forum", $event, array('provider' => $provider));
 	}
 }

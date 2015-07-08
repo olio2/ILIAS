@@ -56,3 +56,12 @@ style#:#sty_type_sub#:#Subscript
 style#:#sty_type_sup#:#Superscript
 content#:#cont_text_sub#:#Subscript
 content#:#cont_text_sup#:#Superscript
+forum#:#post_deleted_subject#:#A posting was deleted in forum: "%1$s"
+forum#:#post_deleted_by#:#following posting in forum was deleted by "%1$s": "%2$s"
+forum#:#content_deleted_post#:#Content of the deleted posting:
+forum#:#post_updated_subject#:#A posting was edited in forum: "%1$s"
+forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"
+forum#:#content_post_updated#:#Content of the edited posting:
+forum#:#post_censored_subject#:#A posting was censored in forum: "%1$s"
+forum#:#post_censored_by#:#censored posting in forum by "%1$s": "%2$s"
+forum#:#content_censored_post#:#Content of the censored posting:
