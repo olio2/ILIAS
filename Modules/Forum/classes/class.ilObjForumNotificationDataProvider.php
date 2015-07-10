@@ -45,19 +45,19 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	protected $attachments = array();
 
 	/**
-	 * @var ilForumPost|null
+	 * @var ilForumPost
 	 */
-	public $objPost = NULL;
+	public $objPost;
 
 	/**
-	 * @param ilForumPost 	$objPost
-	 * @param int     		$ref_id
+	 * @param ilForumPost $objPost
+	 * @param int         $ref_id
 	 */
 	public function __construct(ilForumPost $objPost, $ref_id)
 	{
 		$this->objPost = $objPost;
-		$this->ref_id = $ref_id;
-		$this->obj_id = ilObject::_lookupObjId($ref_id);
+		$this->ref_id  = $ref_id;
+		$this->obj_id  = ilObject::_lookupObjId($ref_id);
 		$this->read();
 	}
 
@@ -201,7 +201,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getPostCensoredDate()
 	{
-		return $this->objPost->getPostCensoredDate();
+		return $this->objPost->getCensoredDate();
 	}
 
 	public function getCensorshipComment()
@@ -242,7 +242,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		global $ilDB;
 
-		// GET THREAD Title		
 		$result = $ilDB->queryf('
 			SELECT thr_subject FROM frm_threads 
 			WHERE thr_pk = %s',
@@ -259,15 +258,14 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		global $ilDB;
 
-		// GET THREAD Title		
 		$result = $ilDB->queryf('
 			SELECT top_pk, top_name FROM frm_data
 			WHERE top_frm_fk = %s',
 			array('integer'), array($this->getObjId()));
 
 		$row = $ilDB->fetchAssoc($result);
-		$this->forum_id 	= $row['top_pk'];
-		$this->forum_title 	= $row['top_name'];
+		$this->forum_id    = $row['top_pk'];
+		$this->forum_title = $row['top_name'];
 	}
 
 	/**
@@ -275,8 +273,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function readAttachments()
 	{
-		// get attachments
-		include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
+		require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
 		$fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
 		$filesOfPost   = $fileDataForum->getFilesOfPost();
 
@@ -362,7 +359,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
 		$rcps = array();
 		$rcps[] = $parent_objPost->getPosAuthorId();
-		
+
 		return $rcps;
 	}
 

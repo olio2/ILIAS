@@ -128,8 +128,9 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 
 		$this->post_id     = $row['pos_pk'];
 		$this->post_title  = $row['pos_subject'];
+		$this->post_message  = $row['pos_message'];
 		$this->post_date   = $row['pos_date'];
-		$this->post_update = $row['post_update'];
+		$this->post_update = $row['pos_update'];
 		$this->post_upate_user_id = $row['update_user'];
 
 		$this->post_censored         = $row['pos_cens'];
@@ -326,7 +327,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	}
 
 	/**
-	 * @return string file names
+	 * @return array file names
 	 */
 	public function getAttachments()
 	{

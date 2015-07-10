@@ -717,5 +717,6 @@ class ilForumPost
 		array('pos_thr_fk' => array('integer', $target_thread_id)),
 		array('pos_thr_fk' => array('integer', $source_thread_id)));
 	}
+	
 }
 ?>

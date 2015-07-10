@@ -3,7 +3,6 @@
 
 include_once './Services/Mail/classes/class.ilMailNotification.php';
 
-
 /**
  * @author Nadia Ahmad <nahmad@databay.de>
  * @version $Id$
@@ -17,28 +16,23 @@ class ilForumMailNotification extends ilMailNotification
 	const TYPE_POST_CENSORED 	= 63; 
 	const TYPE_POST_DELETED 	= 64;
 	const TYPE_POST_ANSWERED	= 65;
-	
-	public static $events = array(
-		self::TYPE_POST_NEW 		=> 'createdPost',
-		self::TYPE_POST_ACTIVATION  => 'activatePost',
-		self::TYPE_POST_UPDATED		=> 'updatedPost',
-		self::TYPE_POST_CENSORED	=> 'censoredPost',
-		self::TYPE_POST_DELETED		=> 'deletedPost',
-		self::TYPE_POST_ANSWERED	=> 'answeredPost'
-	);
+
+
+	const PERMANENT_LINK_POST	= 'PL_Post';
+	const PERMANENT_LINK_FORUM	= 'PL_Forum';
 
 	/**
 	 * @var bool
 	 */
 	protected $is_cronjob = false;
-	
-	/**
-	 * @var ilForumNotificationMailData|null
-	 */
-	protected $provider = NULL;
 
 	/**
-	 *
+	 * @var ilForumNotificationMailData
+	 */
+	protected $provider;
+
+	/**
+	 * @param ilForumNotificationMailData $provider
 	 */
 	public function __construct(ilForumNotificationMailData $provider)
 	{
@@ -47,26 +41,40 @@ class ilForumMailNotification extends ilMailNotification
 	}
 
 	/**
-	 * @return bool|void
+	 * @return bool
 	 */
 	public function send()
 	{
+		/**
+		 * @var $ilSetting ilSetting
+		 * @var $lng       ilLanguage
+		 * @var $ilUser    ilObjUser
+		 */
 		global $ilSetting, $lng, $ilUser;
-		
-		$lng->loadLanguageModule('forum');
-		
-		// check if forum notifications enabled 
-		if(!$ilSetting->get('forum_notification'))
+
+		if(!$ilSetting->get('forum_notification', 0))
 		{
-			return;
+			return false;
 		}
-		
+
+		if(!$this->getRecipients())
+		{
+			return false;
+		}
+
+		$lng->loadLanguageModule('forum');
+
+		$date_type = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+
 		switch($this->getType())
 		{
 			case self::TYPE_POST_NEW:
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
+					ilDatePresentation::setLanguage($this->language);
+
 					$this->initMail();
 			
 					$this->setSubject($this->getLanguageText('forums_notification_subject')." ".$this->provider->getForumTitle());
@@ -83,7 +91,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->appendBody($this->getLanguageText('author').": ". $this->provider->getPostUserName($this->getLanguage()));
 					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date').": ". $this->provider->getPostDate());
+					$this->appendBody($this->getLanguageText('date').": ". ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME)));
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject').": ". $this->provider->getPostTitle());
 					$this->appendBody("\n\n");
@@ -108,7 +116,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->appendBody("\n------------------------------------------------------------\n");
 					}
 
-					$this->appendBody($this->getPostingLinks());
+					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
 
 					$this->sendMail(array($rcp), array('system'));
@@ -136,7 +144,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->appendBody($this->getLanguageText('author').": ". $this->provider->getPostUserName($this->getLanguage()));
 					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date').": ". $this->provider->getPostDate());
+					$this->appendBody($this->getLanguageText('date').": ". ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME)));
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject').": ". $this->provider->getPostTitle());
 					$this->appendBody("\n\n");
@@ -161,7 +169,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->appendBody("\n------------------------------------------------------------\n");
 					}
 
-					$this->appendBody($this->getPostingLinks());
+					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
 
 					$this->sendMail(array($rcp), array('system'));
@@ -184,7 +192,7 @@ class ilForumMailNotification extends ilMailNotification
 					$this->appendBody($this->getSecurePostMessage());
 					$this->appendBody("\n------------------------------------------------------------\n");
 
-					$this->appendBody($this->getPostingLinks());
+					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
 
 					$this->sendMail(array($rcp), array('system'));
@@ -211,7 +219,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
 					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date') . ": " . $this->provider->getPostDate());
+					$this->appendBody($this->getLanguageText('date') . ": " . ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostUpdate(), IL_CAL_DATETIME)));
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
 					$this->appendBody("\n\n");
@@ -236,7 +244,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->appendBody("\n------------------------------------------------------------\n");
 					}
 
-					$this->appendBody($this->getPostingLinks());
+					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
 					
 					$this->sendMail(array($rcp), array('system'));
@@ -262,7 +270,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
 					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date') . ": " . $this->provider->getPostDate());
+					$this->appendBody($this->getLanguageText('date') . ": " . ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostCensoredDate(), IL_CAL_DATETIME)));
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
 					$this->appendBody("\n\n");
@@ -287,7 +295,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->appendBody("\n------------------------------------------------------------\n");
 					}
 
-					$this->appendBody($this->getPostingLinks());
+					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
 
 					$this->sendMail(array($rcp), array('system'));
@@ -313,7 +321,9 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
 					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date') . ": " . $this->provider->getPostDate());
+					
+					$post_date = ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME));
+					$this->appendBody($this->getLanguageText('date') . ": " . $post_date);
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
 					$this->appendBody("\n\n");
@@ -329,22 +339,16 @@ class ilForumMailNotification extends ilMailNotification
 					}
 					$this->appendBody("------------------------------------------------------------\n");
 
-					if(count($this->provider->getAttachments()) > 0)
-					{
-						foreach($this->provider->getAttachments() as $attachment)
-						{
-							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
-						}
-						$this->appendBody("\n------------------------------------------------------------\n");
-					}
-
-					$this->appendBody($this->getPostingLinks());
+					$this->appendBody($this->getPermanentLink(self::PERMANENT_LINK_FORUM));
 					$this->appendBody(ilMail::_getInstallationSignature());
 					
 					$this->sendMail(array($rcp), array('system'));
 				}
 				break;
 		}
+
+		ilDatePresentation::setUseRelativeDates($date_type);
+
 		return true;
 	}
 
@@ -374,19 +378,28 @@ class ilForumMailNotification extends ilMailNotification
 	}
 
 	/**
+	 * @param int $type
 	 * @return string
 	 */
-	private function getPostingLinks()
+	private function getPermanentLink($type = self::PERMANENT_LINK_POST)
 	{
 		global $ilIliasIniFile, $ilClientIniFile;
 	
-		$posting_link = '';
+		if($type == self::PERMANENT_LINK_FORUM)
+		{
+			$language_text = $this->getLanguageText("forums_notification_show_frm");
+			$forum_parameters =  $this->provider->getRefId();
+		}	
+		else
+		{
+			$language_text = $this->getLanguageText("forums_notification_show_post");
+			$forum_parameters =  $this->provider->getRefId() . "_" . $this->provider->getThreadId() . "_" . $this->provider->getPostId();
+		}
 		
 		if($this->isCronjob())
 		{
-			$posting_link = sprintf($this->getLanguageText("forums_notification_show_post"),
-					$ilIliasIniFile->readVariable("server", "http_path") . "/goto.php?target=frm_" .
-					$this->provider->getRefId() . "_" . $this->provider->getThreadId() . "_" . $this->provider->getPostId() . '&client_id=' . CLIENT_ID) . "\n\n";
+			$posting_link = sprintf($language_text,
+					$ilIliasIniFile->readVariable("server", "http_path") . "/goto.php?target=frm_" .$forum_parameters. '&client_id=' . CLIENT_ID) . "\n\n";
 
 			$posting_link .= sprintf($this->getLanguageText("forums_notification_intro"),
 					$ilClientIniFile->readVariable("client", "name"),
@@ -394,9 +407,8 @@ class ilForumMailNotification extends ilMailNotification
 		}
 		else
 		{
-			$posting_link = sprintf($this->getLanguageText("forums_notification_show_post"),
-					ILIAS_HTTP_PATH . "/goto.php?target=frm_" .
-					$this->provider->getRefId() . "_" . $this->provider->getThreadId() . "_" . $this->provider->getPostId() . '&client_id=' . CLIENT_ID) . "\n\n";
+			$posting_link = sprintf($language_text,
+					ILIAS_HTTP_PATH . "/goto.php?target=frm_" .$forum_parameters. '&client_id=' . CLIENT_ID) . "\n\n";
 
 			$posting_link .= sprintf($this->getLanguageText("forums_notification_intro"),
 					$ilClientIniFile->readVariable("client", "name"),

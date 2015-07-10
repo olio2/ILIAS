@@ -514,9 +514,9 @@ class ilForum
 		// MARK READ
 		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
 		$forum_obj->markPostRead($objNewPost->getPosAuthorId(), $objNewPost->getThreadId(), $objNewPost->getId());
-		
+
 		// Add Notification to news
-		if ($status)
+		if($status)
 		{
 			require_once 'Services/RTE/classes/class.ilRTE.php';
 			include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -529,7 +529,7 @@ class ilForum
 			$news_item->setVisibility(NEWS_USERS);
 			$news_item->create();
 		}
-		
+
 		return $objNewPost->getId();
 	}
 	
@@ -734,8 +734,8 @@ class ilForum
 		{
 			$cens_date = NULL;
 		}
-		
-		$statement = $ilDB->manipulateF('
+
+		$ilDB->manipulateF('
 			UPDATE frm_posts
 			SET pos_cens_com = %s,
 				pos_cens_date = %s,
@@ -775,7 +775,17 @@ class ilForum
 			}
 		}
 
-		return true;		
+		require_once 'Modules/Forum/classes/class.ilForumPost.php';
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Modules/Forum',
+			'censoredPost',
+			array(
+				'ref_id' => $this->getForumRefId(),
+				'post'   => new ilForumPost($pos_pk)
+			)
+		);
+
+		return true;
 	}
 	
 	/**
@@ -790,10 +800,18 @@ class ilForum
 
 		include_once "./Modules/Forum/classes/class.ilObjForum.php";
 
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Modules/Forum',
+			'deletedPost',
+			array(
+				'ref_id' => $this->getForumRefId(),
+				'post'   => new ilForumPost($post)
+			)
+		);
+
 		// delete tree and get id's of all posts to delete
 		$p_node = $this->getPostNode($post);	
 		$del_id = $this->deletePostTree($p_node);
-
 
 		// Delete User read entries
 		foreach($del_id as $post_id)

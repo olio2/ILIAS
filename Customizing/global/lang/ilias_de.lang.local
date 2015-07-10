@@ -146,3 +146,4 @@ forum#:#content_post_updated#:#Inhalt des geänderten Beitrags:
 forum#:#post_censored_subject#:#Ein Beitrag wurde zensiert im Forum:"%1$s"
 forum#:#post_censored_by#:#folgender Beitrag im Forum wurde von "%1$s" zensiert: "%2$s"
 forum#:#content_censored_post#:#Inhalt des zensierten Beitrags:
+forum#:#forums_notification_show_frm#:#Zum Forum gehen: %s

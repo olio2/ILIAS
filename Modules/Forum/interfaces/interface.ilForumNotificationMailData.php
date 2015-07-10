@@ -99,7 +99,7 @@ interface ilForumNotificationMailData
 	public function getCensorshipComment();	
 	
 	/**
-	 * @return string file names 
+	 * @return array file names 
 	 */
 	public function getAttachments();
 }

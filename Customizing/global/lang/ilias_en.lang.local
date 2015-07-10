@@ -146,3 +146,4 @@ forum#:#content_post_updated#:#Content of the edited posting:
 forum#:#post_censored_subject#:#A posting was censored in forum: "%1$s"
 forum#:#post_censored_by#:#censored posting in forum by "%1$s": "%2$s"
 forum#:#content_censored_post#:#Content of the censored posting:
+forum#:#forums_notification_show_frm#:#Show forum: %s
