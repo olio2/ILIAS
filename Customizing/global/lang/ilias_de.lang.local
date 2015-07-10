@@ -153,3 +153,13 @@ forum#:#forums_notification_show_frm#:#Zum Forum gehen: %s
 exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Karenzzeit verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten.
 exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Anzahl von Feedback, die ein Teilnehmer den Peers geben muss. Wenn die Anzahl geforderten Feedbacks größer ist als die Anzahl tatsächlich abgegebener Einreichungen, wird die geforderte Anzahl an Feedbacks automatisch auf die Anzahl der tatsächlich abgegebenen Einreichungen reduziert.
+meta#:#meta_obj_type_inactive#:#Inaktiv
+meta#:#meta_obj_type_mandatory#:#Verpflichtend
+meta#:#meta_obj_type_optional#:#Optional
+common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
+common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können Metadaten konfiguriert werden.
+meta#:#meta_section#:#Bereich
+meta#:#meta_tab_lom#:#LOM
+meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
+meta#:#meta_tab_advmd_def#:#Benutzerdefinierte Metadaten Definition
+meta#:#meta_global#:#Global

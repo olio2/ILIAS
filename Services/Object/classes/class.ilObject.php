@@ -2123,6 +2123,5 @@ class ilObject
 		}
 		return false;
 	}	
-	
 } // END class.ilObject
 ?>
