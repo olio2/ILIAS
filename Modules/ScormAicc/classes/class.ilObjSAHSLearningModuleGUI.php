@@ -48,10 +48,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		{
 			$this->getTemplate();
 			$this->setLocator();
-			// $this->setTabs();
+			$this->setTabs();
 			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 			$this->tpl->setTitle($this->object->getTitle());
-			$this->getTabsLM($this->tabs_gui);
 
 		}
 
@@ -591,12 +590,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	/**
 	* output tabs
 	*/
-	// function setTabs()
-	// {
-		// $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
-		// $this->tpl->setTitle($this->object->getTitle());
-		// $this->getTabsLM($this->tabs_gui);
-	// }
+	function setTabs()
+	{
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+		$this->tpl->setTitle($this->object->getTitle());
+		if(strtolower($_GET["baseClass"]) == "ilsahseditgui") $this->getTabs($this->tabs_gui);
+	}
 
 	/**
 	* Shows the certificate editor
@@ -614,8 +613,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	// function getTabs(&$tabs_gui)
-	function getTabsLM(&$tabs_gui)
+	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem, $ilUser, $ilCtrl, $ilHelp;
 		
