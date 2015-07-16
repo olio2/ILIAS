@@ -98,10 +98,14 @@ class ilForumAppEventListener
 
 						if($immediate_notifications_enabled)
 						{
+							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
 							if($post->isCensored() && $post->isActivated())
 							{
-								$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
 								self::delegateNotification($provider, ilForumMailNotification::TYPE_POST_CENSORED);
+							}
+							else if(!$post->isCensored() && $post->isActivated())
+							{
+								self::delegateNotification($provider, ilForumMailNotification::TYPE_POST_UNCENSORED);
 							}
 						}
 						break;
@@ -112,6 +116,8 @@ class ilForumAppEventListener
 						require_once 'Services/Cron/classes/class.ilCronManager.php';
 						
 						$post = $a_parameter['post'];
+						
+						$thread_deleted = $a_parameter['thread_deleted'];
 
 						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
 
@@ -120,12 +126,20 @@ class ilForumAppEventListener
 							if(ilCronManager::isJobActive('frm_notification'))
 							{
 								require_once 'Modules/Forum/classes/class.ilForumPostsDeleted.php';
-								$delObj = new ilForumPostsDeleted($provider);
+								$delObj = new ilForumPostsDeleted($provider); 
+								$delObj->setThreadDeleted($thread_deleted);
 								$delObj->insert();
 							}
 							else if($immediate_notifications_enabled)
 							{
-								self::delegateNotification($provider, ilForumMailNotification::TYPE_POST_DELETED);
+								if($thread_deleted)
+								{
+									self::delegateNotification($provider, ilForumMailNotification::TYPE_THREAD_DELETED);
+								}
+								else
+								{
+									self::delegateNotification($provider, ilForumMailNotification::TYPE_POST_DELETED);
+								}
 							}
 						}
 						break;

@@ -726,14 +726,7 @@ class ilForum
 	{		
 		global $ilDB;
 
-		if($cens > 0)
-		{
-			$cens_date = date("Y-m-d H:i:s");
-		}
-		else
-		{
-			$cens_date = NULL;
-		}
+		$cens_date = date("Y-m-d H:i:s");
 
 		$ilDB->manipulateF('
 			UPDATE frm_posts
@@ -797,20 +790,22 @@ class ilForum
 	public function deletePost($post)
 	{
 		global $ilDB;
-
+		
 		include_once "./Modules/Forum/classes/class.ilObjForum.php";
+
+		$p_node = $this->getPostNode($post);
 
 		$GLOBALS['ilAppEventHandler']->raise(
 			'Modules/Forum',
 			'deletedPost',
 			array(
-				'ref_id' => $this->getForumRefId(),
-				'post'   => new ilForumPost($post)
+				'ref_id'         => $this->getForumRefId(),
+				'post'           => new ilForumPost($post),
+				'thread_deleted' => ($p_node["parent"] == 0)? true : false
 			)
 		);
 
 		// delete tree and get id's of all posts to delete
-		$p_node = $this->getPostNode($post);	
 		$del_id = $this->deletePostTree($p_node);
 
 		// Delete User read entries

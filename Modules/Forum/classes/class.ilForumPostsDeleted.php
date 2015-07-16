@@ -69,6 +69,11 @@ class ilForumPostsDeleted
 	 * @var string
 	 */
 	protected $pos_usr_alias = '';
+
+	/**
+	 * @var bool
+	 */
+	protected $thread_deleted = false;
 	
 	/**
 	 * @param ilObjForumNotificationDataProvider|NULL $provider
@@ -119,7 +124,8 @@ class ilForumPostsDeleted
 			'thread_id'    => array('integer', $this->getThreadId()),
 			'forum_id'	   => array('integer', $this->getForumId()),
 			'pos_display_user_id' => array('integer', $this->getPosDisplayUserId()),
-			'pos_usr_alias'=> array('text', $this->getPosUserAlias())
+			'pos_usr_alias'		=> array('text', $this->getPosUserAlias()),
+			'is_thread_deleted'	=> array('integer', $this->isThreadDeleted())
 			));
 	}
 
@@ -358,4 +364,22 @@ class ilForumPostsDeleted
 	{
 		$this->pos_usr_alias = $pos_usr_alias;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isThreadDeleted()
+	{
+		return $this->thread_deleted;
+	}
+
+	/**
+	 * @param boolean $thread_deleted
+	 */
+	public function setThreadDeleted($thread_deleted)
+	{
+		$this->thread_deleted = $thread_deleted;
+	}
+	
+	
 }

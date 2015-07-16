@@ -190,15 +190,43 @@ class ilForumCronNotification extends ilCronJob
 			$types,
 			$values
 		);
-
+		
 		if($ilDB->numRows($res))
 		{
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_CENSORED);
 			$this->resetProviderCache();
 		}
 
-		/*** deleted posts ***/
-		$res = $ilDB->query('
+		/*** uncensored posts ***/
+		$uncensored_condition = ' frm_posts.pos_cens = %s AND frm_posts.pos_cens_date >= %s AND ';
+		$types              = array('integer', 'timestamp');
+		$values             = array(0, date('Y-m-d H:i:s', $threshold));
+
+		$res = $ilDB->queryf('
+			SELECT 	frm_threads.thr_subject thr_subject, 
+					frm_data.top_name top_name, 
+					frm_data.top_frm_fk obj_id, 
+					frm_notification.user_id user_id, 
+					frm_posts.* 
+			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
+			WHERE	'.$uncensored_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
+			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
+					OR (frm_threads.thr_pk = frm_notification.thread_id 
+			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
+			AND 	frm_posts.pos_display_user_id != frm_notification.user_id
+			ORDER BY frm_posts.pos_date ASC',
+			$types,
+			$values
+		);
+		
+		if($ilDB->numRows($res))
+		{
+			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UNCENSORED);
+			$this->resetProviderCache();
+		}
+
+		/*** deleted threads ***/
+		$res = $ilDB->queryF('
 			SELECT 	frm_posts_deleted.thread_title thr_subject, 
 					frm_posts_deleted.forum_title  top_name, 
 					frm_posts_deleted.obj_id obj_id, 
@@ -215,7 +243,42 @@ class ilForumCronNotification extends ilCronJob
 			WHERE 	( frm_posts_deleted.obj_id = frm_notification.frm_id
 					OR frm_posts_deleted.thread_id = frm_notification.thread_id) 
 			AND 	frm_posts_deleted.pos_display_user_id != frm_notification.user_id
-			ORDER BY frm_posts_deleted.post_date ASC');
+			AND 	frm_posts_deleted.is_thread_deleted = %s
+			ORDER BY frm_posts_deleted.post_date ASC',
+			array('integer'), array(1));
+
+		if($ilDB->numRows($res))
+		{
+			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_THREAD_DELETED);
+			if(count(self::$deleted_ids_cache) > 0)
+			{
+				$ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE '. $ilDB->in('deleted_id', self::$deleted_ids_cache, false, 'integer'));
+				$ilLog->write(__METHOD__ . ':DELETED ENTRIES: frm_posts_deleted');
+			}
+			$this->resetProviderCache();
+		}
+
+		/*** deleted posts ***/
+		$res = $ilDB->queryF('
+			SELECT 	frm_posts_deleted.thread_title thr_subject, 
+					frm_posts_deleted.forum_title  top_name, 
+					frm_posts_deleted.obj_id obj_id, 
+					frm_notification.user_id user_id, 
+					frm_posts_deleted.pos_display_user_id,
+					frm_posts_deleted.pos_usr_alias,
+					frm_posts_deleted.deleted_id,
+					frm_posts_deleted.post_date pos_date,
+					frm_posts_deleted.post_title pos_subject,
+					frm_posts_deleted.post_message pos_message
+					
+			FROM 	frm_notification, frm_posts_deleted
+			
+			WHERE 	( frm_posts_deleted.obj_id = frm_notification.frm_id
+					OR frm_posts_deleted.thread_id = frm_notification.thread_id) 
+			AND 	frm_posts_deleted.pos_display_user_id != frm_notification.user_id
+			AND 	frm_posts_deleted.is_thread_deleted = %s
+			ORDER BY frm_posts_deleted.post_date ASC',
+			array('integer'), array(0));
 	
 		if($ilDB->numRows($res))
 		{

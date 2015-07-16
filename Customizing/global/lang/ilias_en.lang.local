@@ -163,3 +163,8 @@ meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Custom Metadata
 meta#:#meta_tab_advmd_def#:#Custom Metadata Definition
 wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
+forum#:#thread_deleted_subject#:#A thread was deleted in forum:  "%1$s"
+forum#:#thread_deleted_by#:#following thread in forum was deleted by "%1$s": "%2$s"
+forum#:#content_deleted_thread#:#Content of the deleted thread:
+forum#:#post_uncensored_subject#:#A posting was uncensored in forum: "%1$s"
+forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"

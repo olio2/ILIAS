@@ -602,3 +602,15 @@ if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#37>
+<?php
+if(!$ilDB->tableColumnExists('frm_posts_deleted','is_thread_deleted'))
+{
+	$ilDB->addTableColumn('frm_posts_deleted', 'is_thread_deleted', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0)
+	);
+}
+?>	
