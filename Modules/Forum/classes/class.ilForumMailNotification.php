@@ -95,7 +95,9 @@ class ilForumMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('date') . ": " . $post_date);
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
-					$this->appendBody("\n\n");
+					$this->appendBody("\n");
+					$this->appendBody($this->getLanguageText('frm_noti_message'));
+					$this->appendBody("\n");
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -140,7 +142,9 @@ class ilForumMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('date').": ". ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME)));
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject').": ". $this->provider->getPostTitle());
-					$this->appendBody("\n\n");
+					$this->appendBody("\n");
+					$this->appendBody($this->getLanguageText('frm_noti_message'));
+					$this->appendBody("\n");
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -193,7 +197,9 @@ class ilForumMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('date').": ". ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME)));
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject').": ". $this->provider->getPostTitle());
-					$this->appendBody("\n\n");
+					$this->appendBody("\n");
+					$this->appendBody($this->getLanguageText('frm_noti_message'));
+					$this->appendBody("\n");
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -231,12 +237,44 @@ class ilForumMailNotification extends ilMailNotification
 						
 					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
 					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forum_post_replied'));
-					$this->appendBody($this->getLanguageText('forum').": ".$this->provider->getForumTitle()." -> ".$this->provider->getThreadTitle()."\n\n");
 
-					$this->appendBody("\n------------------------------------------------------------\n");
-					$this->appendBody($this->getSecurePostMessage());
-					$this->appendBody("\n------------------------------------------------------------\n");
+					$this->appendBody($this->getLanguageText('forum_post_replied'));
+					$this->appendBody("\n\n");
+					$this->appendBody($this->getLanguageText('forum').": ".$this->provider->getForumTitle());
+
+					$this->appendBody("\n\n");
+					$this->appendBody($this->getLanguageText('thread').": ".$this->provider->getThreadTitle());
+					$this->appendBody("\n\n");
+					$this->appendBody($this->getLanguageText('new_post').": \n------------------------------------------------------------\n");
+
+					$this->appendBody($this->getLanguageText('author').": ". $this->provider->getPostUserName($this->getLanguage()));
+					$this->appendBody("\n");
+					$this->appendBody($this->getLanguageText('date').": ". ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME)));
+					$this->appendBody("\n");
+					$this->appendBody($this->getLanguageText('subject').": ". $this->provider->getPostTitle());
+					$this->appendBody("\n");
+					$this->appendBody($this->getLanguageText('frm_noti_message'));
+					$this->appendBody("\n");
+
+					if($this->provider->getPostCensored() == 1)
+					{
+						$this->appendBody($this->provider->getCensorshipComment() . "\n");
+					}
+					else
+					{
+						$pos_message = $this->getSecurePostMessage();
+						$this->appendBody(strip_tags($pos_message) . "\n");
+					}
+					$this->appendBody("------------------------------------------------------------\n");
+
+					if(count($this->provider->getAttachments()) > 0)
+					{
+						foreach($this->provider->getAttachments() as $attachment)
+						{
+							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
+						}
+						$this->appendBody("\n------------------------------------------------------------\n");
+					}
 
 					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
@@ -268,7 +306,9 @@ class ilForumMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('date') . ": " . ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostUpdate(), IL_CAL_DATETIME)));
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
-					$this->appendBody("\n\n");
+					$this->appendBody("\n");
+					$this->appendBody($this->getLanguageText('frm_noti_message'));
+					$this->appendBody("\n");
 					
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -280,7 +320,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->appendBody(strip_tags($pos_message) . "\n");
 					}
 					$this->appendBody("------------------------------------------------------------\n");
-					
+
 					if(count($this->provider->getAttachments()) > 0)
 					{
 						foreach($this->provider->getAttachments() as $attachment)
@@ -319,7 +359,9 @@ class ilForumMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('date') . ": " . ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostCensoredDate(), IL_CAL_DATETIME)));
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
-					$this->appendBody("\n\n");
+					$this->appendBody("\n");
+					$this->appendBody($this->getLanguageText('frm_noti_message'));
+					$this->appendBody("\n");
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -369,8 +411,10 @@ class ilForumMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('date') . ": " . ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostCensoredDate(), IL_CAL_DATETIME)));
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
-					$this->appendBody("\n\n");
-		
+					$this->appendBody("\n");
+					$this->appendBody($this->getLanguageText('frm_noti_message'));
+					$this->appendBody("\n");
+
 					$pos_message = $this->getSecurePostMessage();
 					$this->appendBody($pos_message . "\n");
 
@@ -416,7 +460,9 @@ class ilForumMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('date') . ": " . $post_date);
 					$this->appendBody("\n");
 					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
-					$this->appendBody("\n\n");
+					$this->appendBody("\n");
+					$this->appendBody($this->getLanguageText('frm_noti_message'));
+					$this->appendBody("\n");
 
 					if($this->provider->getPostCensored() == 1)
 					{
