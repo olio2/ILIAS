@@ -75,8 +75,15 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
+					ilDatePresentation::setLanguage($this->language);
+
 					$this->initMail();
-					$this->setSubject(sprintf($this->getLanguageText('thread_deleted_subject'), $this->provider->getForumTitle()));
+
+					$this->setSubject(sprintf(
+						$this->getLanguageText('frm_noti_subject_del_thread'),
+						$this->provider->getForumTitle(),
+						$this->provider->getThreadTitle()
+					));
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
@@ -124,12 +131,16 @@ class ilForumMailNotification extends ilMailNotification
 					ilDatePresentation::setLanguage($this->language);
 
 					$this->initMail();
-			
-					$this->setSubject($this->getLanguageText('forums_notification_subject')." ".$this->provider->getForumTitle());
-				
+
+					$this->setSubject(sprintf(
+						$this->getLanguageText('frm_noti_subject_new_post'),
+						$this->provider->getForumTitle(),
+						$this->provider->getThreadTitle()
+					));
+
 					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
 					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forums_notification_subject')." ".$this->provider->getForumTitle());
+					$this->appendBody(sprintf($this->getLanguageText('frm_noti_new_post'), $this->provider->getForumTitle()));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('forum').": ".$this->provider->getForumTitle());
 					$this->appendBody("\n\n");
@@ -178,8 +189,15 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
+					ilDatePresentation::setLanguage($this->language);
+
 					$this->initMail();
-					$this->setSubject($this->getLanguageText('forums_notification_subject')." ".$this->provider->getForumTitle());
+
+					$this->setSubject(sprintf(
+						$this->getLanguageText('frm_noti_subject_act_post'),
+						$this->provider->getForumTitle(),
+						$this->provider->getThreadTitle()
+					));
 
 					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
 					$this->appendBody("\n\n");
@@ -232,9 +250,16 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
+					ilDatePresentation::setLanguage($this->language);
+
 					$this->initMail();
-					$this->setSubject($this->getLanguageText('forums_notification_subject')." ".$this->provider->getForumTitle());
-						
+
+					$this->setSubject(sprintf(
+						$this->getLanguageText('frm_noti_subject_answ_post'),
+						$this->provider->getForumTitle(),
+						$this->provider->getThreadTitle()
+					));
+
 					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
 					$this->appendBody("\n\n");
 
@@ -288,8 +313,15 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
+					ilDatePresentation::setLanguage($this->language);
+
 					$this->initMail();
-					$this->setSubject(sprintf($this->getLanguageText("post_updated_subject"), $this->provider->getForumTitle()));
+
+					$this->setSubject(sprintf(
+						$this->getLanguageText('frm_noti_subject_upt_post'),
+						$this->provider->getForumTitle(),
+						$this->provider->getThreadTitle()
+					));
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
@@ -341,8 +373,15 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
+					ilDatePresentation::setLanguage($this->language);
+
 					$this->initMail();
-					$this->setSubject(sprintf($this->getLanguageText('post_censored_subject'), $this->provider->getForumTitle()));
+
+					$this->setSubject(sprintf(
+						$this->getLanguageText('frm_noti_subject_cens_post'),
+						$this->provider->getForumTitle(),
+						$this->provider->getThreadTitle()
+					));
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
@@ -393,8 +432,15 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
+					ilDatePresentation::setLanguage($this->language);
+
 					$this->initMail();
-					$this->setSubject(sprintf($this->getLanguageText('post_uncensored_subject'), $this->provider->getForumTitle()));
+
+					$this->setSubject(sprintf(
+						$this->getLanguageText('frm_noti_subject_uncens_post'),
+						$this->provider->getForumTitle(),
+						$this->provider->getThreadTitle()
+					));
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
@@ -440,8 +486,15 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
+					ilDatePresentation::setLanguage($this->language);
+
 					$this->initMail();
-					$this->setSubject(sprintf($this->getLanguageText('post_deleted_subject'), $this->provider->getForumTitle()));
+
+					$this->setSubject(sprintf(
+						$this->getLanguageText('frm_noti_subject_del_post'),
+						$this->provider->getForumTitle(),
+						$this->provider->getThreadTitle()
+					));
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
@@ -483,6 +536,7 @@ class ilForumMailNotification extends ilMailNotification
 				break;
 		}
 
+		ilDatePresentation::setLanguage($lng);
 		ilDatePresentation::setUseRelativeDates($date_type);
 
 		return true;

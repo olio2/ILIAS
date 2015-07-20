@@ -7789,7 +7789,7 @@ forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
 forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
 forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
 forum#:#forums_notification_show_post#:#Zum Beitrag gehen: %s
-forum#:#forums_notification_subject#:#Neuer Beitrag im Forum:
+forum#:#frm_noti_subject_new_post#:#Neuer Beitrag im Forum "%1$s" zum Thema "%2$s"
 forum#:#forums_post_activation_mail#:#Solange der folgende Beitrag nicht aktiviert ist, ist er für andere Forenteilnehmer nicht sichtbar. Sie erhalten diese Mail, da sie als Moderator eingetragen sind und die Berechtigung besitzen, diesen Beitrag zu aktivieren.
 forum#:#forums_post_and_children_were_activated#:#Der Beitrag und seine Folgebeiträge wurden aktiviert.
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
@@ -15238,4 +15238,3 @@ file#:#file_import#:#Dateiimport
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Antworten
 forum#:#add_new_answer#:#Neuer Beitrag
-forum#:#frm_noti_message#:#Nachricht:
