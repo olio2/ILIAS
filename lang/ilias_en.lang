@@ -6674,7 +6674,7 @@ forum#:#forums_notification_disabled#:#Notification disabled
 forum#:#forums_notification_enabled#:#Notification enabled
 forum#:#forums_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
 forum#:#forums_notification_show_post#:#Show posting: %s
-forum#:#forums_notification_subject#:#New posting in forum
+forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s", thread "%2$s"
 forum#:#forums_notification#:#Notification
 forum#:#forums_post_and_children_were_activated#:#The posting and all its child postings were activated.
 forum#:#forums_post_deleted#:#Posting has been deleted

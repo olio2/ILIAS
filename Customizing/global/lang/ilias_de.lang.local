@@ -140,13 +140,10 @@ rbac#:#redact#:#Redigieren
 common#:#il_blog_editor#:#Blog-Editor
 rbac#:#blog_redact#:#Benutzer darf alle Einträge bearbeiten
 blog#:#blog_contributors#:#Mitwirkende
-forum#:#post_deleted_subject#:#Ein Beitrag wurde gelöscht im Forum: "%1$s"
 forum#:#post_deleted_by#:#folgender Beitrag im Forum wurde von "%1$s" gelöscht: "%2$s"
 forum#:#content_deleted_post#:#Inhalt des gelöschten Beitrags:
-forum#:#post_updated_subject#:#Ein Beitrag wurde geändert im Forum: "%1$s"
 forum#:#post_updated_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" geändert
 forum#:#content_post_updated#:#Inhalt des geänderten Beitrags:
-forum#:#post_censored_subject#:#Ein Beitrag wurde zensiert im Forum:"%1$s"
 forum#:#post_censored_by#:#folgender Beitrag im Forum wurde von "%1$s" zensiert: "%2$s"
 forum#:#content_censored_post#:#Inhalt des zensierten Beitrags:
 forum#:#forums_notification_show_frm#:#Zum Forum gehen: %s
@@ -164,9 +161,16 @@ meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
 meta#:#meta_tab_advmd_def#:#Benutzerdefinierte Metadaten Definition
 meta#:#meta_global#:#Global
 wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
-forum#:#thread_deleted_subject#:#Ein Thema wurde gelöscht im Forum: "%1$s"
 forum#:#thread_deleted_by#:#folgendes Thema im Forum wurde von "%1$s" gelöscht: "%2$s"
 forum#:#content_deleted_thread#:#Inhalt des gelöschten Themas:
-forum#:#post_uncensored_subject#:#Für einen Beitrag wurde die Zensur im Forum aufgehoben:"%1$s"
 forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" aufgehoben:
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
+forum#:#frm_noti_message#:#Nachricht:
+forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
+forum#:#frm_noti_subject_del_thread#:#Thema "%2$s" im Forum "%1$s" gelöscht
+forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
+forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
+forum#:#frm_noti_subject_upt_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" geändert
+forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" zensiert
+forum#:#frm_noti_subject_uncens_post#:# Zensur aufgehoben für den Beitrag im Forum "%1$s" zum Thema "%2$s"
+forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
