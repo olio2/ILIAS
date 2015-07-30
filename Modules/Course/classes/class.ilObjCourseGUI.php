@@ -969,12 +969,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA
 				)
 			);
-			
-			
-			//
-			// TEMP 
-			// 
-	
+						
 			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
 			ilMembershipNotifications::importFromForm($this->object, $form);
 
@@ -1373,11 +1368,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$not->setInfo($this->lng->txt('crs_auto_notification_info'));
 		$not->setChecked( $this->object->getAutoNotification() );
 		$form->addItem($not);
-		
-		
-		//
-		// TEMP
-		//
 		
 		include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
 		ilMembershipNotifications::addToSettingsForm($this->object, $form);
