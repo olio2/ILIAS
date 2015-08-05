@@ -47,6 +47,15 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"PassMode" => "text",
+						"PassNr" => "integer",
+						"ShowSubmissions" => "integer"
+					);					
+					
 				case "4.4.0":
 				case "5.0.0":
 				case "5.1.0":
@@ -56,7 +65,9 @@ class ilExerciseDataSet extends ilDataSet
 						"Description" => "text",
 						"PassMode" => "text",
 						"PassNr" => "integer",
-						"ShowSubmissions" => "integer");
+						"ShowSubmissions" => "integer",
+						"ComplBySubmission" => "integer"
+					);
 			}
 		}
 
@@ -144,6 +155,9 @@ class ilExerciseDataSet extends ilDataSet
 						,"PeerChar" => "integer"
 						,"PeerUnlock" => "integer"
 						,"PeerValid" => "integer"
+						,"PeerText" => "integer"
+						,"PeerRating" => "integer"
+						,"PeerCritCat" => "integer"
 						// global feedback
 						,"FeedbackFile" => "integer"
 						,"FeedbackCron" => "integer"
@@ -152,7 +166,38 @@ class ilExerciseDataSet extends ilDataSet
 					);
 			}
 		}
+		
+		if ($a_entity == "exc_cit_cat")
+		{
+			switch ($a_version)
+			{
+				case "5.1.0":
+					return array(
+						"Id" => "integer"
+						,"Parent" => "integer"
+						,"Title" => "text"
+						,"Pos" => "integer"
+					);					
+			}
+		}
 
+		if ($a_entity == "exc_cit")
+		{
+			switch ($a_version)
+			{
+				case "5.1.0":
+					return array(
+						"Id" => "integer"
+						,"Parent" => "integer"
+						,"Type" => "text"
+						,"Title" => "text"
+						,"Descr" => "text"
+						,"Pos" => "integer"
+						,"Required" => "integer"
+						,"Def" => "text"
+					);					
+			}
+		}
 	}
 
 	/**
@@ -175,14 +220,19 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+					$this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description,".
+						" pass_mode, pass_nr, show_submissions".
+						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id)".
+						" WHERE ".$ilDB->in("exc_data.obj_id", $a_ids, false, "integer"));
+					break;
+					
 				case "4.4.0":
 				case "5.0.0":
 				case "5.1.0":
-					$this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description, ".
-						" pass_mode, pass_nr, show_submissions".
-						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id) ".
-						"WHERE ".
-						$ilDB->in("exc_data.obj_id", $a_ids, false, "integer"));
+					$this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description,".
+						" pass_mode, pass_nr, show_submissions, compl_by_submission".
+						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id)".
+						" WHERE ".$ilDB->in("exc_data.obj_id", $a_ids, false, "integer"));
 					break;
 			}
 		}
@@ -194,41 +244,61 @@ class ilExerciseDataSet extends ilDataSet
 				case "4.1.0":
 					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, time_stamp deadline, ".
 						" instruction, title, start_time, mandatory, order_nr".
-						" FROM exc_assignment ".
-						"WHERE ".
-						$ilDB->in("exc_id", $a_ids, false, "integer"));
+						" FROM exc_assignment".
+						" WHERE ".$ilDB->in("exc_id", $a_ids, false, "integer"));
 					break;
 				
 				case "4.4.0":
-					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, time_stamp deadline,".
+					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline,".
 						" instruction, title, start_time, mandatory, order_nr, peer, peer_min, peer_dl peer_deadline,".
 						" fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
 						" FROM exc_assignment".
-						" WHERE ".
-						$ilDB->in("exc_id", $a_ids, false, "integer"));
+						" WHERE ".$ilDB->in("exc_id", $a_ids, false, "integer"));
 					break;
 				
 				case "5.0.0":
-					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, time_stamp deadline,".
+					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline,".
 						" instruction, title, start_time, mandatory, order_nr, peer, peer_min, peer_dl peer_deadline,".
 						" peer_file, peer_prsl peer_personal, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
 						" FROM exc_assignment".
-						" WHERE ".
-						$ilDB->in("exc_id", $a_ids, false, "integer"));
+						" WHERE ".$ilDB->in("exc_id", $a_ids, false, "integer"));
 					break;
 				
 				case "5.1.0":
-					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, time_stamp deadline, deadline2".
+					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline, deadline2,".
 						" instruction, title, start_time, mandatory, order_nr, team_tutor, max_file, peer, peer_min,".
 						" peer_dl peer_deadline, peer_file, peer_prsl peer_personal, peer_char, peer_unlock, peer_valid,".
-						" fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
+						" peer_text, peer_rating, peer_crit_cat, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
 						" FROM exc_assignment".
-						" WHERE ".
-						$ilDB->in("exc_id", $a_ids, false, "integer"));
+						" WHERE ".$ilDB->in("exc_id", $a_ids, false, "integer"));
 					break;
 			}
 		}
-
+		
+		if ($a_entity == "exc_crit_cat")
+		{
+			switch ($a_version)
+			{
+				case "5.1.0":
+					$this->getDirectDataFromQuery("SELECT id, parent, title, pos".
+						" FROM exc_crit_cat".
+						" WHERE ".$ilDB->in("parent", $a_ids, false, "integer"));
+					break;	
+			}
+		}
+		
+		if ($a_entity == "exc_crit")
+		{
+			switch ($a_version)
+			{
+				case "5.1.0":
+					$this->getDirectDataFromQuery("SELECT id, parent, type, title".
+						", descr, pos, required, def".
+						" FROM exc_crit".
+						" WHERE ".$ilDB->in("parent", $a_ids, false, "integer"));
+					break;	
+			}
+		}
 	}
 
 	/**
@@ -252,6 +322,11 @@ class ilExerciseDataSet extends ilDataSet
 				$deadline = new ilDateTime($a_set["Deadline"], IL_CAL_UNIX);
 				$a_set["Deadline"] = $deadline->get(IL_CAL_DATETIME,'','UTC');
 			}
+			if($a_set["Deadline2"] != "")
+			{
+				$deadline = new ilDateTime($a_set["Deadline2"], IL_CAL_UNIX);
+				$a_set["Deadline2"] = $deadline->get(IL_CAL_DATETIME,'','UTC');
+			}
 
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
@@ -260,7 +335,6 @@ class ilExerciseDataSet extends ilDataSet
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
 			$a_set["FeedbackDir"] = $fstorage->getGlobalFeedbackPath();
-
 		}
 
 		return $a_set;
@@ -275,8 +349,14 @@ class ilExerciseDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "exc":
-				return array (
+				return array (					
+					"exc_crit_cat" => array("ids" => $a_rec["Id"]),
 					"exc_assignment" => array("ids" => $a_rec["Id"])
+				);
+				
+			case "exc_crit_cat":
+				return array (
+					"exc_crit" => array("ids" => $a_rec["Id"])
 				);
 		}
 
@@ -316,6 +396,7 @@ class ilExerciseDataSet extends ilDataSet
 				$newObj->setPassMode($a_rec["PassMode"]);
 				$newObj->setPassNr($a_rec["PassNr"]);
 				$newObj->setShowSubmissions($a_rec["ShowSubmissions"]);
+				$newObj->setCompletionBySubmission($a_rec["ComplBySubmission"]);
 				$newObj->update();
 				$newObj->saveData();
 				$this->current_exc = $newObj;
@@ -385,6 +466,14 @@ class ilExerciseDataSet extends ilDataSet
 					$ass->setPeerReviewChars($a_rec["PeerChar"]);
 					$ass->setPeerReviewSimpleUnlock($a_rec["PeerUnlock"]);
 					$ass->setPeerReviewValid($a_rec["PeerValid"]);
+					$ass->setPeerReviewText($a_rec["PeerText"]);
+					$ass->setPeerReviewRating($a_rec["PeerRating"]);
+					
+					// criteria catalogue
+					if($a_rec["PeerCritCat"])
+					{
+						$ass->setPeerReviewCriteriaCatalogue($a_mapping->getMapping("Modules/Exercise", "exc_crit_cat", $a_rec["PeerCritCat"]));						
+					}
 															
 					$ass->save();
 
@@ -414,6 +503,37 @@ class ilExerciseDataSet extends ilDataSet
 
 				}
 
+				break;
+				
+			case "exc_crit_cat":
+				$exc_id = $a_mapping->getMapping("Modules/Exercise", "exc", $a_rec["Parent"]);
+				if ($exc_id > 0)
+				{
+					include_once("./Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php");
+					$crit_cat = new ilExcCriteriaCatalogue();
+					$crit_cat->setParent($exc_id);
+					$crit_cat->setTitle($a_rec["Title"]);
+					$crit_cat->setPosition($a_rec["Pos"]);
+					$crit_cat->save();
+					
+					$a_mapping->addMapping("Modules/Exercise", "exc_crit_cat", $a_rec["Id"], $crit_cat->getId());
+				}
+				break;
+			
+			case "exc_crit":
+				$crit_cat_id = $a_mapping->getMapping("Modules/Exercise", "exc_crit_cat", $a_rec["Parent"]);
+				if ($crit_cat_id > 0)
+				{
+					include_once("./Modules/Exercise/classes/class.ilExcCriteria.php");
+					$crit = ilExcCriteria::getInstanceByType($a_rec["Type"]);
+					$crit->setParent($crit_cat_id);
+					$crit->setTitle($a_rec["Title"]);
+					$crit->setDescription($a_rec["Descr"]);
+					$crit->setPosition($a_rec["Pos"]);
+					$crit->setRequired($a_rec["Required"]);
+					$crit->importDefinition($a_rec["Def"]);
+					$crit->save();
+				}				
 				break;
 		}
 	}

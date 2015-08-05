@@ -173,3 +173,22 @@ forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s", thread "%2
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s", thread "%2$s"
+exc#:#exc_criteria_catalogues#:#Criteria Catalogues
+exc#:#exc_add_criteria_catalogue#:#Add Catalogue
+exc#:#exc_criterias#:#Criterias
+exc#:#exc_criteria_catalogue_create_form#:#Add New Criteria Catalogue
+exc#:#exc_criteria_catalogue_update_form#:#Edit Criteria Catalogue
+exc#:#exc_criteria_catalogue_deletion_confirmation#:#Are you sure you want to delete the following criteria catalogues?
+exc#:#exc_edit_criterias#:#Edit Criterias
+exc#:#exc_add_criteria#:#Add Criteria
+exc#:#exc_criteria_create_form#:#Add New Criteria 
+exc#:#exc_criteria_update_form#:#Edit Criteria
+exc#:#exc_criteria_deletion_confirmation#:#Are you sure you want to delete the following criterias?
+exc#:#exc_criteria_type_bool#:#Fulfilled Yes/No
+exc#:#exc_criteria_type_rating#:#5-Star-Rating
+exc#:#exc_criteria_type_text#:#Text
+exc#:#exc_criteria_type_file#:#File Upload
+exc#:#exc_criteria_catalogue_default#:#No Catalogue
+exc#:#exc_peer_review_text#:#Text Input
+exc#:#exc_crit_cat_protected_assignment#:#Active Peer Feedback
+exc#:#exc_crit_cat_protected_assignment_info#:#Criteria catalogues of assignments with active peer feedback cannot be edited anymore.

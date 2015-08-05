@@ -633,3 +633,155 @@ if(!$ilDB->tableColumnExists('frm_posts_deleted','is_thread_deleted'))
 		));
 	}
 ?>
+<#39>
+<?php
+
+if(!$ilDB->tableExists('exc_crit_cat'))
+{
+	$ilDB->createTable('exc_crit_cat', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'parent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'pos' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));	
+	$ilDB->addPrimaryKey('exc_crit_cat',array('id'));
+	$ilDB->createSequence('exc_crit_cat');
+}
+
+?>
+<#40>
+<?php
+
+if(!$ilDB->tableExists('exc_crit'))
+{
+	$ilDB->createTable('exc_crit', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'parent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'descr' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false
+		),
+		'pos' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));	
+	$ilDB->addPrimaryKey('exc_crit',array('id'));
+	$ilDB->createSequence('exc_crit');
+}
+
+?>
+<#41>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_crit','required'))
+{
+	$ilDB->addTableColumn('exc_crit', 'required', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+
+?>
+<#42>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_crit','def'))
+{
+	$ilDB->addTableColumn('exc_crit', 'def', array(
+		'type' => 'text',
+		'length' => 4000,
+		'notnull' => false
+	));
+}
+
+?>
+<#43>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#44>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_assignment','peer_text'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_text', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 1
+	));
+}
+
+?>
+<#45>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_assignment','peer_rating'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_rating', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 1
+	));
+}
+
+?>
+<#46>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_assignment','peer_crit_cat'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_crit_cat', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false
+	));
+}
+
+?>

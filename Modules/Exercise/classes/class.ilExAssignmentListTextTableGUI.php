@@ -63,12 +63,8 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 		if(!$a_disable_peer_review &&
 			$this->ass->getPeerReview() && 
 			!$a_show_peer_review)
-		{
-			$peer_review = new ilExPeerReview($this->ass);
-			if($peer_review->countGivenFeedback())
-			{
-				$this->addCommandButton("listTextAssignmentWithPeerReview", $lng->txt("exc_show_peer_review"));
-			}
+		{								
+			$this->addCommandButton("listTextAssignmentWithPeerReview", $lng->txt("exc_show_peer_review"));			
 		}					
 
 		$this->parse();
@@ -102,7 +98,7 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 												
 				if(isset($peer_data[$file["user_id"]]))
 				{
-					$data[$file["user_id"]]["peer"] = $peer_data[$file["user_id"]];	
+					$data[$file["user_id"]]["peer"] = array_keys($peer_data[$file["user_id"]]);	
 				}								
 			}
 		}		
@@ -118,68 +114,40 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 		{
 			$peer_data = "&nbsp;";
 			if(isset($a_set["peer"]))
-			{			
-				$acc_data = array();
+			{							
+				$acc = new ilAccordionGUI();
+				$acc->setId($this->ass->getId()."_".$a_set["uid"]);
 
-				foreach($a_set["peer"] as $peer_id => $peer_review)
-				{	
+				foreach($a_set["peer"] as $peer_id)
+				{						
 					$peer_name = ilUserUtil::getNamePresentation($peer_id);
 					$acc_item = $peer_name;
-
-					if($peer_review[1])
-					{
-						$rating = new ilRatingGUI();
-						$rating->setObject($this->ass->getId(), "ass", $a_set["uid"], "peer");
-						$rating->setUserId($peer_id);			
-						$acc_item .= " ".$rating->getHTML(false, false);	
+					
+					$submission = new ilExSubmission($this->ass, $a_set["uid"]);
+					$values = $submission->getPeerReview()->getPeerReviewValues($peer_id, $a_set["uid"]);
+					
+					$acc_html = array();
+					foreach($this->ass->getPeerReviewCriteriaCatalogueItems() as $crit)		
+					{						
+						$crit_id = $crit->getId()
+							? $crit->getId()
+							: $crit->getType();		
+						$crit->setPeerReviewContext($this->ass, $peer_id, $a_set["uid"]);
+						
+						// see ilWikiAdvMetaDataBlockGUI
+						$acc_html[] = '<p>'.
+							'<div class="ilBlockPropertyCaption">'.$crit->getTitle().'</div>'.
+							'<div>'.$crit->getHTML($values[$crit_id]).'</div>'.
+							'</p>';						
 					}
-
-					if($peer_review[0])
-					{					
-						$acc_item .= '<div class="small">'.nl2br($peer_review[0])."</div>";
-					}
-
-					$uploads = $this->peer_review->getPeerUploadFiles($a_set["uid"], $peer_id);
-					if($uploads)
-					{					
-						$acc_item .= '<div class="small">';
-
-						$ilCtrl->setParameter($this->parent_obj, "fu", $peer_id."__".$a_set["uid"]);
-
-						foreach($uploads as $file)
-						{							
-							$ilCtrl->setParameter($this->parent_obj, "fuf", md5($file));
-							$dl = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
-							$ilCtrl->setParameter($this->parent_obj, "fuf", "");
-
-							$acc_item .= '<a href="'.$dl.'">'.basename($file).'</a><br />';
-						}						
-
-						$ilCtrl->setParameter($this->parent_obj, "fu", "");
-
-						$acc_item .= '</div>';
-					}				
-
-					$acc_data[$peer_id] = array("name" => $peer_name, "review" => $acc_item);
+					
+					$acc->addItem(
+						ilUserUtil::getNamePresentation($peer_id, false, false, "", true), 
+						'<div style="margin-left:10px;">'.implode("\n", $acc_html).'</div>'
+					);									
 				}
-
-				if($acc_data)
-				{							
-					$acc_data = ilUtil::sortArray($acc_data, "name", "asc");
-
-					$acc = new ilAccordionGUI();
-					$acc->setId($this->ass->getId()."_".$a_set["uid"]);
-
-					$acc_html = "<ul>";
-					foreach($acc_data as $acc_item)
-					{
-						$acc_html .= "<li>".$acc_item["review"]."</li>";					
-					}
-					$acc_html .= "</ul>";
-					$acc->addItem($this->lng->txt("show")." (".sizeof($acc_data).")", $acc_html);
-
-					$peer_data = $acc->getHTML();
-				}
+					
+				$peer_data = $acc->getHTML();				
 			}
 			$this->tpl->setCurrentBlock("peer_bl");
 			$this->tpl->setVariable("PEER_REVIEW", $peer_data);			

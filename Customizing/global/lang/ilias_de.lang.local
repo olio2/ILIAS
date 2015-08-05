@@ -174,3 +174,22 @@ forum#:#frm_noti_subject_upt_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" ge�
 forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" zensiert
 forum#:#frm_noti_subject_uncens_post#:#Zensur aufgehoben für einen Beitrag im Forum "%1$s" zum Thema "%2$s"
 forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
+exc#:#exc_criteria_catalogues#:#Kriterienkataloge
+exc#:#exc_add_criteria_catalogue#:#Katalog hinzufügen
+exc#:#exc_criterias#:#Kriterien
+exc#:#exc_criteria_catalogue_create_form#:#Neuen Katalog hinzufügen
+exc#:#exc_criteria_catalogue_update_form#:#Katalog bearbeiten
+exc#:#exc_criteria_catalogue_deletion_confirmation#:#Wollen Sie wirklich die folgenden Kriterienkataloge löschen?
+exc#:#exc_edit_criterias#:#Kriterien bearbeiten
+exc#:#exc_add_criteria#:#Kriterium hinzufügen
+exc#:#exc_criteria_create_form#:#Neues Kriterium hinzufügen
+exc#:#exc_criteria_update_form#:#Kriterium bearbeiten
+exc#:#exc_criteria_deletion_confirmation#:#Wollen Sie wirklich die folgenden Kriterien löschen?
+exc#:#exc_criteria_type_bool#:#Erfüllt Ja/Nein
+exc#:#exc_criteria_type_rating#:#5-Sterne-Bewertung
+exc#:#exc_criteria_type_text#:#Text
+exc#:#exc_criteria_type_file#:#Dateiupload
+exc#:#exc_criteria_catalogue_default#:#Kein Katalog
+exc#:#exc_peer_review_text#:#Texteingabe
+exc#:#exc_crit_cat_protected_assignment#:#Aktives Peer-Feedback
+exc#:#exc_crit_cat_protected_assignment_info#:#Kriterienkataloge von Übungseinheiten mit aktivem Peer-Feedback können nicht mehr bearbeitet werden.
