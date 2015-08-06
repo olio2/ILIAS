@@ -80,14 +80,11 @@ buddysystem#:#buddy_bs_state_requested#:#Angefragt
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
 buddysystem#:#buddy_bs_no_new_requests#:#Keine neuen Anfragen
 membership#:#mem_force_notification#:#Notification
-membership#:#mem_force_notification_mode_self#:#Inaktiv
-membership#:#mem_force_notification_mode_self_info#:#Default: aus; frei veränderbar
-membership#:#mem_force_notification_mode_all#:#Aktiv
-membership#:#mem_force_notification_mode_all_info#:#Default: an; frei veränderbar
-membership#:#mem_force_notification_mode_blocked#:#Festgelegt
-membership#:#mem_force_notification_mode_blocked_info#:#Default: an; nicht änderbar
-membership#:#mem_force_notification_mode_custom#:#Individuell
-membership#:#mem_force_notification_mode_custom_info#:#Einstellungen für jedes Mitglied
+membership#:#mem_force_notification_mode_self#:#Jedes Mitglied kann selbst entscheiden
+membership#:#mem_force_notification_mode_blocked#:#Aktiviert für alle Mitglieder
+membership#:#mem_force_notification_mode_all#:#Aktiviert für alle Mitglieder (frei änderbar)
+membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglied kann deaktivieren
+membership#:#mem_force_notification_mode_custom#:#Einstellungen für jedes Mitglied
 crs#:#crs_mem_contact#:#Betreuer
 awrn#:#awareness_now_online#:#Jetzt Online
 awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
