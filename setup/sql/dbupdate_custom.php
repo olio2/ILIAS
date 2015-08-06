@@ -614,3 +614,25 @@ if(!$ilDB->tableColumnExists('frm_posts_deleted','is_thread_deleted'))
 	);
 }
 ?>	
+<#38>
+<?php
+$ilDB->manipulate('DELETE FROM addressbook_mlist_ass');
+?>
+<#39>
+<?php
+if($ilDB->tableColumnExists('addressbook_mlist_ass', 'addr_id'))
+{
+	$ilDB->renameTableColumn('addressbook_mlist_ass', 'addr_id', 'usr_id');
+}
+?>
+<#40>
+<?php
+if($ilDB->tableExists('addressbook'))
+{
+	$ilDB->dropTable('addressbook');
+}
+if($ilDB->sequenceExists('addressbook'))
+{
+	$ilDB->dropSequence('addressbook');
+}
+?>

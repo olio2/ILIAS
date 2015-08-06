@@ -3110,7 +3110,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// after list has been saved...
 		foreach($user_ids as $user_id)
 		{		
-			$list->assignAddressbookEntry($user_id);
+			$list->assignUser($user_id);
 		}
 		
 		include_once "Services/Mail/classes/class.ilFormatMail.php";
