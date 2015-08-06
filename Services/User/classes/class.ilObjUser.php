@@ -1061,9 +1061,6 @@ class ilObjUser extends ilObject
 				SET login = %s
 				WHERE usr_id = %s',
 				array('text', 'integer'), array($this->getLogin(), $this->getId()));
-
-			include_once 'Services/Contact/classes/class.ilAddressbook.php';
-			ilAddressbook::onLoginNameChange($former_login, $this->getLogin());
 		}
 
 		return true;
@@ -1417,9 +1414,6 @@ class ilObjUser extends ilObject
 		
 		// Reset owner
 		$this->resetOwner();
-
-		include_once 'Services/Contact/classes/class.ilAddressbook.php';
-		ilAddressbook::onUserDeletion($this);
 
 		// Trigger deleteUser Event
 		global $ilAppEventHandler;

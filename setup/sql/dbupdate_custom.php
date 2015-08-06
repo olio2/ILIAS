@@ -785,3 +785,67 @@ if(!$ilDB->tableColumnExists('exc_assignment','peer_crit_cat'))
 }
 
 ?>
+<#47>
+<?php
+$ilDB->manipulate('DELETE FROM addressbook_mlist_ass');
+?>
+<#48>
+<?php
+if($ilDB->tableColumnExists('addressbook_mlist_ass', 'addr_id'))
+{
+	$ilDB->renameTableColumn('addressbook_mlist_ass', 'addr_id', 'usr_id');
+}
+?>
+<#49>
+<?php
+if($ilDB->tableExists('addressbook'))
+{
+	$ilDB->dropTable('addressbook');
+}
+if($ilDB->sequenceExists('addressbook'))
+{
+	$ilDB->dropSequence('addressbook');
+}
+?>
+<#50>
+<?php
+$res = $ilDB->queryF(
+	'SELECT * FROM notification_usercfg WHERE usr_id = %s AND module = %s AND channel = %s',
+	array('integer', 'integer', 'text'),
+	array(-1,  'buddysystem_request', 'mail')
+);
+if(!$ilDB->numRows($res))
+{
+	$ilDB->insert(
+		'notification_usercfg',
+		array(
+			'usr_id'  => array('integer', -1),
+			'module'  => array('text', 'buddysystem_request'),
+			'channel' => array('text', 'mail')
+		)
+	);
+}
+?>
+<#51>
+<?php
+$res = $ilDB->queryF(
+	'SELECT * FROM notification_usercfg WHERE usr_id = %s AND module = %s AND channel = %s',
+	array('integer', 'integer', 'text'),
+	array(-1,  'buddysystem_request', 'osd')
+);
+if(!$ilDB->numRows($res))
+{
+	$ilDB->insert(
+		'notification_usercfg',
+		array(
+			'usr_id'  => array('integer', -1),
+			'module'  => array('text', 'buddysystem_request'),
+			'channel' => array('text', 'osd')
+		)
+	);
+}
+?>
+<#52>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

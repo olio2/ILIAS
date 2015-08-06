@@ -217,6 +217,7 @@ class ilMainMenuGUI
 			$this->renderHelpButtons();
 
 			$this->renderAwareness();
+			$this->populateWithBuddySystem();
 		}
 
 		if($this->getMode() == self::MODE_FULL)
@@ -688,9 +689,8 @@ class ilMainMenuGUI
 			}
 
 			// contacts
-			if(!$this->ilias->getSetting('disable_contacts') &&
-				($this->ilias->getSetting('disable_contacts_require_mail') ||
-				$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+			if(ilBuddySystem::getInstance()->isEnabled())
 			{
 				$gl->addEntry($lng->txt('mail_addressbook'),
 					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '_top'
@@ -946,9 +946,8 @@ class ilMainMenuGUI
 				}
 
 				// contacts
-				if (!$this->ilias->getSetting('disable_contacts') &&
-					($this->ilias->getSetting('disable_contacts_require_mail') ||
-					$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
+				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+				if(ilBuddySystem::getInstance()->isEnabled())
 				{
 					$selection->addItem($lng->txt('mail_addressbook'), '', 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '', '', '_top');
 				}
@@ -1105,6 +1104,19 @@ class ilMainMenuGUI
 		$aw = ilAwarenessGUI::getInstance();
 
 		$this->tpl->setVariable("AWARENESS", $aw->getMainMenuHTML());
+	}
+
+	/**
+	 * Includes all buddy system/user connections related javascript code
+	 */
+	protected function populateWithBuddySystem()
+	{
+		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+		if(ilBuddySystem::getInstance()->isEnabled())
+		{
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
+			ilBuddySystemGUI::initializeFrontend();
+		}
 	}
 
 	/**

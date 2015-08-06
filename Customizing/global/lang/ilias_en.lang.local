@@ -59,8 +59,8 @@ style#:#sty_type_sub#:#Subscript
 style#:#sty_type_sup#:#Superscript
 content#:#cont_text_sub#:#Subscript
 content#:#cont_text_sup#:#Superscript
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Link
-buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Link
+buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Request Contact
+buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Request Contact
 buddysystem#:#buddy_bs_btn_txt_linked_a#:#Linked
 buddysystem#:#buddy_bs_btn_txt_linked_p#:#Linked
 buddysystem#:#buddy_bs_btn_txt_requested_a#:#Requested Contact
@@ -75,10 +75,32 @@ buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_action_not_possible#:#Action not possible
 buddysystem#:#buddy_bs_state_linked#:#Linked
+buddysystem#:#buddy_bs_state_linked_a#:#Linked
+buddysystem#:#buddy_bs_state_linked_p#:#Linked
 buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
 buddysystem#:#buddy_bs_state_requested#:#Requested
+buddysystem#:#buddy_bs_state_requested_a#:#Requested
+buddysystem#:#buddy_bs_state_requested_p#:#Requested
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
+buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested
+buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
 buddysystem#:#buddy_bs_no_new_requests#:#No new requests
+buddysystem#:#buddy_view_gallery#:#Gallery
+buddysystem#:#buddy_view_table#:#List
+buddysystem#:#buddy_tbl_title_relations#:#Relations to Other Users
+buddysystem#:#buddy_tbl_filter_state#:#Status
+buddysystem#:#buddy_notification_contact_request#:#Contact Request
+buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_link#:#Approve Request:
+buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request
+buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request: 
+buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
+buddysystem#:#buddy_request_ignored#:#You ignored the user.
+common#:#no_gallery_users_available#:#There are currently no users in the gallery.
 membership#:#mem_force_notification#:#Notification
 membership#:#mem_force_notification_mode_self#:#Each member decides about notification
 membership#:#mem_force_notification_mode_blocked#:#Notification activated for all members
@@ -102,6 +124,8 @@ awrn#:#awrn_online_only#:#Online Only
 awrn#:#awrn_incl_offline#:#Online and Offline
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
+contact#:#contact_awrn_req_contacts#:#Contact Requests
+contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.
 adm#:#adm_support_contacts#:#Technical Support
 adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
 adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
