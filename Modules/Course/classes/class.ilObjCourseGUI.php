@@ -400,7 +400,7 @@ class ilObjCourseGUI extends ilContainerGUI
 							'sig' => $this->createMailSignature()
 						),
 						array(
-							ilMailFormCall::CONTEXT_KEY => 'crs_context_manual',
+							ilMailFormCall::CONTEXT_KEY => 'crs_context_member_manual',
 							'ref_id' => $this->object->getRefId(),
 							'ts'     => time()
 						)

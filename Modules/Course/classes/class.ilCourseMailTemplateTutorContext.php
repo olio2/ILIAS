@@ -9,14 +9,14 @@ include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @package ModulesCourse
  */
-class ilCourseMailTemplateContext extends ilMailTemplateContext
+class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 {
 	/**
 	 * @return string
 	 */
 	public function getId()
 	{
-		return 'crs_context_manual';
+		return 'crs_context_tutor_manual';
 	}
 
 	/**
@@ -24,7 +24,11 @@ class ilCourseMailTemplateContext extends ilMailTemplateContext
 	 */
 	public function getTitle()
 	{
-		return 'Course XYZ';
+		global $lng;
+		
+		$lng->loadLanguageModule('crs');
+		
+		return $lng->txt('crs_mail_context_tutor_title');
 	}
 
 	/**
@@ -40,16 +44,26 @@ class ilCourseMailTemplateContext extends ilMailTemplateContext
 
 		$lng->loadLanguageModule('crs');
 
-		return array(
-			'crs_title' => array(
-				'placeholder' => 'COURSE_TITLE',
-				'label'       => $lng->txt('crs_title')
-			),
-			'crs_link'  => array(
-				'placeholder' => 'CRS_LINK',
-				'label'       => $lng->txt('crs_mail_permanent_link')
-			)
+		$placeholders = array();
+		
+		$placeholders['crs_title'] = array(
+			'placeholder'	=> 'COURSE_TITLE',
+			'label'			=> $lng->txt('crs_title')
 		);
+		
+		
+		
+		
+		$placeholders['crs_title'] = array(
+			'placeholder'	=> 'COURSE_LINK',
+			'label'			=> $lng->txt('crs_mail_permanent_link')
+		);
+		
+		
+		
+		
+
+		return $placeholders;
 	}
 
 	/**
