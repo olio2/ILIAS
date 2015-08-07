@@ -983,10 +983,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA
 				)
 			);
-						
-			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
-			ilMembershipNotifications::importFromForm($this->object, $form);
-
+			
 			// Update ecs export settings
 			include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';	
 			$ecs = new ilECSCourseSettings($this->object);			
@@ -1383,9 +1380,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$not->setChecked( $this->object->getAutoNotification() );
 		$form->addItem($not);
 		
-		include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
-		ilMembershipNotifications::addToSettingsForm($this->object, $form);
-
 		// Further information
 		//$further = new ilFormSectionHeaderGUI();
 		//$further->setTitle($this->lng->txt('crs_further_settings'));

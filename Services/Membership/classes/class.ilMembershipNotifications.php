@@ -49,9 +49,9 @@ class ilMembershipNotifications
 	public static function isActive()
 	{
 		global $ilSetting;
-						
-		// :TODO: what about active news service?
-		return (bool)$ilSetting->get("crsgrp_ntf", false);		
+					
+		return ($ilSetting->get("block_activated_news") &&
+			$ilSetting->get("crsgrp_ntf"));		
 	}
 	
 	/**
@@ -508,76 +508,108 @@ class ilMembershipNotifications
 	/**
 	 * Add notification settings to form 
 	 *
-	 * @param ilObject $a_object
+	 * @param int $a_ref_id
 	 * @param ilPropertyFormGUI $a_form
+	 * @param ilPropertyFormGUI $a_input
 	 */
-	public static function addToSettingsForm(ilObject $a_object, ilPropertyFormGUI $a_form)
+	public static function addToSettingsForm($a_ref_id, ilPropertyFormGUI $a_form = null, ilFormPropertyGUI $a_input = null)
 	{
 		global $lng;
-		
-		$ref_id = $a_object->getRefId();
-		
+	
 		if(self::isActive() &&
-			$ref_id)
+			$a_ref_id)
 		{				
 			$lng->loadLanguageModule("membership");			
-			$noti = new self($ref_id);
+			$noti = new self($a_ref_id);
 			
 			$force_noti = new ilRadioGroupInputGUI($lng->txt("mem_force_notification"), "force_noti");
-			$a_form->addItem($force_noti);
+			$force_noti->setRequired(true);
+			if($a_form)
+			{
+				$a_form->addItem($force_noti);
+			}
+			else
+			{
+				$a_input->addSubItem($force_noti);
+			}
 			
 			if($noti->isValidMode(self::MODE_SELF))
 			{
-				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_self"), self::MODE_SELF);
-				$option->setInfo($lng->txt("mem_force_notification_mode_self_info"));
-				$force_noti->addOption($option);
-			}
-			if($noti->isValidMode(self::MODE_ALL))
-			{
-				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_all"), self::MODE_ALL);
-				$option->setInfo($lng->txt("mem_force_notification_mode_all_info"));
+				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_self"), self::MODE_SELF);				
 				$force_noti->addOption($option);
 			}
 			if($noti->isValidMode(self::MODE_ALL_BLOCKED))
 			{
-				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_blocked"), self::MODE_ALL_BLOCKED);
-				$option->setInfo($lng->txt("mem_force_notification_mode_blocked_info"));
+				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_blocked"), self::MODE_ALL_BLOCKED);				
 				$force_noti->addOption($option);	
+				
+				if($noti->isValidMode(self::MODE_ALL))
+				{				
+					$changeable = new ilCheckboxInputGUI($lng->txt("mem_force_notification_mode_all_sub_blocked"), "force_noti_allblk");			
+					$option->addSubItem($changeable);
+				}					
 			}
+			else if($noti->isValidMode(self::MODE_ALL))
+			{				
+				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_all"), self::MODE_ALL);				
+				$force_noti->addOption($option);
+			}	
+			/* not supported in GUI
 			if($noti->isValidMode(self::MODE_CUSTOM))
 			{
 				$option = new ilRadioOption($lng->txt("mem_force_notification_mode_custom"), self::MODE_CUSTOM);
 				$option->setInfo($lng->txt("mem_force_notification_mode_custom_info"));
 				$force_noti->addOption($option);	
 			}
-						
-			$force_noti->setValue($noti->getMode());
+			*/			
+			
+			// set current mode
+			$current_mode = $noti->getMode();
+			switch($current_mode)
+			{
+				case self::MODE_ALL:
+					if($noti->isValidMode(self::MODE_ALL_BLOCKED))
+					{
+						$force_noti->setValue(self::MODE_ALL_BLOCKED);
+						$changeable->setChecked(true);
+						break;
+					}
+					// fallthrough
+			
+				default:
+					$force_noti->setValue($current_mode);
+					break;
+			}						
 		}
 	}
 	
 	/**
 	 * Import notification settings from form 
 	 *
-	 * @param ilObject $a_object
+	 * @param int $a_ref_id
 	 * @param ilPropertyFormGUI $a_form
 	 */
-	public static function importFromForm(ilObject $a_object, ilPropertyFormGUI $a_form = null)
-	{
-		$ref_id = $a_object->getRefId();
-		
+	public static function importFromForm($a_ref_id, ilPropertyFormGUI $a_form = null)
+	{		
 		if(self::isActive() &&
-			$ref_id)
+			$a_ref_id)
 		{			
 			if(!$a_form)
 			{
-				$value = (int)$_POST["force_noti"];
+				$mode = (int)$_POST["force_noti"];
+				$changeable = (int)$_POST["force_noti_allblk"];
 			}
 			else
 			{
-				$value = $a_form->getInput("force_noti");
-			}						
-			$noti = new self($ref_id);
-			$noti->switchMode($value);			
+				$mode = $a_form->getInput("force_noti");
+				$changeable = $a_form->getInput("force_noti_allblk");
+			}							
+			if($changeable)
+			{
+				$mode = self::MODE_ALL;
+			}
+			$noti = new self($a_ref_id);
+			$noti->switchMode($mode);			
 		}
 	}
 }

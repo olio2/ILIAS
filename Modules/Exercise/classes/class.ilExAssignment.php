@@ -41,6 +41,9 @@ class ilExAssignment
 	protected $peer_file;
 	protected $peer_personal;
 	protected $peer_char;
+	protected $peer_text;
+	protected $peer_rating;
+	protected $peer_crit_cat;
 	protected $feedback_file;
 	protected $feedback_cron;
 	protected $feedback_date;
@@ -423,6 +426,46 @@ class ilExAssignment
 	}
 	
 	/**
+	 * Set peer review rating
+	 *
+	 * @param	bool
+	 */
+	function setPeerReviewRating($a_val)
+	{
+		$this->peer_rating = (bool)$a_val;
+	}
+	
+	/**
+	 * Get peer review rating status
+	 *
+	 * @return	bool
+	 */
+	function hasPeerReviewRating()
+	{
+		return $this->peer_rating;
+	}
+	
+	/**
+	 * Set peer review text
+	 *
+	 * @param	bool
+	 */
+	function setPeerReviewText($a_val)
+	{
+		$this->peer_text = (bool)$a_val;
+	}
+	
+	/**
+	 * Get peer review text status
+	 *
+	 * @return	bool
+	 */
+	function hasPeerReviewText()
+	{
+		return $this->peer_text;
+	}
+	
+	/**
 	 * Set peer review file upload
 	 *
 	 * @param	bool
@@ -460,7 +503,7 @@ class ilExAssignment
 	function hasPeerReviewPersonalized()
 	{
 		return $this->peer_personal;
-	}
+	}	
 	
 	/**
 	 * Set peer review minimum characters
@@ -469,7 +512,7 @@ class ilExAssignment
 	 */
 	function setPeerReviewChars($a_value)
 	{
-		$a_value = is_numeric($a_value)
+		$a_value = (is_numeric($a_value) && (int)$a_value > 0)
 			? (int)$a_value
 			: null;		
 		$this->peer_char = $a_value;
@@ -483,6 +526,65 @@ class ilExAssignment
 	function getPeerReviewChars()
 	{
 		return $this->peer_char;
+	}
+	
+	/**
+	 * Set peer review criteria catalogue id
+	 * 
+	 * @param int $a_value
+	 */
+	function setPeerReviewCriteriaCatalogue($a_value)
+	{
+		$a_value = is_numeric($a_value)
+			? (int)$a_value
+			: null;		
+		$this->crit_cat = $a_value;
+	}
+	
+	/**
+	 * Get peer review criteria catalogue id
+	 * 
+	 * @return int 
+	 */
+	function getPeerReviewCriteriaCatalogue()
+	{
+		return $this->crit_cat;
+	}
+	
+	function getPeerReviewCriteriaCatalogueItems()
+	{
+		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
+		
+		if($this->crit_cat)
+		{			
+			return ilExcCriteria::getInstancesByParentId($this->crit_cat);
+		}
+		else
+		{
+			$res = array();
+			
+			if($this->peer_rating)
+			{
+				$res[] = ilExcCriteria::getInstanceByType("rating");
+			}
+			
+			if($this->peer_text)
+			{
+				$crit = ilExcCriteria::getInstanceByType("text");				
+				if($this->peer_char)
+				{
+					$crit->setMinChars($this->peer_char);
+				}
+				$res[] = $crit;
+			}
+			
+			if($this->peer_file)
+			{
+				$res[] = ilExcCriteria::getInstanceByType("file");
+			}
+			
+			return $res;
+		}
 	}
 	
 	/**
@@ -634,6 +736,9 @@ class ilExAssignment
 		$this->setPeerReviewFileUpload($a_set["peer_file"]);
 		$this->setPeerReviewPersonalized($a_set["peer_prsl"]);
 		$this->setPeerReviewChars($a_set["peer_char"]);
+		$this->setPeerReviewText($a_set["peer_text"]);
+		$this->setPeerReviewRating($a_set["peer_rating"]);
+		$this->setPeerReviewCriteriaCatalogue($a_set["peer_crit_cat"]);
 		$this->setFeedbackFile($a_set["fb_file"]);
 		$this->setFeedbackDate($a_set["fb_date"]);
 		$this->setFeedbackCron($a_set["fb_cron"]);
@@ -675,6 +780,9 @@ class ilExAssignment
 			"peer_file" => array("integer", $this->hasPeerReviewFileUpload()),
 			"peer_prsl" => array("integer", $this->hasPeerReviewPersonalized()),
 			"peer_char" => array("integer", $this->getPeerReviewChars()),
+			"peer_text" => array("integer", $this->hasPeerReviewText()),
+			"peer_rating" => array("integer", $this->hasPeerReviewRating()),
+			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
@@ -715,6 +823,9 @@ class ilExAssignment
 			"peer_file" => array("integer", $this->hasPeerReviewFileUpload()),
 			"peer_prsl" => array("integer", $this->hasPeerReviewPersonalized()),
 			"peer_char" => array("integer", $this->getPeerReviewChars()),
+			"peer_text" => array("integer", $this->hasPeerReviewText()),
+			"peer_rating" => array("integer", $this->hasPeerReviewRating()),
+			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
@@ -798,7 +909,7 @@ class ilExAssignment
 	 * @param
 	 * @return
 	 */
-	function cloneAssignmentsOfExercise($a_old_exc_id, $a_new_exc_id)
+	function cloneAssignmentsOfExercise($a_old_exc_id, $a_new_exc_id, array $a_crit_cat_map)
 	{
 		$ass_data = self::getInstancesByExercise($a_old_exc_id);
 		foreach ($ass_data as $d)
@@ -821,12 +932,25 @@ class ilExAssignment
 			$new_ass->setPeerReviewPersonalized($d->hasPeerReviewPersonalized());
 			$new_ass->setPeerReviewValid($d->getPeerReviewValid());
 			$new_ass->setPeerReviewChars($d->getPeerReviewChars());
+			$new_ass->setPeerReviewText($d->hasPeerReviewText());
+			$new_ass->setPeerReviewRating($d->hasPeerReviewRating());
+			$new_ass->setPeerReviewCriteriaCatalogue($d->getPeerReviewCriteriaCatalogue());
 			$new_ass->setPeerReviewSimpleUnlock($d->getPeerReviewSimpleUnlock());
+			$new_ass->setPeerReviewText($d->hasPeerReviewText());
+			$new_ass->setPeerReviewRating($d->hasPeerReviewRating());			
 			$new_ass->setFeedbackFile($d->getFeedbackFile());
 			$new_ass->setFeedbackDate($d->getFeedbackDate());
-			$new_ass->setFeedbackCron($d->getFeedbackFile());
+			$new_ass->setFeedbackCron($d->hasFeedbackCron()); // #16295
 			$new_ass->setTeamTutor($d->getTeamTutor());
 			$new_ass->setMaxFile($d->getMaxFile());
+			
+			// criteria catalogue(s)
+			if($d->getPeerReviewCriteriaCatalogue() &&
+				array_key_exists($d->getPeerReviewCriteriaCatalogue(), $a_crit_cat_map))
+			{
+				$new_ass->setPeerReviewCriteriaCatalogue($a_crit_cat_map[$d->getPeerReviewCriteriaCatalogue()]);
+			}			
+			
 			$new_ass->save();
 			
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");

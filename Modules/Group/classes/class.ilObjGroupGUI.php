@@ -550,9 +550,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				ilObjectServiceSettingsGUI::TAG_CLOUD
 			)
 		);
-		
-		include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
-		ilMembershipNotifications::importFromForm($this->object, $this->form);
 			
 		// Save sorting
 		$this->saveSortingSettings($this->form);
@@ -2647,10 +2644,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$mail_all = new ilRadioOption($this->lng->txt('grp_mail_all'),  ilObjGroup::MAIL_ALLOWED_ALL,
 				$this->lng->txt('grp_mail_all_info'));
 			$mail_type->addOption($mail_all);
-			$this->form->addItem($mail_type);
-			
-			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
-			ilMembershipNotifications::addToSettingsForm($this->object, $this->form);
+			$this->form->addItem($mail_type);			
 		}
 		
 		switch($a_mode)
