@@ -37,4 +37,7 @@
 	<copage>
 		<pageobject parent_type="lobj" class_name="ilLOPage" directory="classes/Objectives"/>	
 	</copage>
+	<mailtemplates>
+		<context id="crs_context_manual" class="ilCourseMailTemplateContext" />
+	</mailtemplates>
 </module>
