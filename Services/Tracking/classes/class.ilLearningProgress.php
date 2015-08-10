@@ -68,10 +68,10 @@ class ilLearningProgress
 		foreach($events as $row)
 		{
 			$tmp_date = new ilDateTime($row['last_access'],IL_CAL_UNIX);
-			$row['last_access'] = $tmp_date->get(IL_CAL_TIMESTAMP);
+			$row['last_access'] = $tmp_date->get(IL_CAL_UNIX);
 			
 			$tmp_date = new ilDateTime($row['first_access'],IL_CAL_DATETIME);
-			$row['first_access'] = $tmp_date->get(IL_CAL_TIMESTAMP);
+			$row['first_access'] = $tmp_date->get(IL_CAL_UNIX);
 			
 			if ($progress)
 			{

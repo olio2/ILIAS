@@ -101,11 +101,11 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the 
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 common#:#no_gallery_users_available#:#There are currently no users in the gallery.
-membership#:#mem_force_notification#:#Notification
-membership#:#mem_force_notification_mode_self#:#Each member decides about notification
-membership#:#mem_force_notification_mode_blocked#:#Notification activated for all members
+membership#:#mem_force_notification#:#Notification per Mail
+membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation
+membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically 
 membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Member is allowed to deactivate
+membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
 membership#:#mem_force_notification_mode_custom#:#Custom
 crs#:#crs_mem_contact#:#Support Contact
 awrn#:#awareness_now_online#:#Online Now
@@ -218,3 +218,9 @@ trac#:#trac_mode_visited_pages_info#:#Users who visited all pages will gain the 
 crs#:#crs_mail_context_tutor_title#:#Course Tutor 
 crs#:#crs_mail_context_member_title#:#Course Member
 sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress
+cmps#:#cmps_uninstall#:#Uninstall
+cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s"?
+cmps#:#cmps_plugin_uninstalled#:#The plugin has been uninstalled.
+common#:#settings_for_all_members#:#Members will be notified automatically 
+common#:#settings_per_users#:#For each member individual settings can be made 
+forum#:#user_decides_notification#:#Members have to manually activate notifications

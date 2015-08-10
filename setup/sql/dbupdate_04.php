@@ -5883,8 +5883,3 @@ $ilDB->manipulate("UPDATE style_data SET ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-<#4481>
-<?php
-require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServer.php');
-ilMemcacheServer::installDB();
-?>
