@@ -162,8 +162,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 					$progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
 					if(isset($progress['access_time_min']))
 					{
-						include_once './Services/Utilities/classes/class.ilFormat.php';
-						return ilFormat::_secondsToString($progress['access_time_min']);					
+						return ilDatePresentation::formatDate(new ilDateTime($progress['access_time_min'], IL_CAL_UNIX));				
 					}
 				}
 				break;
@@ -175,8 +174,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 					$progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
 					if(isset($progress['access_time']))
 					{
-						include_once './Services/Utilities/classes/class.ilFormat.php';
-						return ilFormat::_secondsToString($progress['access_time']);					
+						return ilDatePresentation::formatDate(new ilDateTime($progress['access_time'], IL_CAL_UNIX));							
 					}
 				}
 				break;
