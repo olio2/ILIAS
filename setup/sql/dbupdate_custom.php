@@ -849,3 +849,8 @@ if(!$ilDB->numRows($res))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#53>
+<?php
+require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServer.php');
+ilMemcacheServer::installDB();
+?>

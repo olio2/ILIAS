@@ -216,3 +216,9 @@ exc#:#exc_crit_cat_protected_assignment#:#Aktives Peer-Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Kriterienkataloge von Übungseinheiten mit aktivem Peer-Feedback können nicht mehr bearbeitet werden.
 trac#:#trac_mode_visited_pages#:#Besuchte Seiten
 trac#:#trac_mode_visited_pages_info#:#Nutzer, die alle Seiten besucht haben, erhalten den Status 'Bearbeitet'.
+crs#:#crs_mail_context_tutor_title#:#Kurs-Tutor
+crs#:#crs_mail_context_member_title#:#Kurs-Mitglied
+sahs#:#sahs_mail_context_lp#:#SCORM Lernfortschritt
+cmps#:#cmps_uninstall#:#Deinstallieren
+cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin "%s" deinstallieren? 
+cmps#:#cmps_plugin_uninstalled#:#Das Plugin wurde deinstalliert.

@@ -115,25 +115,38 @@ class ilObjCourseGUI extends ilContainerGUI
 			));
 		}
 		
-
 		if (!count($_POST["member"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			$this->membersObject();
 			return false;
 		}
+		
 		foreach($_POST["member"] as $usr_id)
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
+		
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'members',
-			array(), 
-			array(
-				'type' => 'new', 
-				'rcp_to' => implode(',',$rcps),
-				'sig'	=> $this->createMailSignature()
-		)));
+		include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
+		
+		ilUtil::redirect(
+			ilMailFormCall::getRedirectTarget(
+				$this, 
+				'members',
+				array(),
+				array(
+					'type'   => 'new',
+					'rcp_to' => implode(',',$rcps),
+					'sig' => $this->createMailSignature()
+				),
+				array(
+					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+					'ref_id' => $this->object->getRefId(),
+					'ts'     => time()
+				)
+			)
+		);		
 	}
 	
 	/**
@@ -390,8 +403,22 @@ class ilObjCourseGUI extends ilContainerGUI
 			foreach ($emails as $email) {
 				$email = trim($email);
 				$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
-                $etpl->setVariable("EMAIL_LINK", ilMailFormCall::getLinkTarget($info, 'showSummary', array(),
-					array('type' => 'new', 'rcp_to' => $email,'sig' => $this->createMailSignature())));
+				$etpl->setVariable(
+					"EMAIL_LINK",
+					ilMailFormCall::getLinkTarget(
+						$info, 'showSummary', array(),
+						array(
+							'type'   => 'new',
+							'rcp_to' => $email,
+							'sig' => $this->createMailSignature()
+						),
+						array(
+							ilMailFormCall::CONTEXT_KEY => 'crs_context_member_manual',
+							'ref_id' => $this->object->getRefId(),
+							'ts'     => time()
+						)
+					)
+				);
 				$etpl->setVariable("CONTACT_EMAIL", $email);				
 				$mailString .= $etpl->get()."<br />";
 			}
@@ -3989,7 +4016,38 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, $b_cmd, array(), array('type' => 'role', 'sig' => $this->createMailSignature())));
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), TRUE))
+		{
+			$context_tpl = 'crs_context_tutor_manual';
+		}
+		else
+		{
+			$context_tpl = 'crs_context_member_manual';
+		}
+		
+		$this->tpl->setVariable(
+			"MAILACTION",
+			ilMailFormCall::getLinkTarget(
+				$this, 
+				$b_cmd,
+				array(),
+				array(
+					'type'   => 'role',
+					'sig' => $this->createMailSignature()
+				),
+				array(
+					ilMailFormCall::CONTEXT_KEY => $context_tpl,
+					'ref_id' => $this->object->getRefId(),
+					'ts'     => time()
+				)
+			)
+		);
+		
+		
+		
+		#$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, $b_cmd, array(), array('type' => 'role', 'sig' => $this->createMailSignature())));
 		$this->tpl->setVariable("SELECT_ACTION",'ilias.php?baseClass=ilmailgui&view=my_courses&search_crs='.$this->object->getId());
 		$this->tpl->setVariable("MAIL_SELECTED",$this->lng->txt('send_mail_selected'));
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));

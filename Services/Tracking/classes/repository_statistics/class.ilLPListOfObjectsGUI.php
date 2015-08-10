@@ -83,7 +83,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->forwardCommand($table_gui);
 				break;
 
-			default:
+			default:		
 			    $cmd = $this->__getDefaultCommand();
 				$this->$cmd();
 		}
