@@ -4,14 +4,14 @@
 include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
 
 /**
- * Handles course mail placeholders
+ * Handles scorm mail placeholders
  * 
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @package ModulesCourse
  */
-class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
+class ilScormMailTemplateLPContext extends ilMailTemplateContext
 {
-	const ID = 'crs_context_tutor_manual';
+	const ID = 'sahs_context_lp';
 	
 	/**
 	 * @return string
@@ -28,9 +28,9 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 	{
 		global $lng;
 		
-		$lng->loadLanguageModule('crs');
+		$lng->loadLanguageModule('sahs');
 		
-		return $lng->txt('crs_mail_context_tutor_title');
+		return $lng->txt('sahs_mail_context_lp');
 	}
 
 	/**
@@ -43,8 +43,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 		 * @var $lng ilLanguage
 		 */
 		global $lng;
-
-		$lng->loadLanguageModule('crs');
+		
 		$lng->loadLanguageModule('trac');
 		
 		// tracking settings
@@ -55,46 +54,46 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 		$placeholders = array();
 		
 		
-		$placeholders['crs_title'] = array(
-			'placeholder'	=> 'COURSE_TITLE',
-			'label'			=> $lng->txt('crs_title')
+		$placeholders['sahs_title'] = array(
+			'placeholder'	=> 'SCORM_TITLE',
+			'label'			=> $lng->txt('obj_sahs')
 		);
 		
-		$placeholders['crs_status'] = array(
-			'placeholder'	=> 'COURSE_STATUS',
+		$placeholders['sahs_status'] = array(
+			'placeholder'	=> 'SCORM_STATUS',
 			'label'			=> $lng->txt('trac_status')
 		);
 
-		$placeholders['crs_mark'] = array(
-			'placeholder'	=> 'COURSE_MARK',
+		$placeholders['sahs_mark'] = array(
+			'placeholder'	=> 'SCORM_MARK',
 			'label'			=> $lng->txt('trac_mark')
 		);
 		
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
 		{
-			$placeholders['crs_time_spent'] = array(
-				'placeholder'	=> 'COURSE_TIME_SPENT',
+			$placeholders['sahs_time_spent'] = array(
+				'placeholder'	=> 'SCORM_TIME_SPENT',
 				'label'			=> $lng->txt('trac_spent_seconds')
 			);
 		}
 		
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
 		{		
-			$placeholders['crs_first_access'] = array(
-				'placeholder'	=> 'COURSE_FIRST_ACCESS',
+			$placeholders['sahs_first_access'] = array(
+				'placeholder'	=> 'SCORM_FIRST_ACCESS',
 				'label'			=> $lng->txt('trac_first_access')
 			);
 
-			$placeholders['crs_last_access'] = array(
-				'placeholder'	=> 'COURSE_LAST_ACCESS',
+			$placeholders['sahs_last_access'] = array(
+				'placeholder'	=> 'SCORM_LAST_ACCESS',
 				'label'			=> $lng->txt('trac_last_access')
 			);
 		}
 
 
-		$placeholders['crs_link'] = array(
-			'placeholder'	=> 'COURSE_LINK',
-			'label'			=> $lng->txt('crs_mail_permanent_link')
+		$placeholders['sahs_link'] = array(
+			'placeholder'	=> 'SCORM_LINK',
+			'label'			=> $lng->txt('perma_link')
 		);
 		
 		return $placeholders;
@@ -121,14 +120,14 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 		
 		switch($placeholder_id)
 		{
-			case 'crs_title':
+			case 'sahs_title':
 				return $ilObjDataCache->lookupTitle($obj_id);
 				
-			case 'crs_link':		
+			case 'sahs_link':		
 				require_once './Services/Link/classes/class.ilLink.php';
-				return ilLink::_getLink($context_parameters['ref_id'], 'crs');	
+				return ilLink::_getLink($context_parameters['ref_id'], 'sahs');	
 			
-			case 'crs_status':
+			case 'sahs_status':
 				include_once './Services/Tracking/classes/class.ilLPStatus.php';			
 				include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 				$status = ilLPStatus::_lookupStatus($obj_id, $recipient->getId());	
@@ -138,12 +137,12 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 				}
 				return ilLearningProgressBaseGUI::_getStatusText($status);								
 				
-			case 'crs_mark':				
+			case 'sahs_mark':				
 				include_once './Services/Tracking/classes/class.ilLPMarks.php';
 				$mark = ilLPMarks::_lookupMark($recipient->getId(), $obj_id);
 				return strlen(trim($mark)) ? $mark : '-';
 				
-			case 'crs_time_spent':		
+			case 'sahs_time_spent':		
 				if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
 				{
 					include_once './Services/Tracking/classes/class.ilLearningProgress.php';
@@ -156,7 +155,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 				}
 				break;
 				
-			case 'crs_first_access':		
+			case 'sahs_first_access':		
 				if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
 				{
 					include_once './Services/Tracking/classes/class.ilLearningProgress.php';
@@ -169,7 +168,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 				}
 				break;
 				
-			case 'crs_last_access':		
+			case 'sahs_last_access':		
 				if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
 				{
 					include_once './Services/Tracking/classes/class.ilLearningProgress.php';

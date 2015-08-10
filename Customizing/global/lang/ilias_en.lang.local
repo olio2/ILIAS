@@ -215,3 +215,6 @@ exc#:#exc_crit_cat_protected_assignment#:#Active Peer Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Criteria catalogues of assignments with active peer feedback cannot be edited anymore.
 trac#:#trac_mode_visited_pages#:#Visited Pages
 trac#:#trac_mode_visited_pages_info#:#Users who visited all pages will gain the status ‘Completed’.
+crs#:#crs_mail_context_tutor_title#:#Course Tutor 
+crs#:#crs_mail_context_member_title#:#Course Member
+sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress

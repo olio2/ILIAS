@@ -115,17 +115,18 @@ class ilObjCourseGUI extends ilContainerGUI
 			));
 		}
 		
-
 		if (!count($_POST["member"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			$this->membersObject();
 			return false;
 		}
+		
 		foreach($_POST["member"] as $usr_id)
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
+		
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
 		
@@ -145,16 +146,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					'ts'     => time()
 				)
 			)
-		);
-		
-		
-		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'members',
-			array(), 
-			array(
-				'type' => 'new', 
-				'rcp_to' => implode(',',$rcps),
-				'sig'	=> $this->createMailSignature()
-		)));
+		);		
 	}
 	
 	/**
