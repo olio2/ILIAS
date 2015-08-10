@@ -11,12 +11,14 @@ include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
  */
 class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 {
+	const ID = 'crs_context_member_manual';
+	
 	/**
 	 * @return string
 	 */
 	public function getId()
 	{
-		return 'crs_context_member_manual';
+		return self::ID;
 	}
 
 	/**

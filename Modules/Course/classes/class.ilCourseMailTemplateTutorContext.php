@@ -11,12 +11,14 @@ include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
  */
 class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 {
+	const ID = 'crs_context_tutor_manual';
+	
 	/**
 	 * @return string
 	 */
 	public function getId()
 	{
-		return 'crs_context_tutor_manual';
+		return self::ID;
 	}
 
 	/**
@@ -43,26 +45,58 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 		global $lng;
 
 		$lng->loadLanguageModule('crs');
+		$lng->loadLanguageModule('trac');
+		
+		// tracking settings
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+		$tracking = new ilObjUserTracking();
+		
 
 		$placeholders = array();
+		
 		
 		$placeholders['crs_title'] = array(
 			'placeholder'	=> 'COURSE_TITLE',
 			'label'			=> $lng->txt('crs_title')
 		);
 		
+		$placeholders['crs_status'] = array(
+			'placeholder'	=> 'COURSE_STATUS',
+			'label'			=> $lng->txt('trac_status')
+		);
+
+		$placeholders['crs_mark'] = array(
+			'placeholder'	=> 'COURSE_MARK',
+			'label'			=> $lng->txt('trac_mark')
+		);
 		
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+		{
+			$placeholders['crs_time_spent'] = array(
+				'placeholder'	=> 'COURSE_TIME_SPENT',
+				'label'			=> $lng->txt('trac_spent_seconds')
+			);
+		}
 		
-		
-		$placeholders['crs_title'] = array(
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+		{		
+			$placeholders['crs_first_access'] = array(
+				'placeholder'	=> 'COURSE_FIRST_ACCESS',
+				'label'			=> $lng->txt('trac_first_access')
+			);
+
+			$placeholders['crs_last_access'] = array(
+				'placeholder'	=> 'COURSE_LAST_ACCESS',
+				'label'			=> $lng->txt('trac_last_access')
+			);
+		}
+
+
+		$placeholders['crs_link'] = array(
 			'placeholder'	=> 'COURSE_LINK',
 			'label'			=> $lng->txt('crs_mail_permanent_link')
 		);
 		
-		
-		
-		
-
 		return $placeholders;
 	}
 
@@ -79,17 +113,62 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 		 * @var $ilObjDataCache ilObjectDataCache
 		 */
 		global $ilObjDataCache;
+		
+		$obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
+		
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+		$tracking = new ilObjUserTracking();
+		
 
-		if('crs_title' == $placeholder_id)
+		if($placeholder_id == 'crs_title')
 		{
-			return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+			return $ilObjDataCache->lookupTitle($obj_id);
 		}
-		else if('crs_link' == $placeholder_id)
+		elseif($placeholder_id == 'crs_link')
 		{
 			require_once './Services/Link/classes/class.ilLink.php';
 			return ilLink::_getLink($context_parameters['ref_id'], 'crs');
+		}
+		elseif($placeholder_id == 'crs_mark')
+		{
+			include_once './Services/Tracking/classes/class.ilLPMarks.php';
+			$mark = ilLPMarks::_lookupMark($recipient->getId(),$obj_id);
+			return strlen(trim($mark)) ? $mark : '-';
+					
+		}
+		elseif($placeholder_id == 'crs_time_spent')
+		{
+			if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+			{
+				include_once './Services/Tracking/classes/class.ilLearningProgress.php';
+				$progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
+				if(isset($progress['spent_seconds']))
+				{
+					include_once './Services/Utilities/classes/class.ilFormat.php';
+					return ilFormat::_secondsToString($progress['spent_seconds']);
+				}
+			}
+		}
+		elseif($placeholder_id == 'crs_first_access')
+		{
+			if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+			{
+				include_once './Services/Tracking/classes/class.ilLearningProgress.php';
+				$progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
+				
+			}
+			
+		}
+		elseif($placeholder_id == 'crs_last_access')
+		{
+			if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+			{
+				
+			}
+			
 		}
 
 		return '';
 	}
 }
+?>
