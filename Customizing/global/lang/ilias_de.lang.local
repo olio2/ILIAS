@@ -219,3 +219,6 @@ trac#:#trac_mode_visited_pages_info#:#Nutzer, die alle Seiten besucht haben, erh
 crs#:#crs_mail_context_tutor_title#:#Kurs-Tutor
 crs#:#crs_mail_context_member_title#:#Kurs-Mitglied
 sahs#:#sahs_mail_context_lp#:#SCORM Lernfortschritt
+cmps#:#cmps_uninstall#:#Deinstallieren
+cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin "%s" deinstallieren? 
+cmps#:#cmps_plugin_uninstalled#:#Das Plugin wurde deinstalliert.
