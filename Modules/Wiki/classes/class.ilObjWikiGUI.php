@@ -1292,6 +1292,9 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $tpl, $lng, $ilAccess, $ilCtrl;
 
+		$tpl->addJavaScript("./Modules/Wiki/js/WikiPres.js");
+		$tpl->addOnLoadCode("il.Wiki.Pres.init('".$ilCtrl->getLinkTargetByClass("ilobjwikigui", "", "", true, false)."');");
+
 		if ($a_wpg_id > 0 && !$a_wp)
 		{
 			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
@@ -2010,6 +2013,28 @@ class ilObjWikiGUI extends ilObjectGUI
 			return ilWikiPerm::check($a_perm, $a_ref_id, $a_cmd);
 		}
 	}
+
+	/**
+	 * Export html (as user)
+	 *
+	 * @param
+	 * @return
+	 */
+	function exportHTMLUserObject()
+	{
+		//sleep(5);
+		//ilUtil::deliverFile("ilias.ini.php", "ilias.ini.php");
+	}
+
+	/**
+	 * Get user html export progress
+	 */
+	function getUserHTMLExportProgressObject()
+	{
+		echo "<div>".rand(1,20)."</div>";
+		exit;
+	}
+
 
 }
 
