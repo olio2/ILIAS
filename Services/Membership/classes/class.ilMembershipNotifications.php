@@ -224,9 +224,17 @@ class ilMembershipNotifications
 	{		
 		global $ilDB;
 		
-		$users = array();
+		$users = $all = array();
 		
-		$all = $this->getParticipants()->getParticipants();
+		$part_obj = $this->getParticipants();
+		if($part_obj)
+		{		
+			$all = $part_obj->getParticipants();
+		}
+		if(!sizeof($all))
+		{
+			return array();
+		}
 		
 		switch($this->getMode())
 		{
@@ -458,10 +466,12 @@ class ilMembershipNotifications
 	{
 		global $ilDB, $tree;
 		
-		$objects = array();
+		$res = array();
 				
 		if(self::isActive())
-		{						
+		{			
+			$objects = array();
+			
 			// user-preference data (MODE_SELF) 																		
 			$set = $ilDB->query("SELECT DISTINCT(keyword) keyword".
 				" FROM usr_pref".
@@ -491,13 +501,13 @@ class ilMembershipNotifications
 					$active = $noti->getActiveUsers();
 					if(sizeof($active))
 					{
-						$objects[$ref_id] = $active;
+						$res[$ref_id] = $active;
 					}
 				}
 			}
 		}
 		
-		return $objects;		
+		return $res;		
 	}
 	
 	
