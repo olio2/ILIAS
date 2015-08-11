@@ -109,18 +109,21 @@ class ilMembershipCronNotifications extends ilCronJob
 			// send mails (1 max for each user)
 			
 			$old_lng = $lng;
+			$old_dt = ilDatePresentation::useRelativeDates();
+			ilDatePresentation::setUseRelativeDates(false);
 
 			if(sizeof($user_news_aggr))
 			{
 				foreach($user_news_aggr as $user_id => $user_news)
 				{
-					$this->sendMail($user_id, $user_news);
+					$this->sendMail($user_id, $user_news, $last_run);
 				}
 			
 				// mails were sent - set cron job status accordingly
 				$status = ilCronJobResult::STATUS_OK;							
 			}
 
+			ilDatePresentation::setUseRelativeDates($old_dt);
 			$lng = $old_lng;
 		}
 
@@ -138,15 +141,82 @@ class ilMembershipCronNotifications extends ilCronJob
 		return $result;
 	}
 
+	protected function parseNewsItem(array $a_item, $a_is_sub = false)
+	{
+		global $lng;
+		
+		if(!$a_is_sub)
+		{
+			$title = ilNewsItem::determineNewsTitle(
+				$a_item["context_obj_type"],
+				$a_item["title"], 
+				$a_item["content_is_lang_var"], 
+				$a_item["agg_ref_id"], 
+				$a_item["aggregation"]
+			);					
+		}
+		else
+		{
+			$title = ilNewsItem::determineNewsTitle(
+				$a_item["context_obj_type"],
+				$a_item["title"], 
+				$a_item["content_is_lang_var"]
+			);										
+		}
+		
+		$content = ilNewsItem::determineNewsContent(
+			$a_item["context_obj_type"], 
+			$a_item["content"], 
+			$a_item["content_text_is_lang_var"]
+		);			
+		$item_obj_title = ilObject::_lookupTitle($a_item["context_obj_id"]);	
+		$item_obj_type = $a_item["context_obj_type"];					
+			
+		$res =  $lng->txt("obj_".$item_obj_type).
+			' "'.$item_obj_title.'"';	
+		
+		if($item_obj_type != "file")
+		{
+			if(trim($title))
+			{
+				$res .= ': "'.$title.'"';
+			}
+			if(trim($content))
+			{
+				$res .= ' - '.$content;
+			}
+		}
+		else
+		{
+			$res .= ' - '.$title;
+		}		
+		$res = "* ".$res;
+		
+		// sub-items
+		$sub = null;
+		if($item_obj_type != "file" &&
+			$a_item["aggregation"])
+		{		
+			$sub = array();
+			foreach($a_item["aggregation"] as $subitem)
+			{								
+				$res .= "** ".$this->parseNewsItem($subitem, true);
+			}
+		}
+	
+		return $res;
+	}
+
 	/**
 	 * Send news mail for 1 user and n objects
 	 *
 	 * @param int $a_user_id
 	 * @param array $a_objects
+	 * @param string $a_last_run
 	 */
-	protected function sendMail($a_user_id, array $a_objects)
+	protected function sendMail($a_user_id, array $a_objects, $a_last_run)
 	{
-		global $lng, $ilUser, $ilClientIniFile;
+		global $lng, $ilUser, $ilClientIniFile, $tree;
 		
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();		
@@ -159,67 +229,92 @@ class ilMembershipCronNotifications extends ilCronJob
 		// user specific language
 		$lng = $ntf->getUserLanguage($a_user_id);
 		
-		$txt = "";		
-		$object_counter = 0;
+		include_once './Services/Locator/classes/class.ilLocatorGUI.php';			
+		require_once "HTML/Template/ITX.php";
+		require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
+		require_once "./Services/UICore/classes/class.ilTemplate.php";
+		require_once "./Services/Link/classes/class.ilLink.php";
+				
+		$tmp = array();
 		foreach($a_objects as $parent_ref_id => $news)
-		{			
-			$object_counter++;
+		{						
+			$parent = array();
 			
-			if($object_counter > 1)
+			// path		
+			$path = array();
+			foreach($tree->getPathId($parent_ref_id) as $node)
 			{
-				$txt .= "\n\n".$ntf->getBlockBorder();				
-			}
+				$path[] = $node;
+			}			
+			$path = implode("-", $path);		
 			
-			$parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
-			$parent_obj_type = ilObject::_lookupType($parent_obj_id);
-
-			$parent_obj_title = $lng->txt($parent_obj_type)." \"".ilObject::_lookupTitle($parent_obj_id)."\"";	
-			// no single object anymore 
-			// $ntf->setIntroductionDirect(sprintf($lng->txt("crs_intro_course_group_notification_for"), $parent_obj_title));
-			$txt .= "#".$object_counter." ".sprintf($lng->txt("crs_intro_course_group_notification_for"), $parent_obj_title)."\n";
+			$parent_obj_id = ilObject::_lookupObjId($parent_ref_id);			
+			$parent_type = ilObject::_lookupType($parent_obj_id);
 			
-			// no single object anymore - see below
-			// $subject = sprintf($lng->txt("crs_subject_course_group_notification"), $obj_title);
-
-			// news summary					
-			$news_counter = 1;			
+			$parent["title"] = $lng->txt("obj_".$parent_type).' "'.ilObject::_lookupTitle($parent_obj_id).'"';
+			$parent["url"] = "  ".$lng->txt("crs_course_group_notification_link")." ".ilLink::_getStaticLink($parent_ref_id);
+			
+			// news summary		
+			$parsed = array();
 			foreach($news as $item)
 			{
-				$title = ilNewsItem::determineNewsTitle($item["context_obj_type"],
-					$item["title"], $item["content_is_lang_var"], $item["agg_ref_id"], 
-					$item["aggregation"]);
-				$content = ilNewsItem::determineNewsContent($item["context_obj_type"], 
-					$item["content"], $item["content_text_is_lang_var"]);
-
-				$item_obj_id = ilObject::_lookupObjId($item["ref_id"]);
-				$item_obj_title = ilObject::_lookupTitle($item_obj_id);
-
-				// path
-				include_once './Services/Locator/classes/class.ilLocatorGUI.php';			
-				$cont_loc = new ilLocatorGUI();
-				$cont_loc->addContextItems($item["ref_id"], true);
-				$cont_loc->setTextOnly(true);
-
-				// #9954/#10044
-				require_once "HTML/Template/ITX.php";
-				require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
-				require_once "./Services/UICore/classes/class.ilTemplate.php";
-				$loc = "[".$cont_loc->getHTML()."]";
-				
-				$txt .= $ntf->getBlockBorder();				
-				$txt .= '#'.$object_counter.".".$news_counter." - ".$loc." ".$item_obj_title."\n\n";
-				$txt .= $title;
-				if($content)
-				{
-					$txt .= "\n".$content;
-				}			
-				$txt .= "\n\n";
-
-				$news_counter++;
-			}			
+				$parsed[] = $this->parseNewsItem($item);				
+			}	
+			$parent["news"] = implode("\n", $parsed);
+			
+			$tmp[$path] = $parent;										
 		}
 		
-		$ntf->addAdditionalInfo("news", $txt, true);
+		ksort($tmp);
+		$counter = $parent = $obj_index = array();
+		foreach($tmp as $path => $item)
+		{
+			$parts = explode("-", $path);						
+			$level = sizeof($parts)-1;
+			array_pop($parts);
+			foreach($parts as $idx => $node)
+			{
+				$node = (int)$node;
+				if(!isset($parent[$idx]) ||
+					$parent[$idx] != $node)
+				{
+					$counter[$idx] = 1;					
+					$parent[$idx] = $node;
+				}		
+				else
+				{
+					$counter[$idx]++;
+				}
+			}				
+			$parent = array_splice($parent, 0, sizeof($parts));
+			
+			$idx = array();
+			for($loop = 1; $loop <= $level; $loop++)
+			{				
+				$idx[] = $counter[$level-1];
+			}
+			
+			$txt .= implode(".", $idx)." ".$item["title"]."\n".
+				$item["url"]."\n\n".
+				$item["news"]."\n\n";
+			
+			$obj_index[] = implode(".", $idx)." ".$item["title"];
+		}				
+		
+		$intro = $lng->txt("crs_intro_course_group_notification_for")."\n".
+			sprintf(
+				$lng->txt("crs_intro_course_group_notification_period"), 
+				ilDatePresentation::formatDate(new ilDateTime($a_last_run, IL_CAL_DATETIME)),
+				ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
+			);		
+		
+		$ntf->setIntroductionDirect($intro);
+		$ntf->addAdditionalInfo("crs_intro_course_group_notification_index", 
+			trim(implode("\n", $obj_index)),
+			true);
+		$ntf->addAdditionalInfo("", 
+			trim($txt), 
+			true);
 		
 		// :TODO: does it make sense to add client to subject?
 		$client = $ilClientIniFile->readVariable('client', 'name');
