@@ -854,3 +854,54 @@ $ilCtrlStructureReader->getStructure();
 require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServer.php');
 ilMemcacheServer::installDB();
 ?>
+<#54>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$wiki_type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
+if($wiki_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('edit_wiki_navigation', 'Edit Wiki Navigation', 'object', 3220);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($wiki_type_id, $new_ops_id);
+	}
+}
+?>
+<#55>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$wiki_type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
+if($wiki_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('delete_wiki_pages', 'Delete Wiki Pages', 'object', 3300);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($wiki_type_id, $new_ops_id);
+	}
+}
+
+?>
+<#56>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$wiki_type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
+if($wiki_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('activate_wiki_protection', 'Set Read-Only', 'object', 3240);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($wiki_type_id, $new_ops_id);
+	}
+}
+
+?>
+<#57>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
