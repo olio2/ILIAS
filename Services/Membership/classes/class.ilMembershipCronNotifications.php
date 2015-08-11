@@ -265,40 +265,17 @@ class ilMembershipCronNotifications extends ilCronJob
 			$tmp[$path] = $parent;										
 		}
 		
-		ksort($tmp);
-		$counter = $parent = $obj_index = array();
+		$counter = 0;
+		$obj_index = array();
 		foreach($tmp as $path => $item)
-		{
-			$parts = explode("-", $path);						
-			$level = sizeof($parts)-1;
-			array_pop($parts);
-			foreach($parts as $idx => $node)
-			{
-				$node = (int)$node;
-				if(!isset($parent[$idx]) ||
-					$parent[$idx] != $node)
-				{
-					$counter[$idx] = 1;					
-					$parent[$idx] = $node;
-				}		
-				else
-				{
-					$counter[$idx]++;
-				}
-			}				
-			$parent = array_splice($parent, 0, sizeof($parts));
+		{			
+			$counter++;
 			
-			$idx = array();
-			for($loop = 1; $loop <= $level; $loop++)
-			{				
-				$idx[] = $counter[$level-1];
-			}
-			
-			$txt .= implode(".", $idx)." ".$item["title"]."\n".
+			$txt .= $counter." ".$item["title"]."\n".
 				$item["url"]."\n\n".
 				$item["news"]."\n\n";
 			
-			$obj_index[] = implode(".", $idx)." ".$item["title"];
+			$obj_index[] = $counter." ".$item["title"];
 		}				
 		
 		$intro = $lng->txt("crs_intro_course_group_notification_for")."\n".
