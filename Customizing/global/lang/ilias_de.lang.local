@@ -229,3 +229,5 @@ rbac#:#edit_wiki_navigation#:#Navigation bearbeiten
 rbac#:#delete_wiki_pages#:#Seite löschen
 rbac#:#activate_wiki_protection#:#Schreibschutz aktivieren
 obj#:#obj_permission_settings#:#Permission Settings
+rbac#:#wiki_html_export#:#HTML exportieren
+wiki#:#wiki_html_export#:#HTML exportieren

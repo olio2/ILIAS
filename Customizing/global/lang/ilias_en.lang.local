@@ -229,3 +229,5 @@ rbac#:#delete_wiki_pages#:#Delete Pages
 rbac#:#activate_wiki_protection#:#Set Read-Only
 obj#:#obj_permission_settings#:#Permission Settings
 rbac#:#rbac_permissions#:#Permissions
+rbac#:#wiki_html_export#:#Export HTML
+wiki#:#wiki_html_export#:#HTML exportieren

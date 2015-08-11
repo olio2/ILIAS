@@ -905,3 +905,53 @@ if($wiki_type_id)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#58>
+<?php
+	if(!$ilDB->tableExists('wiki_user_html_export') )
+	{
+		$ilDB->createTable('wiki_user_html_export', array(
+			'wiki_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'usr_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'progress' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'start_ts' => array(
+				'type' => 'timestamp',
+				'notnull' => false
+			),
+			'status' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true,
+				'default' => 0
+			)
+		));
+		$ilDB->addPrimaryKey('wiki_user_html_export', array('wiki_id'));
+	}
+?>
+<#59>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$wiki_type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
+if($wiki_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('wiki_html_export', 'Wiki HTML Export', 'object', 3242);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($wiki_type_id, $new_ops_id);
+	}
+}
+
+?>
