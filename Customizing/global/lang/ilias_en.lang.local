@@ -224,6 +224,13 @@ cmps#:#cmps_plugin_uninstalled#:#The plugin has been uninstalled.
 common#:#settings_for_all_members#:#Members will be notified automatically 
 common#:#settings_per_users#:#For each member individual settings can be made 
 forum#:#user_decides_notification#:#Members have to manually activate notifications
+rbac#:#edit_wiki_navigation#:#Edit Navigation
+rbac#:#delete_wiki_pages#:#Delete Pages
+rbac#:#activate_wiki_protection#:#Set Read-Only
+obj#:#obj_permission_settings#:#Permission Settings
+rbac#:#rbac_permissions#:#Permissions
+rbac#:#wiki_html_export#:#Export HTML
+wiki#:#wiki_html_export#:#HTML exportieren
 crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your courses and groups, which have an active notification.
 crs#:#crs_intro_course_group_notification_period#:#This mail summarizes news from %1$s to %2$s.
 crs#:#crs_intro_course_group_notification_title#:#There are news for the following courses and groups:
