@@ -224,4 +224,8 @@ cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin "%s" deinstallier
 cmps#:#cmps_plugin_uninstalled#:#Das Plugin wurde deinstalliert.
 common#:#settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
 common#:#settings_per_users#:#Für jedes Mitglied können individuelle Voreinstellungen getroffen werden
-forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren 
+forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
+rbac#:#edit_wiki_navigation#:#Navigation bearbeiten
+rbac#:#delete_wiki_pages#:#Seite löschen
+rbac#:#activate_wiki_protection#:#Schreibschutz aktivieren
+obj#:#obj_permission_settings#:#Permission Settings
