@@ -169,42 +169,81 @@ class ilMembershipCronNotifications extends ilCronJob
 			$a_item["content"], 
 			$a_item["content_text_is_lang_var"]
 		);			
-		$item_obj_title = ilObject::_lookupTitle($a_item["context_obj_id"]);	
+		$item_obj_title = trim(ilObject::_lookupTitle($a_item["context_obj_id"]));	
 		$item_obj_type = $a_item["context_obj_type"];					
 			
-		$res =  $lng->txt("obj_".$item_obj_type).
-			' "'.$item_obj_title.'"';	
+		$title = trim($title);
+		$content = trim($content);
 		
-		if($item_obj_type != "file")
+		$res = "";
+		switch($item_obj_type)
 		{
-			if(trim($title))
-			{
-				$res .= ': "'.$title.'"';
-			}
-			if(trim($content))
-			{
-				$res .= ' - '.$content;
-			}
-		}
-		else
-		{
-			$res .= ' - '.$title;
+			case "frm":
+				if(!$a_is_sub)
+				{
+					$res =  $lng->txt("obj_".$item_obj_type).
+						' "'.$item_obj_title.'": '.$title;	
+				}
+				else
+				{
+					$res .= '"'.$title.'": "'.$content.'"';
+				}
+				break;
+				
+			case "file":
+				if(!is_array($a_item["aggregation"]) ||
+					sizeof($a_item["aggregation"]) == 1)
+				{
+					$res =  $lng->txt("obj_".$item_obj_type).
+						' "'.$item_obj_title.'" - '.$title;	
+				}
+				else
+				{
+					$res = $title;
+				}
+				break;
+				
+			default:					
+				$res =  $lng->txt("obj_".$item_obj_type).
+					' "'.$item_obj_title.'"';	
+				if($title)
+				{
+					$res .= ': "'.$title.'"';
+				}
+				if($content)
+				{
+					$res .= ' - '.$content;
+				}
+				break;
 		}		
-		$res = "* ".$res;
+		if($res)
+		{
+			$res = $a_is_sub 
+				? "- ".$res
+				: "* ".$res;
+		}
 		
 		// sub-items
 		$sub = null;
-		if($item_obj_type != "file" &&
-			$a_item["aggregation"])
-		{		
-			$sub = array();
-			foreach($a_item["aggregation"] as $subitem)
-			{								
-				$res .= "** ".$this->parseNewsItem($subitem, true);
+		if($a_item["aggregation"])
+		{				
+			$do_sub = true;			
+			if($item_obj_type == "file" &&
+				sizeof($a_item["aggregation"]) == 1)
+			{
+				$do_sub = false;
+			}										
+			if($do_sub)
+			{
+				$sub = array();						
+				foreach($a_item["aggregation"] as $subitem)
+				{								
+					$res .= "\n ".$this->parseNewsItem($subitem, true);
+				}	
 			}
 		}
 	
-		return $res;
+		return trim($res);
 	}
 
 	/**
@@ -258,7 +297,9 @@ class ilMembershipCronNotifications extends ilCronJob
 			$parsed = array();
 			foreach($news as $item)
 			{
-				$parsed[] = $this->parseNewsItem($item);				
+				// each news item only once (e.g. several changes of same wiki page)
+				$parsed_item = $this->parseNewsItem($item);
+				$parsed[md5($parsed_item)] = $parsed_item; 			
 			}	
 			$parent["news"] = implode("\n", $parsed);
 			
