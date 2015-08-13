@@ -88,6 +88,12 @@ abstract class ilLogger
 	 */
 	public function write($a_message, $a_level = ilLogLevel::INFO)
 	{
+		include_once './Services/Logging/classes/public/class.ilLogLevel.php';
+		if(!in_array($a_level, ilLogLevel::getLevels()))
+		{
+			$a_level = ilLogLevel::INFO;
+		}
+		
 		$this->getLogger()->log($a_level, $a_message);
 	}
 
@@ -112,6 +118,13 @@ abstract class ilLogger
 		{
 			$a_level = ilLogLevel::INFO;
 		}
+
+		include_once './Services/Logging/classes/public/class.ilLogLevel.php';
+		if(!in_array($a_level, ilLogLevel::getLevels()))
+		{
+			$a_level = ilLogLevel::INFO;
+		}
+		
 		
 		try {
 			throw new \Exception($a_message);
