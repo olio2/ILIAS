@@ -246,7 +246,7 @@ survey#:#svy_print_label_only#:#Show only labels
 survey#:#svy_print_title_label#:#Show titles and labels
 log#:#log_general_settings#:#Logging Settings
 log#:#log_components#:#Komponenten
-log#:#log_level#:#Log-Level
+log#:#log_log_level#:#Log-Level
 log#:#log_level_debug#:#DEBUG
 log#:#log_level_info#:#INFO
 log#:#log_level_notice#:#NOTICE
