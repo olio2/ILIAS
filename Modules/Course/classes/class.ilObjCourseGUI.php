@@ -11,7 +11,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilShopPurchaseGUI, ilCourseObjectivesGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
@@ -20,7 +20,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI
 *
 * @extends ilContainerGUI
 */
@@ -115,38 +115,25 @@ class ilObjCourseGUI extends ilContainerGUI
 			));
 		}
 		
+
 		if (!count($_POST["member"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			$this->membersObject();
 			return false;
 		}
-		
 		foreach($_POST["member"] as $usr_id)
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
-		
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
-		
-		ilUtil::redirect(
-			ilMailFormCall::getRedirectTarget(
-				$this, 
-				'members',
-				array(),
-				array(
-					'type'   => 'new',
-					'rcp_to' => implode(',',$rcps),
-					'sig' => $this->createMailSignature()
-				),
-				array(
-					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
-					'ref_id' => $this->object->getRefId(),
-					'ts'     => time()
-				)
-			)
-		);		
+		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'members',
+			array(), 
+			array(
+				'type' => 'new', 
+				'rcp_to' => implode(',',$rcps),
+				'sig'	=> $this->createMailSignature()
+		)));
 	}
 	
 	/**
@@ -169,13 +156,13 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function afterImport(ilObject $a_new_object)
 	{
-		global $ilUser;
+		global $ilUser, $ilSetting;
 		
 		// #11895
 		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 		$part = ilCourseParticipants::_getInstanceByObjId($a_new_object->getId());
 		$part->add($ilUser->getId(), ilCourseConstants::CRS_ADMIN);
-		$part->updateNotification($ilUser->getId(), 1);
+		$part->updateNotification($ilUser->getId(), $ilSetting->get('mail_crs_admin_notification', true));
 
 		parent::afterImport($a_new_object);
 	}
@@ -310,6 +297,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $ilErr,$ilAccess, $ilUser, $ilSetting;
 
 		$this->checkPermission('visible');
+		
 		// Fill meta header tags
 		include_once('Services/MetaData/classes/class.ilMDUtils.php');
 		ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'crs');
@@ -403,22 +391,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			foreach ($emails as $email) {
 				$email = trim($email);
 				$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
-				$etpl->setVariable(
-					"EMAIL_LINK",
-					ilMailFormCall::getLinkTarget(
-						$info, 'showSummary', array(),
-						array(
-							'type'   => 'new',
-							'rcp_to' => $email,
-							'sig' => $this->createMailSignature()
-						),
-						array(
-							ilMailFormCall::CONTEXT_KEY => 'crs_context_member_manual',
-							'ref_id' => $this->object->getRefId(),
-							'ts'     => time()
-						)
-					)
-				);
+                $etpl->setVariable("EMAIL_LINK", ilMailFormCall::getLinkTarget($info, 'showSummary', array(),
+					array('type' => 'new', 'rcp_to' => $email,'sig' => $this->createMailSignature())));
 				$etpl->setVariable("CONTACT_EMAIL", $email);				
 				$mailString .= $etpl->get()."<br />";
 			}
@@ -428,27 +402,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$info->addProperty($this->lng->txt("crs_contact_consultation"),
 							   nl2br($this->object->getContactConsultation()));
-		}
-
-
-		// support contacts
-		$parts = ilParticipants::getInstanceByObjId($this->object->getId());
-		$conts = $parts->getContacts();
-		if (count($conts) > 0)
-		{
-			$info->addSection($this->lng->txt("crs_mem_contacts"));
-			foreach ($conts as $c)
-			{
-				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
-				$pgui = new ilPublicUserProfileGUI($c);
-				$pgui->setBackUrl($this->ctrl->getLinkTargetByClass("ilinfoscreengui"));
-				$pgui->setEmbedded(true);
-				$info->addProperty("", $pgui->getHTML());
-			}
-		}
-
-
-
+		}		
 		//	
 		// access
 		//
@@ -570,7 +524,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * :TEMP: Save notification setting (from infoscreen)
 	 */
 	function saveNotificationObject()
-	{		
+	{
 		include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
 		$noti = new ilMembershipNotifications($this->ref_id);
 		if($noti->canCurrentUserEdit())
@@ -974,7 +928,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if($this->object->validate())
 		{
-			$this->object->update();						
+			$this->object->update();
 			
 			// BEGIN ChangeEvent: Record write event
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -992,8 +946,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
-					ilObjectServiceSettingsGUI::TAG_CLOUD,
-					ilObjectServiceSettingsGUI::CUSTOM_METADATA
+					ilObjectServiceSettingsGUI::TAG_CLOUD
 				)
 			);
 			
@@ -1358,8 +1311,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-					ilObjectServiceSettingsGUI::TAG_CLOUD,
-					ilObjectServiceSettingsGUI::CUSTOM_METADATA
+					ilObjectServiceSettingsGUI::TAG_CLOUD
 				)
 			);
 
@@ -1393,6 +1345,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$not->setChecked( $this->object->getAutoNotification() );
 		$form->addItem($not);
 		
+
 		// Further information
 		//$further = new ilFormSectionHeaderGUI();
 		//$further->setTitle($this->lng->txt('crs_further_settings'));
@@ -1572,23 +1525,17 @@ class ilObjCourseGUI extends ilContainerGUI
 													 $this->ctrl->getLinkTargetByClass("ilCourseParticipantsGroupsGUI", "show"),
 													 "", "ilCourseParticipantsGroupsGUI");
 
-					$this->tabs_gui->addSubTabTarget(
-						'crs_members_gallery',
-						$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
-						'',
-						'ilUsersGalleryGUI'
-					);
+					$this->tabs_gui->addSubTabTarget("crs_members_gallery",
+													 $this->ctrl->getLinkTarget($this,'membersGallery'),
+													 "membersGallery", get_class($this));
 				}
 				elseif(
 					$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED
 				)
 				{
-					$this->tabs_gui->addSubTabTarget(
-						'crs_members_gallery',
-						$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
-						'',
-						'ilUsersGalleryGUI'
-					);
+					$this->tabs_gui->addSubTabTarget("crs_members_gallery",
+													 $this->ctrl->getLinkTarget($this,'membersGallery'),
+													 "membersGallery", get_class($this));
 				}
 				
 				// members map
@@ -1675,13 +1622,10 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	protected function afterSave(ilObject $a_new_object)
 	{
-		global $rbacadmin, $ilUser;
+		global $rbacadmin, $ilUser, $ilSetting;
 		
 		$a_new_object->getMemberObject()->add($ilUser->getId(),IL_CRS_ADMIN);
-		$a_new_object->getMemberObject()->updateNotification($ilUser->getId(),1);
-		// cognos-blu-patch: begin
-		$a_new_object->getMemberObject()->updateContact($ilUser->getId(),1);
-		// cognos-blu-patch: end
+		$a_new_object->getMemberObject()->updateNotification($ilUser->getId(),$ilSetting->get('mail_crs_admin_notification', true));
 		$a_new_object->update();
 		
 		// BEGIN ChangeEvent: Record write event.
@@ -1816,10 +1760,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			$tmp_data['notification'] = $this->object->getMembersObject()->isNotificationEnabled($usr_id) ? 1 : 0;
 			$tmp_data['blocked'] = $this->object->getMembersObject()->isBlocked($usr_id) ? 1 : 0;
-			// cognos-blu-patch: begin
-			$tmp_data['contact'] = $this->object->getMembersObject()->isContact($usr_id) ? 1 : 0;
-			// cognos-blu-patch: end
-			
 			$tmp_data['usr_id'] = $usr_id;
 		
 			if($this->show_tracking)
@@ -2209,11 +2149,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->getMembersObject()->getAdmins());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
 		$notification = is_array($_POST['notification']) ? $_POST['notification'] : array();
-		// cognos-blu-patch: begin
-		$contact = is_array($_POST['contact']) ? $_POST['contact'] : array();
 		
-		$this->updateParticipantsStatus('admins',$visible_members,$passed,$notification,array(),$contact);
-		// cognos-blu-patch: end
+		$this->updateParticipantsStatus('admins',$visible_members,$passed,$notification,array());
 	}
 	
 	/**
@@ -2230,11 +2167,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->getMembersObject()->getTutors());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
 		$notification = is_array($_POST['notification']) ? $_POST['notification'] : array();
-		// cognos-blu-patch: begin
-		$contact = is_array($_POST['contact']) ? $_POST['contact'] : array();
 
-		$this->updateParticipantsStatus('admins',$visible_members,$passed,$notification,array(),$contact);
-		// cognos-blu-patch: end
+		$this->updateParticipantsStatus('admins',$visible_members,$passed,$notification,array());
 	}
 	
 	/**
@@ -2251,11 +2185,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->getMembersObject()->getMembers());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
 		$blocked = is_array($_POST['blocked']) ? $_POST['blocked'] : array();
-		// cognos-blu-patch: begin
-		$contact = is_array($_POST['contact']) ? $_POST['contact'] : array();
 		
-		$this->updateParticipantsStatus('members',$visible_members,$passed,array(),$blocked, $contact);
-		// cognos-blu-patch: end
+		$this->updateParticipantsStatus('members',$visible_members,$passed,array(),$blocked);
 	
 	}
 
@@ -2278,11 +2209,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
 		$blocked = is_array($_POST['blocked']) ? $_POST['blocked'] : array();
-		// cognos-blu-patch: begin
-		$contact = is_array($_POST['contact']) ? $_POST['contact'] : array();
 
-		$this->updateParticipantsStatus('members',$users,$passed,array(),$blocked,$contact);
-		// cognos-blu-patch: end
+		$this->updateParticipantsStatus('members',$users,$passed,array(),$blocked);
 	}
 	
 	/**
@@ -2311,19 +2239,22 @@ class ilObjCourseGUI extends ilContainerGUI
 				{
 					$marks->setCompleted($a_has_passed);
 					$marks->update();
+					
+					// as course is origin of LP status change, block syncing
+					include_once("./Modules/Course/classes/class.ilCourseAppEventListener.php");
+					ilCourseAppEventListener::setBlockedForLP(true);
 
 					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-					ilLPStatusWrapper::_updateStatus($this->object->getId(), $a_member_id, null, false, true);					
+					ilLPStatusWrapper::_updateStatus($this->object->getId(), $a_member_id);					
 				}				
 			}
 		}
 	}
 
-	// cognos-blu-patch: begin
-	function updateParticipantsStatus($type,$visible_members,$passed,$notification,$blocked,$contact)
-	// cognos-blu-patch: end
+	function updateParticipantsStatus($type,$visible_members,$passed,$notification,$blocked)
 	{
 		global $ilAccess,$ilErr,$ilUser,$rbacadmin;
+
 		foreach($visible_members as $member_id)
 		{
 			$this->object->getMembersObject()->updatePassed($member_id,in_array($member_id,$passed),true);
@@ -2334,9 +2265,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				case 'admins';
 					$this->object->getMembersObject()->updateNotification($member_id,in_array($member_id,$notification));
-					// cognos-blu-patch: begin
-					$this->object->getMembersObject()->updateContact($member_id,in_array($member_id,$contact) ? TRUE : FALSE);
-					// cognos-blu-patch: end
 					$this->object->getMembersObject()->updateBlocked($member_id,false);
 					break;
 					
@@ -2350,16 +2278,8 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_BLOCK_MEMBER,$member_id);
 					}					
 					$this->object->getMembersObject()->updateNotification($member_id,false);
-					
-					// cognos-blu-patch: begin
-					
-					// check if member is admin or tutor: otherwise reset contact flag
-					if(!$this->object->getMembersObject()->isAdmin($member_id) and !$this->object->getMembersObject()->isTutor($member_id))
-					{
-						$this->object->getMembersObject()->updateContact($member_id,FALSE);
-					}
-					// cognos-blu-patch: end
 					$this->object->getMembersObject()->updateBlocked($member_id,in_array($member_id,$blocked));
+					
 					
 					break;
 			}
@@ -2487,9 +2407,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$notifications = $_POST['notification'] ? $_POST['notification'] : array();
 		$passed = $_POST['passed'] ? $_POST['passed'] : array();
 		$blocked = $_POST['blocked'] ? $_POST['blocked'] : array();
-		// cognos-blu-patch: begin
-		$contact = $_POST['contact'] ? $_POST['contact'] : array();
-		// cognos-blu-patch: end
 		
 		// Determine whether the user has the 'edit_permission' permission
 		$hasEditPermissionAccess = 
@@ -2585,20 +2502,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->object->getMembersObject()->sendNotification(
 				$this->object->getMembersObject()->NOTIFY_STATUS_CHANGED,
 				$usr_id);
-			
-			// cognos-blu-patch: begin
-			if(
-				($GLOBALS['rbacreview']->isAssigned($usr_id, $this->object->getDefaultAdminRole()) or $GLOBALS['rbacreview']->isAssigned($usr_id, $this->object->getDefaultTutorRole())) and
-				in_array($usr_id,$contact)
-			)
-			{
-				$this->object->getMembersObject()->updateContact($usr_id,TRUE);
-			}
-			else
-			{
-				$this->object->getMembersObject()->updateContact($usr_id,FALSE);
-			}
-			// cognos-blu-patch: end
 			
 			$this->updateLPFromStatus($usr_id,in_array($usr_id,$passed));	
 		}
@@ -3325,12 +3228,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			$is_participant
 		)
 		{
-			$this->tabs_gui->addTarget(
-				'members',
-				$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
-				'',
-				'ilUsersGalleryGUI'
-			);
+			$tabs_gui->addTarget("members",
+								 $this->ctrl->getLinkTarget($this, "membersGallery"), 
+								 "members",
+								 get_class($this));
 		}
 		elseif(
 			$this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL and
@@ -3368,19 +3269,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			"", "illicenseoverviewgui");
 		}
 
-		// meta data
+		// lom meta data
 		if ($ilAccess->checkAccess('write','',$this->ref_id))
 		{
-			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-			$mdgui = new ilObjectMetaDataGUI($this->object);					
-			$mdtab = $mdgui->getTab();
-			if($mdtab)
-			{
-				$tabs_gui->addTarget("meta_data",
-									 $mdtab,
-									 "",
-									 "ilobjectmetadatagui");
-			}
+			$tabs_gui->addTarget("meta_data",
+								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','ilmdeditorgui'),'listSection'),
+								 "",
+								 "ilmdeditorgui");
 		}
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
@@ -3716,6 +3611,158 @@ class ilObjCourseGUI extends ilContainerGUI
 		*/
 	}
 
+	/*
+	 * @author Arturo Gonzalez <arturogf@gmail.com>
+	 * @access       public
+	 */
+	function membersGalleryObject()
+	{
+
+		global $rbacsystem, $ilErr, $ilAccess, $ilUser,$ilToolbar;
+
+		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
+
+		if (!$is_admin &&
+			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED)
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+		}
+
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','Modules/Course');
+		
+		$this->setSubTabs('members');
+		$this->tabs_gui->setTabActive('members');
+		$this->tabs_gui->setSubTabActive('crs_members_gallery');
+
+		$this->addMailToMemberButton($ilToolbar, "membersGallery");
+		
+		// MEMBERS 
+		if(count($members = $this->object->getMembersObject()->getParticipants()))
+		{
+			$ordered_members = array();
+
+			foreach($members as $member_id)
+			{
+				if(!($usr_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
+				{
+					continue;
+				}
+				
+				// please do not use strtoupper on first/last name for output
+				// this messes up with some unicode characters, i guess
+				// depending on php verion, alex
+				array_push($ordered_members,array("id" => $member_id, 
+								  "login" => $usr_obj->getLogin(),
+								  "lastname" => $usr_obj->getLastName(),
+								  "firstname" => $usr_obj->getFirstName(),
+								  "sortlastname" => strtoupper($usr_obj->getLastName()).strtoupper($usr_obj->getFirstName()),
+								  "usr_obj" => $usr_obj));
+			}
+
+			$ordered_members=ilUtil::sortArray($ordered_members,"sortlastname","asc");
+
+			foreach($ordered_members as $member)
+			{
+			  $usr_obj = $member["usr_obj"];
+
+			  if(!$usr_obj->getActive())
+			  {
+				  continue;
+			  }
+
+			  $public_profile = in_array($usr_obj->getPref("public_profile"), array("y", "g")) ? "y" : "";
+				
+				// SET LINK TARGET FOR USER PROFILE
+				$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user", $member["id"]);
+				$profile_target = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui","getHTML");
+			  
+				// GET USER IMAGE
+				$file = $usr_obj->getPersonalPicturePath("xsmall");
+				
+				/*if($this->object->getMembersObject()->isAdmin($member["id"]) or $this->object->getMembersObject()->isTutor($member["id"]))
+				{
+					if ($public_profile == "y")
+					{
+						$this->tpl->setCurrentBlock("tutor_linked");
+						$this->tpl->setVariable("LINK_PROFILE", $profile_target);
+						$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock("tutor_not_linked");
+						$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->setCurrentBlock("tutor");*/
+				
+				if ($public_profile == "y") {
+					$this->tpl->setCurrentBlock("member_linked");
+					$this->tpl->setVariable("LINK_PROFILE", $profile_target);
+					$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+					$this->tpl->parseCurrentBlock();
+				}
+				/*else
+				{
+					if ($public_profile == "y")
+					{
+						$this->tpl->setCurrentBlock("member_linked");
+						$this->tpl->setVariable("LINK_PROFILE", $profile_target);
+						$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock("member_not_linked");
+						$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+						$this->tpl->parseCurrentBlock();
+					}
+					$this->tpl->setCurrentBlock("member");*/
+				else {
+					$this->tpl->setCurrentBlock("member_not_linked");
+					$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+					$this->tpl->parseCurrentBlock();
+ 				}
+				$this->tpl->setCurrentBlock("member");
+ 				
+				if ($this->object->getMembersObject()->isAdmin($member["id"])) {
+					$this->tpl->setVariable("MEMBER_CLASS", "il_Admin");
+				}
+				elseif ($this->object->getMembersObject()->isTutor($member["id"])) {
+						$this->tpl->setVariable("MEMBER_CLASS", "il_Tutor");
+				}
+				else {
+						$this->tpl->setVariable("MEMBER_CLASS", "il_Member");
+				}
+	
+				
+				
+				// do not show name, if public profile is not activated
+				if ($public_profile == "y")
+				{
+					$this->tpl->setVariable("FIRSTNAME", $member["firstname"]);
+					$this->tpl->setVariable("LASTNAME", $member["lastname"]);
+				}
+				$this->tpl->setVariable("LOGIN", $member["login"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("members");	
+			$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
+		$this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
+		
+		$headline = $this->object->getTitle()."<br/>".$this->object->getDescription();
+		
+		$this->tpl->setVariable("HEADLINE",$headline);
+		
+		$this->tpl->show();
+		exit;
+	}
+	
+
 	function __initTableGUI()
 	{
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
@@ -4016,38 +4063,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), TRUE))
-		{
-			$context_tpl = 'crs_context_tutor_manual';
-		}
-		else
-		{
-			$context_tpl = 'crs_context_member_manual';
-		}
-		
-		$this->tpl->setVariable(
-			"MAILACTION",
-			ilMailFormCall::getLinkTarget(
-				$this, 
-				$b_cmd,
-				array(),
-				array(
-					'type'   => 'role',
-					'sig' => $this->createMailSignature()
-				),
-				array(
-					ilMailFormCall::CONTEXT_KEY => $context_tpl,
-					'ref_id' => $this->object->getRefId(),
-					'ts'     => time()
-				)
-			)
-		);
-		
-		
-		
-		#$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, $b_cmd, array(), array('type' => 'role', 'sig' => $this->createMailSignature())));
+		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, $b_cmd, array(), array('type' => 'role', 'sig' => $this->createMailSignature())));
 		$this->tpl->setVariable("SELECT_ACTION",'ilias.php?baseClass=ilmailgui&view=my_courses&search_crs='.$this->object->getId());
 		$this->tpl->setVariable("MAIL_SELECTED",$this->lng->txt('send_mail_selected'));
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
@@ -4131,10 +4147,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(!$this->getCreationMode() &&
 			$ilAccess->checkAccess('read', '', $_GET['ref_id']))
 		{
-			$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset");				
-
-			$ilNavigationHistory->addItem($_GET['ref_id'],
-				$link, 'crs');
+			include_once("./Services/Link/classes/class.ilLink.php");
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				ilLink::_getLink($_GET["ref_id"], "crs"), "crs");
 		}
 	
 		if(!$this->getCreationMode())
@@ -4160,18 +4175,22 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "ilinfoscreengui":
 				$this->infoScreen();	// forwards command
 				break;
-			
-			case 'ilobjectmetadatagui';
+
+			case 'ilmdeditorgui':				
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
 				}
-				$this->tabs_gui->setTabActive('meta_data');
-				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->object);	
+
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+
+				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+
 				$this->ctrl->forwardCommand($md_gui);
+				$this->tabs_gui->setTabActive('meta_data');
 				break;
-				
+
 			case 'ilcourseregistrationgui':
 				$this->ctrl->setReturn($this,'');
 				$this->tabs_gui->setTabActive('join');
@@ -4242,34 +4261,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($new_gui);
 				$this->tabs_gui->setTabActive('learning_progress');
 				break;
-
-			case 'ilusersgallerygui':
-				$is_admin       = (bool)$ilAccess->checkAccess('write', '', $this->object->ref_id);
-				$is_participant = (bool)ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId());
-				if(
-					!$is_admin &&
-					(
-						$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED ||
-						!$is_participant
-					)
-				)
-				{
-					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
-				}
-
-				$this->addMailToMemberButton($ilToolbar, 'jump2UsersGallery');
-
-				require_once 'Services/User/classes/class.ilUsersGalleryGUI.php';
-				require_once 'Services/User/classes/class.ilUsersGalleryParticipants.php';
-				$this->setSubTabs('members');
-				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('crs_members_gallery');
-
-				$provider    = new ilUsersGalleryParticipants($this->object->getMembersObject());
-				$gallery_gui = new ilUsersGalleryGUI($provider);
-				$this->ctrl->forwardCommand($gallery_gui);
-				break;
-
+				
 			case 'illicenseoverviewgui':
 				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
 				$license_gui =& new ilLicenseOverviewGUI($this, ilLicenseOverviewGUI::LIC_MODE_REPOSITORY);
@@ -4338,10 +4330,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			case 'ilpublicuserprofilegui':
 				$this->tpl->enableDragDropFileUpload(null);				
 				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
-				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI",'view'));
+				$profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "membersGallery"));
 				$this->tabs_gui->setSubTabActive('crs_members_gallery');
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);				
@@ -4489,6 +4481,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addTab("start",
 					$this->lng->txt("crs_start_objects"),
 					$this->ctrl->getLinkTargetByClass("ilcontainerstartobjectsgui", "listStructure"));
+				global $ilHelp;
+				$ilHelp->setScreenIdComponent("crs");
 				
 				include_once './Services/Container/classes/class.ilContainerStartObjectsGUI.php';
 				$stgui = new ilContainerStartObjectsGUI($this->object);
@@ -5117,7 +5111,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) 
 	{
-		global $ilUser;
+		global $ilSetting, $ilUser;
 		
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 				
@@ -5578,13 +5572,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this,'mailMembers'));
 		}
 	}
-
-	/**
-	 * 
-	 */
-	protected function jump2UsersGalleryObject()
-	{
-		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
-	}
+	
 } // END class.ilObjCourseGUI
 ?>

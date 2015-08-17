@@ -520,7 +520,7 @@ assessment#:#internal_links_update#:#Update
 assessment#:#internal_links#:#Internal Links
 assessment#:#javaapplet#:#Java Applet
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answer text of the learner, the default score will be set to the maximum available points instead of 0 points.
-assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from opening an other website.
+assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from opening an other website.<br />Effectively preventing participants from opening other websites during tests additinally requires deploying a suitable browser enviroment (e.g. Safe Exam Browser).
 assessment#:#kiosk_options_desc#:#Information is displayed at the top section of the screen.
 assessment#:#kiosk_options#:#Exam View Options
 assessment#:#kiosk_show_participant#:#Show Name of Participant
@@ -528,6 +528,104 @@ assessment#:#kiosk_show_title#:#Show Test Title
 assessment#:#kiosk#:#Exam View
 assessment#:#last_update#:#Last Update
 assessment#:#legend#:#Legend
+assessment#:#qpl_lac_legend_header_common#:#Expression Logic
+assessment#:#qpl_lac_desc_logical_and#:#Logical AND
+assessment#:#qpl_lac_desc_logical_or#:#Logical OR
+assessment#:#qpl_lac_desc_negation#:#Negation
+assessment#:#qpl_lac_desc_brackets#:#Brackets
+assessment#:#qpl_lac_desc_res_of_quest_n#:#Result of n-th Question
+assessment#:#qpl_lac_desc_res_of_cur_quest#:#Result of Current Question
+assessment#:#qpl_lac_desc_res_of_answ_m_of_quest_n#:#Result of m-th Answer of n-th Question
+assessment#:#qpl_lac_desc_res_of_answ_m_of_cur_quest#:#Result of m-th Answer of Current Question
+assessment#:#qpl_lac_legend_header_quest_specific#:#Question Specific Expressions
+assessment#:#qpl_lac_legend_label_operators#:#Operators
+assessment#:#qpl_lac_desc_compare_with_quest_res#:#Compare the Result with the Reached Points in Percent
+assessment#:#qpl_lac_desc_compare_with_number#:#Compare the Result with the Number n
+assessment#:#qpl_lac_desc_compare_with_text#:#Compare the Result with the text TEXT
+assessment#:#qpl_lac_desc_compare_with_assignment#:#Compare the Result with the Matching n:m
+assessment#:#qpl_lac_desc_compare_with_sequence#:#Compare the Result with the Answer Sequence ($a,..,z$)
+assessment#:#qpl_lac_desc_compare_with_answer_n#:#Compare the Result with the n-th Answer of the Question
+assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Compare the Result with exactly the Given Sequence
+assessment#:#qpl_lac_desc_compare_answer_exist#:#Compare if there is an Answer for a Question/Gap
+assessment#:#lacex_example_header#:#Examples
+assessment#:#lacex_assQuestion_PercentageResultExpression_e#:#R >= %75%
+assessment#:#lacex_assQuestion_PercentageResultExpression_d#:#The questions answer result is equal to or greater than 75%
+assessment#:#lacex_assQuestion_EmptyAnswerExpression_e#:#R = ?
+assessment#:#lacex_assQuestion_EmptyAnswerExpression_d#:#The question was not answered
+assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
+assessment#:#lacex_assSingleChoice_NumberOfResultExpression_d#:#While answering the question the second answer option was chosen
+assessment#:#lacex_assMultipleChoice_NumberOfResultExpression_e#:#R = +2+
+assessment#:#lacex_assMultipleChoice_NumberOfResultExpression_d#:#While answering the question the second answer option was chosen
+assessment#:#lacex_assMultipleChoice_ExclusiveResultExpression_e#:#R = *1,3,4*
+assessment#:#lacex_assMultipleChoice_ExclusiveResultExpression_d#:#Exactly the answer options 1, 3 and 4 were chosen while answering the question
+assessment#:#lacex_assErrorText_NumberOfResultExpression_e#:#R = +2+
+assessment#:#lacex_assErrorText_NumberOfResultExpression_d#:#While answering the question the second answer option was chosen
+assessment#:#lacex_assErrorText_ExclusiveResultExpression_e#:#R = *1,3,4*
+assessment#:#lacex_assErrorText_ExclusiveResultExpression_d#:#Exactly the answer options 1, 3 and 4 were chosen while answering the question
+assessment#:#lacex_assImagemapQuestion_NumberOfResultExpression_e#:#R = +2+
+assessment#:#lacex_assImagemapQuestion_NumberOfResultExpression_d#:#While answering the question the second answer option was chosen
+assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_e#:#R = *1,3,4*
+assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_d#:#Exactly the answer options 1, 3 and 4 were chosen while answering the question
+assessment#:#lacex_assNumeric_NumericResultExpression_e#:#R = #4.7#
+assessment#:#lacex_assNumeric_NumericResultExpression_d#:#The question was answered with the numeric value 4.7
+assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_e#:#R = $2,5,1,4,3$
+assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_d#:#The question's elements were ordered as follows: 2, 5, 1, 4, 3
+assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_e#:#R = $2,5,1,4,3$
+assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_d#:#The question's elements were ordered as follows: 2, 5, 1, 4, 3
+assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_e#:#R = ;1:2; & R = ;2:3; & R = ;3:1;
+assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_d#:#The question's terms were assigned to defintions as follows: 1 => 2 and 2 => 3 and 3 => 1
+assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~sodium chloride~
+assessment#:#lacex_assTextSubset_StringResultExpression_d#:#For the second answer option the answer „sodium chloride“ was entered
+assessment#:#lacex_assFormulaQuestion_NumericResultExpression_e#:#R[1] = #3.14159#
+assessment#:#lacex_assFormulaQuestion_NumericResultExpression_d#:#The first answer option was answered with the numeric value 3.14159
+assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] = #5#
+assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#The second answer option is a numeric gap and was answered with the numeric value 5
+assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~Monday~
+assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#The first answer option is a text gap and was answered with „Monday“
+assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~Green~
+assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#The fourth answer option is a select gap and the option labeled as „Green“ was selected
+assessment#:#lacex_assClozeTest_NumberOfResultExpression_e#:#R[4] = +2+
+assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#The fourth answer option is a select gap and the second option was selected
+assessment#:#qpl_skill_point_eval_mode_quest_result#:#Question Result
+assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Solution Compare
+assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Points by Question Result
+assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare
+assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
+assessment#:#tst_sol_comp_expressions#:#Comparison Expressions
+assessment#:#ass_lac_hide_legend_btn#:#Hide Legend
+assessment#:#ass_lac_show_legend_btn#:#Show Legend
+assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!
+assessment#:#ass_lac_expression#:#Expression
+assessment#:#ass_lac_question_not_exist#:#The question with index "Q%s" does not exist in this set.
+assessment#:#ass_lac_question_not_reachable#:#The question with index "Q%s" is not reachable in this node.
+assessment#:#ass_lac_expression_not_supported#:#The Expression "%s" is not supported.
+assessment#:#ass_lac_operator_not_supported#:#The Operator "%s" is not supported.
+assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
+assessment#:#ass_lac_missing_bracket#:#There are not enough "%s"-Brackets in the condition.
+assessment#:#ass_lac_invalid_statement#:#The expression at position "%s" is not valid. Please check your input according to the supported expression (see legend).
+assessment#:#ass_lac_duplicate_element#:#Duplicate key "%s" in condition.
+assessment#:#ass_lac_answer_index_not_exist#:#The question with index "Q%s" does not have an answer with the index "%s".
+assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#The current question does not have an answer with the index "%s".
+assessment#:#ass_lac_answer_value_not_exists#:#The value "%s" does not exist in question Q%s[%s].
+assessment#:#ass_lac_answer_value_not_exists_one_answer#:#The value "%s" does not exist in question Q%s.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#The value "%s" does not exist in the answer with index "%s" of current question.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#The value "%s" does not exist in the current question.
+assessment#:#ass_lac_expression_not_supported_by_question#:#The question "Q%s" does not support the Expression "%s".
+assessment#:#ass_lac_expression_not_supported_by_cur_question#:#The current question does not support the Expression "%s".
+assessment#:#ass_lac_operator_not_supported_by_expression#:#The Operator "%s" can not be used in comparison with the expression "%s".
+assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
+assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
+assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence
+assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence
+assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool(s):<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
+assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
+assessment#:#tst_save_comp_points#:#Save Competence Points
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
+assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
+assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds
+assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
 assessment#:#locked#:#locked
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
@@ -537,6 +635,7 @@ assessment#:#log_mark_added#:#Mark added
 assessment#:#log_mark_changed#:#Mark changed
 assessment#:#log_mark_removed#:#Mark removed
 assessment#:#log_modified_test#:#The test was modified
+assessment#:#tst_results_presentation_description#:#If "Show Pass Details for running tests" is selected, the question titles and the reached points for every question in the test pass are available if the test is not finished. If "Show Solutions in Test Results" is selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions. If "Results print view (answers only)" is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option. If "Show Signature Placeholder" is selected, a signature placeholder will be shown for printout. If "Show Suggested Solution" is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
 assessment#:#log_question_added#:#Question added at position
 assessment#:#log_question_position_changed#:#Question position changed
 assessment#:#log_question_removed#:#Question removed
@@ -1060,6 +1159,7 @@ assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the 
 assessment#:#tst_reset_processing_time#:#Reset duration for every test pass
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_result_user_name#:#Test Results for %s
+assessment#:#tst_result_pass#:#Results of Test Pass
 assessment#:#tst_results_access_always#:#Immediately
 assessment#:#tst_results_access_always_desc#:#Participants can access their results on the ‘Info’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will present them with their test results immediately after finishing  the test.
 assessment#:#tst_results_access_date#:#Date
@@ -1239,7 +1339,7 @@ assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#toplist_your_result#:#Your ranking
 assessment#:#tst_highscore_enabled#:#Ranking
-assessment#:#tst_highscore_description#:#Participants are presented with a button ‘Show Ranking’ on the ‘Info’-tab. On clicking it, participants are presented with a league table on their performance in the test. Additionally, you need to activate ‘Access to Test Results’ in order to use this functionality.
+assessment#:#tst_highscore_description#:#On the 'Info'-tab participants are presented with a button 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this funtionality.
 assessment#:#tst_highscore_anon#:#Without Names
 assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.
 assessment#:#tst_highscore_achieved_ts#:#Date
@@ -1314,22 +1414,28 @@ assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Se
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
 assessment#:#tst_activate_skill_service#:#Activate Competence Service
-assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Competence service has been deactivated due to test mode with non fixed set of questions.
-assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Competence Service activation is not possible due to test mode with non fixed set of questions.
 assessment#:#tst_tab_competences#:#Competences
-assessment#:#tst_skl_sub_tab_quest_assign#:#Question/Competence Assignment
+assessment#:#qpl_tab_competences#:#Competences
+assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
+assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency
 assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#The competence thresholds has been saved.
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
 assessment#:#tst_competence#:#Competence
-assessment#:#tst_assign_competence#:#Assign Competence
-assessment#:#tst_remove_competence#:#Remove Competence
+assessment#:#tst_manage_competence_assigns#:#Manage Competence Assignments
+assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
+assessment#:#tst_view_competence_assign#:#View Assignment Properties
+assessment#:#qpl_qst_skl_assign_properties_modified#:#The assignment's properties has been modified.
+assessment#:#qpl_qst_skl_assigns_updated#:#The competence assignments has been updated.
+assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#The question was inserted from another repository object. Should the question's original be updated with the current config of competence assignments?
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#The competence assignments has been synchronised to the questions original.
+assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments
+assessment#:#qpl_cancel_skill_assigns_update#:#Cancel
 assessment#:#tst_comp_points#:#Competence Points
-assessment#:#tst_save_comp_points#:#Save Competence Points
+assessment#:#tst_comp_eval_mode#:#Evaluation by
 assessment#:#tst_num_questions#:#Number of Questions
 assessment#:#tst_max_comp_points#:#Max. Competence Points
 assessment#:#tst_level#:#Competence Level
-assessment#:#tst_threshold#:#Thresholds
+assessment#:#tst_threshold#:#Thresholds (in %)
 assessment#:#tst_save_thresholds#:#Save Thresholds
 assessment#:#tst_show_comp_results#:#Show Competence Results
 assessment#:#tst_analysis#:#Analysis
@@ -6674,7 +6780,7 @@ forum#:#forums_notification_disabled#:#Notification disabled
 forum#:#forums_notification_enabled#:#Notification enabled
 forum#:#forums_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
 forum#:#forums_notification_show_post#:#Show posting: %s
-forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s", thread "%2$s"
+forum#:#forums_notification_subject#:#New posting in forum
 forum#:#forums_notification#:#Notification
 forum#:#forums_post_and_children_were_activated#:#The posting and all its child postings were activated.
 forum#:#forums_post_deleted#:#Posting has been deleted
@@ -7094,7 +7200,7 @@ mail#:#mail_enter_valid_login#:#Please enter a valid login name.
 mail#:#mail_entry_added#:#Added new Entry
 mail#:#mail_entry_changed#:#The entry is changed
 mail#:#mail_entry_exists#:#An entry with the given login name already exists.
-mail#:#mail_entry_of_contacts#:#Entry of Contacts
+mail#:#mail_entry_of_addressbook#:#Entry of Contacts
 mail#:#mail_external_sender_noreply#:#no-reply Address
 mail#:#mail_file_name#:#File Name
 mail#:#mail_file_size#:#File Size
@@ -7122,8 +7228,8 @@ mail#:#mail_into_addressbook#:#Add to Contacts
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#List members
 mail#:#mail_mailing_list#:#Mailing List
-mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
-mail#:#mail_mailing_lists_no_contact_entries#:#You have no entries in your contacts to add to a list.
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
+mail#:#mail_mailing_lists_no_addressbook_entries#:#You have no entries in your contacts to add to a list.
 mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mark_read#:#Mark mail read
 mail#:#mail_mark_unread#:#Mark mail unread
@@ -7137,7 +7243,7 @@ mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
 mail#:#mail_my_courses#:#My Courses
-mail#:#mail_my_entries#:#My Address Book
+mail#:#mail_my_entries#:#My Contacts
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
@@ -9272,7 +9378,7 @@ survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to 
 survey#:#categories#:#Answers
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following answers?
 survey#:#category_delete_select_none#:#Please check at least one answer to delete it!
-survey#:#category_nr_selected#:#Number of users that selected this answer
+survey#:#category_nr_selected#:#Number of selections
 survey#:#category#:#Answer
 survey#:#chart#:#Chart
 survey#:#check_category_to_save_phrase#:#You must have a least one answer to save a phrase!
@@ -9526,7 +9632,7 @@ survey#:#orientation#:#Orientation
 survey#:#outro#:#Concluding Remarks
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers
-survey#:#percentage_of_selections#:#Percentage of users that selected this answer
+survey#:#percentage_of_selections#:#Percentage of selections
 survey#:#phrase_added#:#Phrase added
 survey#:#phrase_saved#:#The phrase was saved successfully!
 survey#:#please_select#:#-- please select --
@@ -10170,8 +10276,6 @@ trac#:#trac_learners_back#:#Back To Learners
 trac#:#trac_user_objects#:#Learning Objects for User
 content#:#cont_link_whole_picture#:#Link Whole Picture
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
-common#:#settings_for_all_members#:#Notification activated for all course/group members
-common#:#settings_per_users#:#Settings per Course/Group Member
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.
 user#:#restrict_user_access#:#Restricted Access to User Accounts
@@ -11023,7 +11127,7 @@ notes#:#notes_private_annotating#:#Private Annotation
 tagging#:#tagging_set_tag#:#Set Tags
 content#:#cont_link_to_internal#:#Link to ILIAS Resource
 content#:#cont_link_to_external#:#Link to External Website
-content#:#cont_link_to_wiki#:#Link to Wiki Page
+content#:#cont_link_to_wiki#:#Link to Wiki Page (Insert Brackets)
 content#:#cont_standard#:#Standard
 content#:#cont_char_style_com#:#Comment
 content#:#cont_char_style_quot#:#Quotation
@@ -11190,7 +11294,6 @@ payment#:#show_shop_explorer#:#Show shop explorer
 payment#:#show_shop_explorer_info#:#This shop explorer simplifies the navigation within shop
 survey#:#survey_available_question_pools#:#Available Pools
 survey#:#survey_question_pool_title#:#Pool Title
-forum#:#user_decides_notification#:#Each user decides about notification
 common#:#allow_user_toggle_noti#:#Member is allowed to deactivate notification
 cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.
 cntr#:#cntr_adopt_content#:#Adopt Content
@@ -11459,7 +11562,7 @@ didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the follow
 didactic#:#didactic_delete_msg#:#Deleted didactic templates.
 common#:#fold_type#:#Folder Type
 content#:#cont_pword#:#Paste from Word
-blog#:#blog_edit#:#Blog Settings
+blog#:#blog_edit#:#Edit Blog
 blog#:#blog_banner#:#Banner
 blog#:#blog_background_color#:#Background Color
 blog#:#blog_font_color#:#Font Color
@@ -11858,7 +11961,7 @@ exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
 common#:#my_courses_groups#:#My Courses and Groups
-content#:#cont_sc_auto_continue#:#Auto-Continue
+content#:#cont_sc_auto_continue#:#Redirect Users
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
@@ -12269,7 +12372,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Te
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Your test has been graded manually:
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You have received this notification, because you participated in this test.
 crs#:#crs_subject_course_group_notification#:#Daily Mail for %s
-crs#:#crs_intro_course_group_notification_for#:#This is the daily news digest for: %s
 crs#:#crs_course_group_notification_link#:#Link:
 common#:#obj_lm_duplicate#:#Copy Learning Module
 blog#:#blog_edit_date#:#Edit Date
@@ -12598,6 +12700,8 @@ dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
 dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fields’.
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
+dcl#:#dcl_all_entries#:#All entries
+dcl#:#dcl_own_entries#:#Only own entries
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team
@@ -13155,7 +13259,7 @@ blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 forum#:#merge#:#Merge
 forum#:#please_choose_target#:#Please choose a thread as merge target.
-forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Eventually ILIAS swaps source and target thread if the first posting of the source thread is created earlier than the first posting of the target thread.
+forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone.
 forum#:#not_allowed_to_merge_into_another_forum#:#It is not possible to merge threads of different forums.
 forum#:#frm_selected_merge_src#:#Selected Thread to Merge: %s
 forum#:#error_same_thread_ids#:#Source and target thread have to be different.
@@ -13637,7 +13741,7 @@ cld#:#service_specific_settings#:#Specific Settings
 common#:#obj_cld#:#Cloud Object
 common#:#objs_cld#:#Cloud Objects
 assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
-assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.
+assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
 assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 rbac#:#delete_files#:#Delete Files
@@ -13685,7 +13789,7 @@ search#:#search_add_members_from_container_grp#:#Add Users of Current Group
 search#:#search_add_members_from_container_crs#:#Add Users of Current Course
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_info#:#Not available for team upload assignments.
-exc#:#exc_peer_review_min_number#:#Number of feedback given required to see personal feedback
+exc#:#exc_peer_review_min_number#:#Number of feedbacks per participant
 exc#:#exc_peer_review_give#:#Give Feedback
 exc#:#exc_peer_review_no_peers#:#There are no peers to give feedback for.
 exc#:#exc_peer_review_rating#:#Rating
@@ -13827,6 +13931,11 @@ dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
 dcl#:#add_value#:#Add New Entry
 common#:#objs_orgu#:#Organisational Unit
 common#:#obj_orgu#:#Organisational Unit
+common#:#obj_orgu_description#:#Creating and editing organisational structure
+common#:#il_orgu_superior#:#Superior
+common#:#il_orgu_employee#:#Employee
+common#:#view_learning_progress#:#View Learning Progress
+common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
 orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from this role?
@@ -14510,6 +14619,8 @@ rbac#:#orgu_read_users#:#User can read local user accounts created in this Organ
 rbac#:#orgu_cat_administrate_users#:#User can create and administrate local user accounts in this Organisational Unit
 rbac#:#orgu_delete#:#User can move or delete Organisational Unit
 rbac#:#orgu_edit_permission#:#User can change permission settings
+rbac#:#orgu_copy#:#Copy Organisational Unit
+rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
 rbac#:#rbac_create_orgu#:#Create Organisational Units
 book#:#book_post_booking_text_info#:#Use [PERIOD] and [OBJECT] to add booking details to the text.
 blog#:#blog_abstract_shorten#:#Shorten Abstract
@@ -14955,9 +15066,9 @@ crs#:#crs_loc_settings_reset_enable_info#:#If activated, all users are able to r
 crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following learning materials and then take the qualifying test.
 crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to another learning objective. Either you finish the started test or you stop it and start this one. But running two initial tests at the same time is not supported.
 crs#:#crs_loc_qst_resume_tst_qtest#:#You have already started a qualifying test to another learning objective. Either you finish the started test or you stop it and start this one. But running two qualifying tests at the same time is not supported.
-bibl#:#bibl_library_show_in_list#:#Show link als in the list
-content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode
-content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.
+bibl#:#bibl_library_show_in_list#:#Show as link in the list
+content#:#cont_ie_compatibility#:#Internet Explorer 7 Compatibility Mode
+content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective. <br />
 content#:#cont_ie_force_render#:#Force Internet Explorer to render again
 content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iFrames. Additionally you have to set the option ‘Display’ to ‘in new window’.
 ecs#:#ecs_token_mechanism#:#Authentication Token
@@ -15210,8 +15321,6 @@ mob#:#mob_object#:#Object
 content#:#cont_qtries_info#:#Default value for number of tries for newly created questions.
 lm#:#lm_copy#:#Copy Learning Module
 content#:#cont_settings#:#Settings for learning modules
-rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
-rbac#:#orgu_copy#:#Copy Organisational Unit
 exc#:#exc_no_team_yet_notice#:#You are not assigned to a team yet!
 prtf#:#prtf_edit_embedded_blog#:#Edit Blog "%s"
 exc#:#exc_manage_team#:#Manage Team
@@ -15243,10 +15352,210 @@ meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries
 meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
 meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
+dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
+dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
+dcl#:#dcl_integer_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
+dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
+dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
+dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
+dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden
+dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
+dcl#:#dcl_ILIAS_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
+dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit bis zu fünf Sternen bewerten.
+dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
+dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
+dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren
+dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
+dcl#:#dcl_visible_desc#:#Benutzer können diese Tabelle über das Auswahlmenü "Tabelle" aufrufen.
+dcl#:#dcl_ILIAS_reference_link_desc#:#Objekt kann per Link aufgerufen werden, wenn Leserecht vorhanden ist
+dcl#:#dcl_learning_progress_desc#:#Wenn vorhanden, wird der Lernfortschritts des Benutzers angezeigt
+dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
+dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selber exportieren. Dazu müssen in der Übersicht "Felder der ausgewählten Tabelle" die Felder einzeln als exportierbar ausgewählt werden.
+dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
+dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
+dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
+dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
+dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
+adve#:#adve_auto_url_linking#:#URL Auto-Linking
+adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
+content#:#cont_auto_time#:#Auto Animation Waiting Time
+content#:#cont_rand_start#:#Random Start
+content#:#cont_tabs_carousel#:#Carousel
+exc#:#exc_adopt_group_teams#:#Adopt Teams from Groups
+exc#:#exc_adopt_group_teams_added#:#%s Users were added.
+exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.
+exc#:#exc_adopt_group_teams_conflict#:#User "%1$s" is already selected for group "%2$s".
+exc#:#exc_adopt_group_teams_no_members#:#No members
+exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.
+exc#:#exc_deadline_extended#:#Grace Period
+exc#:#exc_deadline_extended_info#:#Late submission are possible between the deadline and the end of the grace period.
+exc#:#exc_late_submission#:#Late Submission
+exc#:#exc_late_submission_warning#:#Submissions after %s are marked as late.
+exc#:#exc_max_file#:#Max Number of Files
+exc#:#exc_max_file_info#:#Participants will not be able to upload more files once the limit is reached.
+exc#:#exc_max_file_reached#:#You cannot upload more than %s files.
+exc#:#exc_max_file_tgl#:#Limit Uploads
+exc#:#exc_no_team_yet_info_tutor#:#Teams are managed by the exercise tutors.
+exc#:#exc_peer_review_chars_invalid#:#At least one of your feedbacks does not have the required minimum length of %s characters.
+exc#:#exc_peer_review_completion#:#Determination of "Passed" Status
+exc#:#exc_peer_review_completion_all#:#Only after all required feedbacks
+exc#:#exc_peer_review_completion_none#:#No feedback necessary
+exc#:#exc_peer_review_completion_one#:#Already with at least 1 valid feedback
+exc#:#exc_peer_review_given#:#Show Given Feedback
+exc#:#exc_peer_review_min_chars#:#Mininum Number of Characters
+exc#:#exc_peer_review_min_chars_info#:#The required number of characters for a valid feedback.
+exc#:#exc_peer_review_min_chars_tgl#:#Mininum Length
+exc#:#exc_peer_review_show_missing#:#You cannot view your received feedback as you gave not enough feedback.
+exc#:#exc_peer_review_show_received_none#:#You received no feedback.
+exc#:#exc_peer_review_simple_unlock#:#Access to received feedback
+exc#:#exc_peer_review_simple_unlock_active#:#After giving at least 1 valid feedback
+exc#:#exc_peer_review_simple_unlock_inactive#:#After giving all required feedbacks
+exc#:#exc_team_management_tutor#:#Team Management by Tutors
+exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.
+exc#:#exc_team_multi_create#:#Create Team
+exc#:#exc_team_multi_dissolve#:#Dissolve Team(s)
+style#:#sty_type_ca_cntr#:#Carousel Container
+style#:#sty_type_ca_icntr#:#Carousel Item Container
+style#:#sty_type_ca_icont#:#Carousel Item Content
+style#:#sty_type_ca_ihead#:#Carousel Item Header
+wiki#:#wiki_link_md_values#:#Automatic Linking
+wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
+cron#:#cron_result_status_fail#:#Failed
+wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
+content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)
+link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Reply
 forum#:#add_new_answer#:#Add Posting
-prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio 
-blog#:#blog_back_to_blog_owner#:#Edit Blog 
-meta#:#md_adv_deleted_fields#:#The fields have been deleted.
-search#:#btn_search#:#Search
+mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
+mail#:#mail_threshold#:#Threshold
+mail#:#mail_threshold_info#:#Internal messages that are older than the defined threshold value here, will be deleted (including possibly existing attachments). <br> Please keep in mind that on the first run of this cronjob  a lot of messages will be deleted and because of this it is not possible to send a mail as a warning.
+mail#:#mail_orphaned_mails_desc#:#Delete old or orphaned mails
+mail#:#only_inbox_trash#:#Only consider inbox / trash
+mail#:#only_inbox_trash_info#:#If enabled, emails are only deleted if they are located in the Inbox and Trash of the respective user. Otherwise, all messages are deleted regardless of the folder. 
+mail#:#mail_notify_orphaned#:#Notification Mail
+mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an email to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.
+mail#:#orphaned_mail_subject#:#Notification about orphaned mails
+mail#:#orphaned_mail_body#:#There are old or orphaned mails in the following mailboxes. Please note, that these mails will be deleted automatically soon.
+prtt#:#prtt_portfolio_created#:#Portfolio Template added
+forum#:#frm_censorship#:#Censor
+forum#:#frm_revoke_censorship#:#Revoke Censorship
+forum#:#frm_censorship_applied#:#The censorship has been successfully applied.
+forum#:#frm_censorship_revoked#:#The censorship has been successfully revoked.
+forum#:#frm_mark_as_read#:#Mark as read
+forum#:#frm_mark_as_unread#:#Mark as unread
+common#:#clientlist_clientlist#:#Client List
+common#:#clientlist_available_clients#:#Available Clients
+common#:#clientlist_installation_name#:#Installation Name
+common#:#clientlist_public_access#:#Public Access
+common#:#clientlist_login#:#Login
+common#:#clientlist_start_page#:#Start page
+common#:#clientlist_login_page#:#Login page
+forum#:#file_upload_allowed_fora_desc#:#If "Allow Attachments in Selected Forums" is selected, forum moderators can individually allow attaching files to postings in the settings of each forum. In new forums the upload of attachments will be disabled by default.
+forum#:#file_upload_allowed_fora#:#Attachments
+forum#:#file_upload_option_allow#:#Allow Attachments in All Forums
+forum#:#file_upload_option_disallow#:#Allow Attachments in Selected Forums
+forum#:#file_upload_allowed#:#Allow Attachments
+forum#:#allow_file_upload_desc#:#If enabled, users are able to attach files to their postings.
+sysc#:#sysc_overview#:#Overview
+sysc#:#sysc_groups#:#System Check Groups
+sysc#:#sysc_grp_tree#:#Repository Tree
+sysc#:#sysc_grp_tree_desc#:#Performs an analysis of the tree and prints all tree nodes along with analysis data.
+sysc#:#sysc_completed_num#:#Fullfilled Tasks
+sysc#:#sysc_failed_num#:#Not Fullfilled Tasks
+sysc#:#sysc_task_overview#:#Tasks
+sysc#:#sysc_action_validate#:#Validate
+sysc#:#sysc_action_repair#:#Repair
+sysc#:#sysc_task_tree_duplicates#:#Duplicate Entries in Repository Tree
+sysc#:#sysc_task_tree_duplicates_desc#:#Search for duplicate entries in the repository tree structure.
+sysc#:#sysc_task_tree_dump#:#List Tree
+sysc#:#sysc_task_tree_dump_desc#:#Analyses and prints the repository tree structure
+sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump
+sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump
+sysc#:#sysc_tree_duplicate_failures#:#Found duplicate entries in tree structure. Number of duoplicate entries
+sysc#:#sysc_message_success#:#No errors found
+sysc#:#sysc_tree_list_failures#:#A dump of the the repository tree has been created. Number of errors in tree structure:
+sysc#:#sysc_status_na#:#Not Executed
+sysc#:#sysc_status_running#:#Running
+sysc#:#sysc_status_failed#:#Failed
+sysc#:#sysc_status_completed#:#Completed
+sysc#:#sysc_task_tree_missing#:#Missing Entries in Repository Tree
+sysc#:#sysc_task_tree_missing_desc#:#Searches and repairs missing entries in the repository tree.
+sysc#:#sysc_message_tree_missing_confirm#:#Do you really want to restore missing entries in the repository tree structure?
+sysc#:#sysc_btn_tree_missing#:#Restore Missing
+sysc#:#sysc_tree_missing_failures#:#Found missing entries in the tree structure. Number of missing entries:
+sysc#:#sysc_cron_empty_trash#:#Delete Trash Bin
+sysc#:#sysc_cron_empty_trash_desc#:#If enabled, the repository trash bin will be purged by given criteria (age, object type or maximum number of objects).
+sysc#:#sysc_task_tree_missing_tree#:#Missing Entries in Repository Tree
+sysc#:#sysc_task_tree_missing_tree_desc#:#Searches and repairs missing entries in the repository tree.
+sysc#:#sysc_task_tree_missing_reference#:#Missing Object References
+sysc#:#sysc_task_tree_missing_reference_desc#:#Searches and repairs missing object references in the repository tree.
+sysc#:#sysc_task_structure#:#Tree structure
+sysc#:#sysc_task_structure_desc#:#Analyzes and corrects the repository tree structure.
+forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky
+forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is already unsticky
+forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky
+forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore
+forum#:#selected_threads_closed#:#The selected threads has been closed
+forum#:#selected_threads_reopened#:#The selected threads has been reopened
+blog#:#blog_keywords_other#:#Other Keywords
+blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
+content#:#cont_cc_sub#:#Subscript
+content#:#cont_cc_sup#:#Superscript
+style#:#sty_type_sub#:#Subscript
+style#:#sty_type_sup#:#Superscript
+content#:#cont_text_sub#:#Subscript
+content#:#cont_text_sup#:#Superscript
+cmps#:#cmps_uninstall#:#Uninstall
+cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s"?
+cmps#:#cmps_plugin_uninstalled#:#The plugin has been uninstalled.
+content#:#cont_pc_carousel#:#Carousel
+style#:#sty_carousel_templates#:#Carousel Templates
+style#:#sty_ca_cntr_class#:#Carousel Container
+style#:#sty_ca_icntr_class#:#Carousel Item Container
+style#:#sty_ca_icont_class#:#Carousel Item Content
+style#:#sty_ca_ihead_class#:#Carousel Item Header
+membership#:#mem_force_notification#:#Notification per Mail
+membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation
+membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically 
+membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
+membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
+membership#:#mem_force_notification_mode_custom#:#Custom
+common#:#settings_for_all_members#:#Members will be notified automatically 
+common#:#settings_per_users#:#For each member individual settings can be made 
+forum#:#user_decides_notification#:#Members have to manually activate notifications
+crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your courses and groups, which have an active notification.
+crs#:#crs_intro_course_group_notification_period#:#This mail summarizes news from %1$s to %2$s.
+crs#:#crs_intro_course_group_notification_title#:#There are news for the following courses and groups:
+forum#:#post_deleted_by#:#following posting in forum "%2$s" was deleted by "%1$s":
+forum#:#content_deleted_post#:#Content of the deleted posting:
+forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"
+forum#:#content_post_updated#:#Content of the edited posting:
+forum#:#post_censored_by#:#censored posting in forum "%2$s" by "%1$s":
+forum#:#content_censored_post#:#Content of the censored posting:
+forum#:#forums_notification_show_frm#:#Show forum: %s
+forum#:#thread_deleted_by#:#following thread in forum "%2$s"was deleted by "%1$s":
+forum#:#content_deleted_thread#:#Content of the deleted thread:
+forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
+forum#:#frm_noti_message#:#Message:
+forum#:#frm_noti_new_post#:#a new posting was created in forum "%1$s".
+forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_del_thread#:#Thread "%2$s" deleted in forum "%1$s"
+forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s", thread "%2$s"
+search#:#search_show_inactive_user#:#Show Inactive Users
+search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users.
+search#:#search_show_limited_user#:#Show Limited Users
+search#:#search_show_limited_user_info#:#If enabled, the user search will show users with limited access and outside their allowed time period.
+crs#:#mail_enable_crs_member_notification#:#New Members Notification Default
+grp#:#mail_enable_grp_member_notification#:#Notification Default
+crs#:#mail_enable_crs_member_notification_info#:#Default value for "Notification About New Members" in members tab for administrators in new courses.
+grp#:#mail_enable_grp_member_notification_info#:#Default value for "Notification" in members tab for administrators in new groups.
+crs#:#mail_enable_crs_member_notification#:#Standardwert Benachrichtigung über neue Mitglieder
+grp#:#mail_enable_grp_member_notification#:#Standardwert Benachrichtigung
+crs#:#mail_enable_crs_member_notification_info#:#Standardwert für die Einstellung "Benachrichtigung über neue Mitglieder" im Reiter "Mitglieder" für administratoren in neuen Kursen.
+grp#:#mail_enable_grp_member_notification_info#:#Standardwert für die Einstellung "Benachrichtigung" im Reiter "Mitglieder" für administratoren in neuen Gruppen.
