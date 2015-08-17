@@ -232,8 +232,7 @@ rbac#:#wiki_html_export#:#HTML exportieren
 wiki#:#wiki_html_export#:#HTML exportieren
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
 crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
-crs#:#crs_intro_course_group_notification_period#:#Diese Mail umfasst Nachrichten für den Zeitraum von %1$s bis %2$s.
-crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen:
+crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen für den Zeitraum von %1$s bis %2$s:
 common#:#obj_logs#:#Protokollierung
 common#:#obj_logs_desc#:#Enthält globale Einstellungen für die ILIAS-Protokollierung
 rbac#:#logs_edit_permission#:#Rechteeinstellung der Protokollierung ändern
