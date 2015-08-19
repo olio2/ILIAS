@@ -1025,3 +1025,7 @@ if($wiki_type_id)
 		$ilDB->addPrimaryKey('log_components',array('component_id'));
 	}
 ?>
+<#63>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
