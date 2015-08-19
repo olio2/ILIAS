@@ -263,3 +263,5 @@ log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
 log#:#log_component_btn_reset#:#Reset Settings
 forum#:#frm_search#:#Suche
+itgr#:#itgr_hide_title#:#Hide Title
+itgr#:#itgr_hide_title_info#:#Hides title of item group in presentation for learner.

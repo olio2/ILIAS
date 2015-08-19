@@ -264,3 +264,5 @@ log#:#log_component_col_component#:#Komponente
 log#:#log_component_col_level#:#Log-Level
 log#:#log_component_btn_reset#:#Einstellungen zurücksetzen
 forum#:#frm_search#:#Suche
+itgr#:#itgr_hide_title#:#Titel verbergen
+itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner nicht angezeigt.
