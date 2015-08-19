@@ -808,7 +808,7 @@ if($ilDB->tableExists('addressbook'))
 		INNER JOIN addressbook a2 ON a2.user_id = ud2.usr_id AND a2.login = ud1.login
 		WHERE ud1.usr_id != ud2.usr_id
 	";
-	$res = $ilDB->query($res);
+	$res = $ilDB->query($query);
 	while($row = $ilDB->fetchAssoc($res))
 	{
 		$this->db->replace(
@@ -840,10 +840,10 @@ if($ilDB->tableExists('addressbook'))
 		INNER JOIN usr_data ud1 ON ud1.usr_id = a1.user_id
 		INNER JOIN usr_data ud2 ON ud2.login = a1.login
 		LEFT JOIN addressbook a2 ON a2.user_id = ud2.usr_id AND a2.login = ud1.login
-		WHERE a2.addr_id IS NULL
+		WHERE a2.addr_id IS NULL AND ud1.usr_id != ud2.usr_id
 	";
 	$res = $ilDB->query($res);
-	while($row = $ilDB->fetchAssoc($res))
+	while($row = $ilDB->fetchAssoc($query))
 	{
 		$this->db->replace(
 			'buddylist_requests',
