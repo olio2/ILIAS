@@ -811,7 +811,7 @@ if($ilDB->tableExists('addressbook'))
 	$res = $ilDB->query($query);
 	while($row = $ilDB->fetchAssoc($res))
 	{
-		$this->db->replace(
+		$ilDB->replace(
 			'buddylist',
 			array(
 				'usr_id'       => array('integer', $row['u1']),
@@ -822,7 +822,7 @@ if($ilDB->tableExists('addressbook'))
 			)
 		);
 
-		$this->db->replace(
+		$ilDB->replace(
 			'buddylist',
 			array(
 				'usr_id'       => array('integer', $row['u2']),
@@ -842,10 +842,10 @@ if($ilDB->tableExists('addressbook'))
 		LEFT JOIN addressbook a2 ON a2.user_id = ud2.usr_id AND a2.login = ud1.login
 		WHERE a2.addr_id IS NULL AND ud1.usr_id != ud2.usr_id
 	";
-	$res = $ilDB->query($res);
-	while($row = $ilDB->fetchAssoc($query))
+	$res = $ilDB->query($query);
+	while($row = $ilDB->fetchAssoc($res))
 	{
-		$this->db->replace(
+		$ilDB->replace(
 			'buddylist_requests',
 			array(
 				'usr_id'       => array('integer', $row['u1']),
