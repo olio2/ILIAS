@@ -5883,3 +5883,25 @@ $ilDB->manipulate("UPDATE style_data SET ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4481>
+<?php
+
+	if(!$ilDB->tableExists('log_components'))
+	{
+		$ilDB->createTable('log_components', array(
+			'component_id' => array(
+				'type' => 'text',
+				'length' => 20,
+				'notnull' => FALSE
+			),
+			'log_level' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => FALSE,
+				'default' => null
+			)
+		));
+		
+		$ilDB->addPrimaryKey('log_components',array('component_id'));
+	}
+?>
