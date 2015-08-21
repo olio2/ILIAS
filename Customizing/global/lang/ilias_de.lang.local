@@ -266,3 +266,9 @@ log#:#log_component_btn_reset#:#Einstellungen zurücksetzen
 forum#:#frm_search#:#Suche
 itgr#:#itgr_hide_title#:#Titel verbergen
 itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner nicht angezeigt.
+assessment#:#assLongMenu#:#Langes Menü
+assessment#:#answers_text_box#:#Textfeld
+assessment#:#answers_select#:#Auswahl
+assessment#:#info_text_upload#:#Wählen Sie eine Antwort Datei zum hochladen aus
+assessment#:#manual_editing#:#Manuelle Editierung
+assessment#:#longmenu_text#:#Langes Menü Text
