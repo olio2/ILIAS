@@ -271,3 +271,7 @@ assessment#:#answers_select#:#Select
 assessment#:#info_text_upload#:#Choose an answer file to upload
 assessment#:#manual_editing#:#Manual Editing
 assessment#:#longmenu_text#:#Long Menu Text
+rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
+rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages
+rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
+rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
