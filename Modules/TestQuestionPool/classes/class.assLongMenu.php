@@ -248,11 +248,19 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	public function saveAnswerSpecificDataToDb()
 	{
 		$this->clearAnswerSpecificDataFromDb($this->getId());
-		$type = $this->getAnswerType();
+		$type_array = $this->getAnswerType();
 		foreach($this->getCorrectAnswers() as $gap_number => $gap)
 		{
 			foreach($gap[0] as $position => $answer)
 			{
+				if($type_array == null)
+				{
+					$type = $gap[2];
+				}
+				else
+				{
+					$type = $type_array[$gap_number];
+				}
 				$this->db->replace(
 					$this->getAnswerTableName(),
 					array(
@@ -263,7 +271,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 					array(
 						'answer_text' => array('text', $answer),
 						'points'      => array('float', $gap[1]), 
-						'type'        => array('integer', (int)  $type[$gap_number])
+						'type'        => array('integer', (int)  $type)
 					)
 				);
 			}
