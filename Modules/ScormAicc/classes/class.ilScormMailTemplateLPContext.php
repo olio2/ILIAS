@@ -34,18 +34,6 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		global $lng;
-
-		$lng->loadLanguageModule('sahs');
-
-		return $lng->txt('sahs_mail_context_lp_info');
-	}
-
-	/**
 	 * Return an array of placeholders
 	 * @return array
 	 */

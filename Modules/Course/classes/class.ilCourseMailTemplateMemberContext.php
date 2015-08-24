@@ -34,18 +34,6 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		global $lng;
-
-		$lng->loadLanguageModule('crs');
-
-		return $lng->txt('crs_mail_context_member_info');
-	}
-
-	/**
 	 * Return an array of placeholders
 	 * @return array
 	 */

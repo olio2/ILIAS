@@ -376,7 +376,8 @@ class ilMailTemplateGUI
 		$title->setRequired(true);
 		$form->addItem($title);
 
-		$context  = new ilRadioGroupInputGUI($this->lng->txt('mail_template_context'), 'context');
+		$context  = new ilSelectInputGUI($this->lng->txt('mail_template_context'), 'context');
+		$options  = array();
 		$contexts = ilMailTemplateService::getTemplateContexts();
 
 		if(count($contexts) <= 1)
@@ -385,32 +386,22 @@ class ilMailTemplateGUI
 			$this->ctrl->redirect($this, 'showTemplates');
 		}
 
-		$context_sort    = array();
-		$context_options = array();
+		$default = array();
 		$generic_context = new ilMailTemplateGenericContext();
 		foreach($contexts as $ctx)
 		{
-			if($ctx->getId() != $generic_context->getId())
+			if($ctx->getId() ==  $generic_context->getId())
 			{
-				$context_options[$ctx->getId()] = $ctx;
-				$context_sort[$ctx->getId()]    = $ctx->getTitle();
+				$default = array($ctx->getId() => $ctx->getTitle());
+			}
+			else
+			{
+				$options[$ctx->getId()] = $ctx->getTitle();
 			}
 		}
-		asort($context_sort);
-		$first = null;
-		foreach($context_sort as $id => $title)
-		{
-			$ctx    = $context_options[$id];
-			$option = new ilRadioOption($ctx->getTitle(), $ctx->getId());
-			$option->setInfo($ctx->getDescription());
-			$context->addOption($option);
-			
-			if(!$first)
-			{
-				$first = $id;
-			}
-		}
-		$context->setValue($first);
+		asort($options);
+		$options = $default + $options;
+		$context->setOptions($options);
 		$context->setRequired(true);
 		$form->addItem($context);
 

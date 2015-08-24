@@ -33,19 +33,6 @@ class ilMailTemplateGenericContext extends ilMailTemplateContext
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDescription()
-	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
-		return $lng->txt('please_choose');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getSpecificPlaceholders()
 	{
 		return array();

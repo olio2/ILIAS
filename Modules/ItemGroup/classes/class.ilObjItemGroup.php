@@ -5,9 +5,6 @@
 require_once "Services/Object/classes/class.ilObject2.php";
 require_once "Services/Object/classes/class.ilObjectActivation.php";
 
-include_once("./Modules/ItemGroup/classes/class.ilItemGroupAR.php");
-
-
 /**
  * Class ilObjItemGroup
  *
@@ -22,7 +19,6 @@ class ilObjItemGroup extends ilObject2
 	protected $access_begin; // [timestamp]
 	protected $access_end; // [timestamp]
 	protected $access_visibility; // [bool]
-	protected $item_data_ar = null; // active record
 	
 	/**
 	 * Constructor
@@ -33,28 +29,14 @@ class ilObjItemGroup extends ilObject2
 	 */
 	function __construct($a_id = 0, $a_reference = true) 
 	{
-		global $tree, $objDefinition, $ilDB;
+		global $tree, $objDefinition;
 		
 		$this->tree = $tree;
 		$this->obj_def = $objDefinition;
-		$this->db = $ilDB;
-
-		$this->item_data_ar = new ilItemGroupAR();
-
+		
 		parent::__construct($a_id, $a_reference);			
 	}
-
-	/**
-	 * Set ID
-	 *
-	 * @param int $a_val ID
-	 */
-	function setId($a_val)
-	{
-		parent::setId($a_val);
-		$this->item_data_ar->setId($a_val);
-	}
-
+	
 	/**
 	 * Init type
 	 */
@@ -62,33 +44,37 @@ class ilObjItemGroup extends ilObject2
 	{
 		$this->type = "itgr";
 	}
-
-	/**
-	 * Set hide title
-	 *
-	 * @param bool $a_val hide title
-	 */
-	function setHideTitle($a_val)
-	{
-		$this->item_data_ar->setHideTitle($a_val);
-	}
-
-	/**
-	 * Get hide title
-	 *
-	 * @return bool hide title
-	 */
-	function getHideTitle()
-	{
-		return $this->item_data_ar->getHideTitle();
-	}
-
+	
 	/**
 	 * Read
 	 */
 	protected function doRead()
 	{
-		$this->item_data_ar = new ilItemGroupAR($this->getId());
+		global $ilDB;
+
+		/*$set = $ilDB->query("SELECT * FROM il_poll".
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
+		$row = $ilDB->fetchAssoc($set);*/
+		
+		if ($this->ref_id)
+		{
+/*			$activation = ilObjectActivation::getItem($this->ref_id);			
+			$this->setAccessType($activation["timing_type"]);
+			$this->setAccessBegin($activation["timing_start"]);
+			$this->setAccessEnd($activation["timing_end"]);							
+			$this->setAccessVisibility($activation["visible"]);*/							
+		}
+	}
+	
+	/**
+	 * Get properties array
+	 */
+	protected function propertiesToDB()
+	{
+		$fields = array(
+		);
+		
+		return $fields;
 	}
 
 	/**
@@ -96,10 +82,19 @@ class ilObjItemGroup extends ilObject2
 	 */
 	protected function doCreate()
 	{
+		global $ilDB;
+		
 		if($this->getId())
 		{
-			$this->item_data_ar->setId($this->getId());
-			$this->item_data_ar->create();
+			$fields = $this->propertiesToDB();
+//			$fields["id"] = array("integer", $this->getId());
+
+//			$ilDB->insert("il_poll", $fields);
+			
+			
+			// object activation default entry will be created on demand
+			
+			
 		}
 	}
 		
@@ -108,9 +103,26 @@ class ilObjItemGroup extends ilObject2
 	 */
 	protected function doUpdate()
 	{
+		global $ilDB;
+	
 		if($this->getId())
 		{
-			$this->item_data_ar->update();
+			$fields = $this->propertiesToDB();
+			
+//			$ilDB->update("il_poll", $fields,
+//				array("id"=>array("integer", $this->getId())));
+			
+			
+			if($this->ref_id)
+			{
+/*				$activation = new ilObjectActivation();
+				$activation->setTimingType($this->getAccessType());
+				$activation->setTimingStart($this->getAccessBegin());
+				$activation->setTimingEnd($this->getAccessEnd());
+				$activation->toggleVisible($this->getAccessVisibility());
+				$activation->update($this->ref_id);*/
+			}
+			
 		}
 	}
 
@@ -119,9 +131,17 @@ class ilObjItemGroup extends ilObject2
 	 */
 	protected function doDelete()
 	{
+		global $ilDB;
+		
 		if($this->getId())
-		{
-			$this->item_data_ar->delete();
+		{		
+			if($this->ref_id)
+			{
+//				ilObjectActivation::deleteAllEntries($this->ref_id);
+			}
+			
+//			$ilDB->manipulate("DELETE FROM il_poll".
+//				" WHERE id = ".$ilDB->quote($this->id, "integer"));
 		}
 	}
 	
@@ -191,24 +211,6 @@ class ilObjItemGroup extends ilObject2
 		}
 		$ilLog->write(__METHOD__.': 5');
 	}
-
-	/**
-	 * Lookup hide title
-	 *
-	 * @param int $a_id ID
-	 * @return bool
-	 */
-	static function lookupHideTitle($a_id)
-	{
-		global $ilDB;
-
-		$set = $ilDB->query("SELECT hide_title FROM itgr_data ".
-			" WHERE id = ".$ilDB->quote($a_id, "integer")
-			);
-		$rec = $ilDB->fetchAssoc($set);
-		return $rec["hide_title"];
-	}
-
 }
 
 ?>

@@ -263,15 +263,3 @@ log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
 log#:#log_component_btn_reset#:#Reset Settings
 forum#:#frm_search#:#Suche
-itgr#:#itgr_hide_title#:#Hide Title
-itgr#:#itgr_hide_title_info#:#Hides title of item group in presentation for learner.
-assessment#:#assLongMenu#:#Long Menu
-assessment#:#answers_text_box#:#Text
-assessment#:#answers_select#:#Select
-assessment#:#info_text_upload#:#Choose an answer file to upload
-assessment#:#manual_editing#:#Manual Editing
-assessment#:#longmenu_text#:#Long Menu Text
-rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
-rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages
-rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
-rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML

@@ -811,7 +811,7 @@ if($ilDB->tableExists('addressbook'))
 	$res = $ilDB->query($query);
 	while($row = $ilDB->fetchAssoc($res))
 	{
-		$ilDB->replace(
+		$this->db->replace(
 			'buddylist',
 			array(
 				'usr_id'       => array('integer', $row['u1']),
@@ -822,7 +822,7 @@ if($ilDB->tableExists('addressbook'))
 			)
 		);
 
-		$ilDB->replace(
+		$this->db->replace(
 			'buddylist',
 			array(
 				'usr_id'       => array('integer', $row['u2']),
@@ -842,10 +842,10 @@ if($ilDB->tableExists('addressbook'))
 		LEFT JOIN addressbook a2 ON a2.user_id = ud2.usr_id AND a2.login = ud1.login
 		WHERE a2.addr_id IS NULL AND ud1.usr_id != ud2.usr_id
 	";
-	$res = $ilDB->query($query);
-	while($row = $ilDB->fetchAssoc($res))
+	$res = $ilDB->query($res);
+	while($row = $ilDB->fetchAssoc($query))
 	{
-		$ilDB->replace(
+		$this->db->replace(
 			'buddylist_requests',
 			array(
 				'usr_id'       => array('integer', $row['u1']),
@@ -1086,139 +1086,4 @@ if($wiki_type_id)
 <#63>
 <?php
 $ilCtrlStructureReader->getStructure();
-?>
-<#64>
-<?php
-if(!$ilDB->tableExists('itgr_data'))
-{
-	$ilDB->createTable('itgr_data', array(
-		'id' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true
-		),
-		'hide_title' => array(
-			'type' => 'integer',
-			'length' => 1,
-			'notnull' => true,
-			'default' => 0
-		)
-	));
-
-	$ilDB->addPrimaryKey('itgr_data',array('id'));
-}
-?>
-<#65>
-<?php
-$set = $ilDB->query("SELECT * FROM object_data ".
-	" WHERE type = ".$ilDB->quote("itgr", "text")
-	);
-while ($rec = $ilDB->fetchAssoc($set))
-{
-	$ilDB->manipulate("INSERT INTO itgr_data ".
-		"(id, hide_title) VALUES (".
-		$ilDB->quote($rec["obj_id"], "integer").",".
-		$ilDB->quote(0, "integer").
-		")");
-}
-?>
-<#66>
-<?php
-
-$res = $ilDB->queryF(
-"SELECT COUNT(*) cnt FROM qpl_qst_type WHERE type_tag = %s", array('text'), array('assLongMenu')
-);
-
-$row = $ilDB->fetchAssoc($res);
-
-if( !$row['cnt'] )
-{
-$res = $ilDB->query("SELECT MAX(question_type_id) maxid FROM qpl_qst_type");
-$data = $ilDB->fetchAssoc($res);
-$nextId = $data['maxid'] + 1;
-
-$ilDB->insert('qpl_qst_type', array(
-'question_type_id' => array('integer', $nextId),
-'type_tag' => array('text', 'assLongMenu'),
-'plugin' => array('integer', 0)
-));
-}
-
-?>
-<#67>
-<?php
-if( !$ilDB->tableExists('qpl_qst_lome') )
-{
-$ilDB->createTable('qpl_qst_lome', array(
-	'question_fi' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true,
-		'default' => 0
-	),
-	'shuffle_answers' => array(
-		'type' => 'integer',
-		'length' => 1,
-		'notnull' => true,
-		'default' => 0
-	),
-	'answer_type' => array(
-		'type' => 'text',
-		'length' => 16,
-		'notnull' => true,
-		'default' => 'singleLine'
-	),
-	'feedback_setting' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true,
-		'default' => 1
-	),
-	'long_menu_text' =>	 array(
-		"type" => "clob",
-		"notnull" => false,
-		"default" => null
-	)
-));
-
-$ilDB->addPrimaryKey('qpl_qst_lome', array('question_fi'));
-}
-?>
-<#68>
-	<?php
-	if( !$ilDB->tableExists('qpl_a_lome') )
-	{
-		$ilDB->createTable('qpl_a_lome', array(
-			'question_fi' => array(
-				'type' => 'integer',
-				'length' => 4,
-				'notnull' => true,
-				'default' => 0
-			),
-			'gap_number' => array(
-				'type' => 'integer',
-				'length' => 4,
-				'notnull' => true,
-				'default' => 0
-			),
-			'position' => array(
-				'type' => 'integer',
-				'length' => 4,
-				'notnull' => true,
-				'default' => 0
-			),
-			'answer_text' => array(
-				'type' => 'text',
-				'length' => 1000
-			),
-			'points' => array(
-				'type' => 'float'
-			),
-			'type' => array(
-				'type' => 'integer',
-				'length' => 4
-			)
-		));
-		$ilDB->addPrimaryKey('qpl_a_lome', array('question_fi', 'gap_number', 'position'));
-	} 
 ?>

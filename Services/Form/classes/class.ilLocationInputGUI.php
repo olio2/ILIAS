@@ -193,21 +193,18 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 		{
 			$levels[$i] = $i;
 		}
-		
-		$map_id = "map_".md5(uniqid());
-		
 		$tpl->setVariable("ZOOM_SELECT",
 			ilUtil::formSelect($this->getZoom(), $this->getPostVar()."[zoom]",
-			$levels, false, true, 0, "", array("id" => $map_id."_zoom",
-				"onchange" => "ilUpdateMap('".$map_id."');")));
-		$tpl->setVariable("MAP_ID", $map_id);
+			$levels, false, true, 0, "", array("id" => "map_".$this->getPostVar()."_zoom",
+				"onchange" => "ilUpdateMap('"."map_".$this->getPostVar()."');")));
+		$tpl->setVariable("MAP_ID", "map_".$this->getPostVar());
 		$tpl->setVariable("ID", $this->getPostVar());
 		$tpl->setVariable("TXT_LOOKUP", $lng->txt("maps_lookup_address"));
 		$tpl->setVariable("TXT_ADDRESS", $this->getAddress());
 		
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
 		$map_gui = ilMapUtil::getMapGUI();
-		$map_gui->setMapId($map_id)
+		$map_gui->setMapId("map_".$this->getPostVar())
 				->setLatitude($lat)
 				->setLongitude($long)
 				->setZoom($this->getZoom())
