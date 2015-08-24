@@ -4883,15 +4883,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$this->showThreadsObject();
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */
 	protected function setSideBlocks()
 	{
-		require_once 'Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
-		$rgt_content = ilRepositoryObjectSearchGUI::getSearchBlockHTML($this->lng->txt('frm_search'));
+		if(!$GLOBALS['ilCtrl']->isAsynch())
+		{
+			require_once 'Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
+			$rgt_content = ilRepositoryObjectSearchGUI::getSearchBlockHTML($this->lng->txt('frm_search'));
 
-		$this->tpl->setRightContent($rgt_content . $this->getRightColumnHTML());
+			$this->tpl->setRightContent($rgt_content . $this->getRightColumnHTML());
+		}
 	}
 }
