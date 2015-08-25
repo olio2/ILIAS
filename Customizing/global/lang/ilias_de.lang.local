@@ -276,3 +276,5 @@ rbac#:#wiki_edit_wiki_navigation#:#Wiki-Navigation bearbeiten
 rbac#:#wiki_delete_wiki_pages#:#Wikiseiten löschen
 rbac#:#wiki_activate_wiki_protection#:#Schreibschutz für einzelne Wikiseiten aktivieren
 rbac#:#wiki_wiki_html_export#:#Wiki nach HTML exportieren
+prtf#:#prtf_manage_portfolios#:#Portfolios verwalten
+pd#:#block_show_pdportf#:#Portfolios anzeigen

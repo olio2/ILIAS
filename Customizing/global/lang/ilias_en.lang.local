@@ -275,3 +275,5 @@ rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
 rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages
 rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
+prtf#:#prtf_manage_portfolios#:#Manage Portfolios
+pd#:#block_show_pdportf#:#Show Portfolios

@@ -1222,3 +1222,7 @@ $ilDB->addPrimaryKey('qpl_qst_lome', array('question_fi'));
 		$ilDB->addPrimaryKey('qpl_a_lome', array('question_fi', 'gap_number', 'position'));
 	} 
 ?>
+<#69>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
