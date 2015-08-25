@@ -31,7 +31,7 @@ class ilToolbarGUI
 	/**
 	 * @var array
 	 */
-	protected $items = array();
+	public $items = array();
 
 	/**
 	 * @var array
@@ -69,7 +69,7 @@ class ilToolbarGUI
 	/**
 	 * @var array
 	 */
-	protected $primary_items = array();
+	protected $sticky_items = array();
 
 	/**
 	 * @var bool
@@ -208,8 +208,17 @@ class ilToolbarGUI
 	*/
 	function addFormButton($a_txt, $a_cmd, $a_acc_key = "", $a_primary = false, $a_class = false)
 	{
-		$this->items[] = array("type" => "fbutton", "txt" => $a_txt, "cmd" => $a_cmd,
-			"acc_key" => $a_acc_key, "primary" => $a_primary, "class" => $a_class);
+		if ($a_primary) {
+			$button = ilSubmitButton::getInstance();
+			$button->setPrimary(true);
+			$button->setCaption($a_txt, false);
+			$button->setCommand($a_cmd);
+			$button->setAccessKey($a_acc_key);
+			$this->addStickyItem($button);
+		} else {
+			$this->items[] = array("type" => "fbutton", "txt" => $a_txt, "cmd" => $a_cmd,
+				"acc_key" => $a_acc_key, "primary" => $a_primary, "class" => $a_class);
+		}
 	}
 
 
@@ -226,14 +235,14 @@ class ilToolbarGUI
 
 
 	/**
-	 * Add a primary item. Primary items are always visible, also if the toolbar is collapsed (responsive view).
-	 * Primary items are displayed first in the toolbar.
+	 * Add a sticky item. Sticky items are always visible, also if the toolbar is collapsed (responsive view).
+	 * Sticky items are displayed first in the toolbar.
 	 *
 	 * @param ilToolbarItem $a_item
 	 */
-	public function addPrimaryItem(ilToolbarItem $a_item)
+	public function addStickyItem(ilToolbarItem $a_item)
 	{
-		$this->primary_items[] = $a_item;
+		$this->sticky_items[] = $a_item;
 	}
 
 
@@ -244,7 +253,11 @@ class ilToolbarGUI
 	 */
 	public function addButtonInstance(ilButton $a_button)
 	{
-		$this->items[] = array("type" => "button_obj", "instance" => $a_button); 
+		if ($a_button->isPrimary()) {
+			$this->addStickyItem($a_button);
+		} else {
+			$this->items[] = array("type" => "button_obj", "instance" => $a_button);
+		}
 	}
 
 	// bs-patch start
@@ -387,20 +400,20 @@ class ilToolbarGUI
 	{
 		global $lng;
 		
-		if (count($this->items) || count($this->primary_items))
+		if (count($this->items) || count($this->sticky_items))
 		{
 			$tpl = new ilTemplate("tpl.toolbar.html", true, true, "Services/UIComponent/Toolbar");
-			if (count($this->primary_items)) {
-				$tpl_primaries = new ilTemplate("tpl.toolbar_primary_items.html", true, true, "Services/UIComponent/Toolbar");
-				/** @var ilToolbarItem $primary_item */
-				foreach ($this->primary_items as $primary_item)
+			if (count($this->sticky_items)) {
+				$tpl_sticky = new ilTemplate("tpl.toolbar_sticky_items.html", true, true, "Services/UIComponent/Toolbar");
+				/** @var ilToolbarItem $sticky_item */
+				foreach ($this->sticky_items as $sticky_item)
 				{
-					$tpl_primaries->setCurrentBlock('primary_item');
-					$tpl_primaries->setVariable('PRIMARY_ITEM_HTML', $primary_item->getToolbarHTML());
-					$tpl_primaries->parseCurrentBlock();
+					$tpl_sticky->setCurrentBlock('sticky_item');
+					$tpl_sticky->setVariable('STICKY_ITEM_HTML', $sticky_item->getToolbarHTML());
+					$tpl_sticky->parseCurrentBlock();
 				}
-				$tpl->setCurrentBlock('primary_items');
-				$tpl->setVariable('PRIMARY_ITEMS', $tpl_primaries->get());
+				$tpl->setCurrentBlock('sticky_items');
+				$tpl->setVariable('STICKY_ITEMS', $tpl_sticky->get());
 				$tpl->parseCurrentBlock();
 			}
 
@@ -491,13 +504,6 @@ class ilToolbarGUI
 							$tpl_items->touchBlock("item");
 							break;
 						// bs-patch end
-
-
-//						case "separator":
-//							$tpl_items->touchBlock("separator");
-//							$tpl_items->touchBlock("item");
-//							break;
-
 						case "text":
 							$tpl_items->setCurrentBlock("text");
 							$tpl_items->setVariable("VAL_TEXT", $item["text"]);
@@ -594,5 +600,23 @@ class ilToolbarGUI
 			return $tpl->get();
 		}
 		return "";
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getItems()
+	{
+		return $this->items;
+	}
+
+
+	/**
+	 * @param array $items
+	 */
+	public function setItems($items)
+	{
+		$this->items = $items;
 	}
 }

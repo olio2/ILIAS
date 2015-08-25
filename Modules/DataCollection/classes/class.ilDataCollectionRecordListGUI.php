@@ -153,9 +153,10 @@ class ilDataCollectionRecordListGUI {
 			$this->ctrl->setParameterByClass("ildatacollectionrecordeditgui", "record_id", NULL);
 
 			$add_new = ilLinkButton::getInstance();
+			$add_new->setPrimary(true);
 			$add_new->setCaption("dcl_add_new_record");
 			$add_new->setUrl($this->ctrl->getFormActionByClass("ildatacollectionrecordeditgui", "create"));
-			$ilToolbar->addPrimaryItem($add_new);
+			$ilToolbar->addStickyItem($add_new);
 		}
 
 		if (($this->table_obj->getExportEnabled() OR $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))) {
