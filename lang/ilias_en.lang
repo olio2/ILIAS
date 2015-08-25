@@ -15250,14 +15250,6 @@ prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio
 blog#:#blog_back_to_blog_owner#:#Edit Blog 
 meta#:#md_adv_deleted_fields#:#The fields have been deleted.
 search#:#btn_search#:#Search
-#:#mail_enable_crs_member_notification#:#New Members Notification Default
-grp#:#mail_enable_grp_member_notification#:#Notification Default
-crs#:#mail_enable_crs_member_notification_info#:#Default value for "Notification About New Members" in members tab for administrators in new courses.
-grp#:#mail_enable_grp_member_notification_info#:#Default value for "Notification" in members tab for administrators in new groups.
-crs#:#mail_enable_crs_member_notification#:#Standardwert Benachrichtigung über neue Mitglieder
-grp#:#mail_enable_grp_member_notification#:#Standardwert Benachrichtigung
-crs#:#mail_enable_crs_member_notification_info#:#Standardwert für die Einstellung "Benachrichtigung über neue Mitglieder" im Reiter "Mitglieder" für administratoren in neuen Kursen.
-grp#:#mail_enable_grp_member_notification_info#:#Standardwert für die Einstellung "Benachrichtigung" im Reiter "Mitglieder" für administratoren in neuen Gruppen.
 mail#:#mail_enable_crs_admin_notification#:#New Members Notification Default
 mail#:#mail_enable_grp_admin_notification#:#Notification Default
 mail#:#mail_enable_crs_admin_notification_info#:#Default value for "Notification About New Members" in members tab for administrators in new courses.
