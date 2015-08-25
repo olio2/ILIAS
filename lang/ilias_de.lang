@@ -632,111 +632,13 @@ assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#keywords_hint#:#Um eine automatische Punktevergabe bei einer Frage vom Typ Freitext eingeben zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an. Die Schlagwörter müssen durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sein. Ist eines der Schlagwörter im Antworttext vorhanden, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#kiosk#:#Prüfungsansicht
-assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen Sie bitte zusätzlich einen spezialisierten Browser (z.B. Safe Exam Browser) ein.
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Teilnehmer werden daran gehindert, andere Webseiten zu öffnen.
 assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
 assessment#:#kiosk_show_title#:#Titel des Tests
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
-assessment#:#qpl_lac_legend_header_common#:#Aussagenlogik
-assessment#:#qpl_lac_desc_logical_and#:#Logisches UND
-assessment#:#qpl_lac_desc_logical_or#:#Logisches	ODER
-assessment#:#qpl_lac_desc_negation#:#Negation
-assessment#:#qpl_lac_desc_brackets#:#Klammerung
-assessment#:#qpl_lac_desc_res_of_quest_n#:#Ergebnis der n-ten Frage
-assessment#:#qpl_lac_desc_res_of_cur_quest#:#Ergebnis der aktuellen Frage
-assessment#:#qpl_lac_desc_res_of_answ_m_of_quest_n#:#Ergebnis der m-ten Antwort einer n-ten Frage
-assessment#:#qpl_lac_desc_res_of_answ_m_of_cur_quest#:#Ergebnis der m-ten Antwort der aktuellen Frage
-assessment#:#qpl_lac_legend_header_quest_specific#:#Fragenspezifische Ausdrücke
-assessment#:#qpl_lac_legend_label_operators#:#Operatoren
-assessment#:#qpl_lac_desc_compare_with_quest_res#:#Vergleiche das Ergebnis mit dem erzielten Ergebnis in Prozent
-assessment#:#qpl_lac_desc_compare_with_number#:#Vergleiche das Ergebnis mit dem Zahlenwert n
-assessment#:#qpl_lac_desc_compare_with_text#:#Vergleiche das Ergebnis mit dem Freitext TEXT
-assessment#:#qpl_lac_desc_compare_with_assignment#:#Vergleiche das Ergebnis mit der Zuordnung n:m
-assessment#:#qpl_lac_desc_compare_with_sequence#:#Vergleiche das Ergebnis mit der Antwortsequenz ($a,..,z$)
-assessment#:#qpl_lac_desc_compare_with_answer_n#:#Vergleiche das Ergebnis mit der n-ten Antwort der Frage
-assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Vergleiche das Ergebnis, ob ausschließlich die angegebene Sequenz ausgewählt wurde
-assessment#:#qpl_lac_desc_compare_answer_exist#:#Vergleiche ob für eine Frage/Lücke einer Frage keine Antwort gegeben wurde
-assessment#:#lacex_example_header#:#Beispiele
-assessment#:#lacex_assQuestion_PercentageResultExpression_e#:#R >= %75%
-assessment#:#lacex_assQuestion_PercentageResultExpression_d#:#Wurden bei der aktuellen Frage, genau oder mehr als 75% der möglichen Punkte erreicht
-assessment#:#lacex_assQuestion_EmptyAnswerExpression_e#:#R = ?
-assessment#:#lacex_assQuestion_EmptyAnswerExpression_d#:#Es wurde keine Antwort für die Frage abgegeben
-assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
-assessment#:#lacex_assSingleChoice_NumberOfResultExpression_d#:#Bei der Beantwortung der Frage, wurde die 2te Antwortoption gewählt
-assessment#:#lacex_assMultipleChoice_NumberOfResultExpression_e#:#R = +2+
-assessment#:#lacex_assMultipleChoice_NumberOfResultExpression_d#:#Bei der Beantwortung der Frage, wurde die 2te Antwortoption gewählt
-assessment#:#lacex_assMultipleChoice_ExclusiveResultExpression_e#:#R = *1,3,4*
-assessment#:#lacex_assMultipleChoice_ExclusiveResultExpression_d#:#Für die Frage wurden genau die Antwortoptionen 1, 3 und 4 gewählt
-assessment#:#lacex_assErrorText_NumberOfResultExpression_e#:#R = +2+
-assessment#:#lacex_assErrorText_NumberOfResultExpression_d#:#Bei der Beantwortung der Frage, wurde die 2te Antwortoption gewählt
-assessment#:#lacex_assErrorText_ExclusiveResultExpression_e#:#R = *1,3,4*
-assessment#:#lacex_assErrorText_ExclusiveResultExpression_d#:#Für die Frage wurden genau die Antwortoptionen 1, 3 und 4 gewählt
-assessment#:#lacex_assImagemapQuestion_NumberOfResultExpression_e#:#R = +2+
-assessment#:#lacex_assImagemapQuestion_NumberOfResultExpression_d#:#Bei der Beantwortung der Frage, wurde die 2te Antwortoption gewählt
-assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_e#:#R = *1,3,4*
-assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_d#:#Für die Frage wurden genau die Antwortoptionen 1, 3 und 4 gewählt
-assessment#:#lacex_assNumeric_NumericResultExpression_e#:#R = #4.7#
-assessment#:#lacex_assNumeric_NumericResultExpression_d#:#Die Frage wurde mit dem Zahlenwert 4.7 beantwortet
-assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_e#:#R = $2,5,1,4,3$
-assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_d#:#Die zu sortierenden Elemente wurden in folgender Reihenfolge angeordnet: 2, 5, 1, 5, 3
-assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_e#:#R = $2,5,1,4,3$
-assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_d#:#Die zu sortierenden Elemente wurden in folgender Reihenfolge angeordnet: 2, 5, 1, 5, 3
-assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_e#:#R = ;1:2; & R = ;2:3; & R = ;3:1;
-assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_d#:#Die Elemente wurden wie folgt zugeordnet: 1 => 2 und 2 => 3 und 3 => 1
-assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~Natriumchlorid~
-assessment#:#lacex_assTextSubset_StringResultExpression_d#:#Für die 2te Anwortoption wurde der Text „Natriumchlorid“ eingetragen
-assessment#:#lacex_assFormulaQuestion_NumericResultExpression_e#:#R[1] = #3.14159#
-assessment#:#lacex_assFormulaQuestion_NumericResultExpression_d#:#Die 1te Antwortoption wurde mit dem Zahlenwert 3.14159 beantwortet
-assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] = #5#
-assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#Bei der 2ten Antwortoption handelt es sich um eine numerische Lücke und diese wurde mit dem Zahlenwert 5 beantwortet
-assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~Montag~
-assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#Bei der 1ten Antwortoption handelt es sich um eine Textlücke und diese wurde mit „Montag“ beantwortet
-assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~Grün~
-assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#Bei der 4ten Antwortoption handelt es sich um eine Auswahllücke und es wurde die Antwortoption ausgewählt, dessen Label „Grün“ entspricht
-assessment#:#lacex_assClozeTest_NumberOfResultExpression_e#:#R[4] = +2+
-assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#Bei der 4ten Antwortoption handelt es sich um eine Auswahllücke und es wurde dort die 2te Option ausgewählt
-assessment#:#qpl_skill_point_eval_mode_quest_result#:#Antwortergebnis
-assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Lösungsvergleich
-assessment#:#qpl_skill_point_eval_by_quest_result#:#Ermittlung der Kompetenzpunkte über Antwortergebnis
-assessment#:#qpl_skill_point_eval_by_solution_compare#:#Ermittlung der Kompetenzpunkte durch Lösungsvergleich
-assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antworvergleich
-assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
-assessment#:#ass_lac_hide_legend_btn#:#Verstecke Legende
-assessment#:#ass_lac_show_legend_btn#:#Zeige Legende
-assessment#:#ass_lac_validation_error#:#Es sind Fehler bei der Validierung der Bedingung(en) aufgetreten!
-assessment#:#ass_lac_expression#:#Ausdruck
-assessment#:#ass_lac_question_not_exist#:#Die Frage mit dem Index "Q%s" existiert nicht in diesem Set.
-assessment#:#ass_lac_question_not_reachable#:#Die Frage mit dem Index "Q%s" kann an diesem Knoten nicht adressiert werden.
-assessment#:#ass_lac_expression_not_supported#:#Der Ausdruck "%s" wird nicht unterstützt.
-assessment#:#ass_lac_operator_not_supported#:#Der Operator "%s" wird nicht unterstützt.
-assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
-assessment#:#ass_lac_missing_bracket#:#In der Bedingung sind zu wenig "%s"-Klammer enthalten.
-assessment#:#ass_lac_invalid_statement#:#Der %s. Ausdruck in der eingegebenen Bedinung ist ungültig. Bitte überprüfen Sie ihre Eingabe gemäß der möglichen Ausdrücke (siehe Legende).
-assessment#:#ass_lac_duplicate_element#:#Doppelte Verwendung des Keys "%s" in der Bedingung.
-assessment#:#ass_lac_answer_index_not_exist#:#Die Frage mit dem Index "Q%s" hat keine Antwortoption mit dem Index "%s".
-assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#Die aktuelle Frage hat keine Antwortoption mit dem Index "%s".
-assessment#:#ass_lac_answer_value_not_exists#:#Der Wert "%s" ist in der Frage Q%s[%s] nicht vorhanden.
-assessment#:#ass_lac_answer_value_not_exists_one_answer#:#Der Wert "%s" ist in der Frage Q%s nicht vorhanden.
-assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#Der Wert "%s" ist in der Antwort mit dem Index "%s" der aktuellen Frage nicht vorhanden.
-assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#Der Wert "%s" ist in der aktuellen Frage nicht vorhanden.
-assessment#:#ass_lac_expression_not_supported_by_question#:#Für die Frage "Q%s" ist der Ausdruck "%s" nicht unterstützt.
-assessment#:#ass_lac_expression_not_supported_by_cur_question#:#Für die aktuelle Frage ist der Ausdruck "%s" nicht unterstützt.
-assessment#:#ass_lac_operator_not_supported_by_expression#:#Die Operation "%s" wird für den Vergleich mit dem Ausdruck "%s" nicht unterstützt.
-assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
-assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung des Kompetenz-Levels beitragen.
-assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
-assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
-assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Summe aller Kompetenzpunkte je Kompetenz
-assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus "%s" müssen grundsätzlich in den zugeordneten Fragenpools vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
-assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus "%s" müssen grundsätzlich im zugeordneten Fragenpool vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
-assessment#:#qpl_qst_skl_selection_for_question_header#:#Kompetenzzuordnung für die Frage: %s
-assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
-assessment#:#tst_skl_level_thresholds_missing#:#Es sind noch nicht für alle relevanten Kompetenzen Schwellenwerte definiert worden!
-assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurieren
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
 assessment#:#locked#:#gesperrt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
@@ -746,7 +648,6 @@ assessment#:#log_mark_added#:#Note hinzugefügt
 assessment#:#log_mark_changed#:#Note geändert
 assessment#:#log_mark_removed#:#Note entfernt
 assessment#:#log_modified_test#:#Der Test wurde verändert
-assessment#:#tst_results_presentation_description#:#Wird die Ergebnisübersicht für laufende Tests angeboten, erhalten die Teilnehmer die Möglichkeit, Fragentitel und erzielte Punkte der jeweiligen Fragen in der Ergebnisübersicht einzusehen. Wenn die Bewertungsdetails in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten. Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt. Wenn "Druckausgabe der Ergebnisse (nur Antworten)" ausgewählt ist, werden ILIAS-Inhalte, die Sie über den "Inhalt bearbeiten" Karteireiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt. Ist "Unterschrift-Platzhalter anzeigen" ausgewählt, wird für den Ausdruck ein Platzhalter für die Unterschrift des Testteilnehmers angezeigt. Wenn "Musterlösungen anzeigen" ausgewählt ist, werden die Musterlösungen von Fragen (falls vorhanden) in der Fragenübersicht der Testergebnisse angezeigt.
 assessment#:#log_question_added#:#Frage hinzugefügt an Position
 assessment#:#log_question_position_changed#:#Fragenposition geändert
 assessment#:#log_question_removed#:#Frage entfernt
@@ -1328,9 +1229,8 @@ assessment#:#tst_result#:#Testergebnis
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
-assessment#:#tst_result_pass#:#Ergebnisse des Testdurchlaufs
 assessment#:#tst_results_access_enabled#:#Teilnehmer sehen Testergebnisse
-assessment#:#tst_results_access_enabled_desc#:#Teilnehmer erhalten Zugriff auf ihre Testergebnisse. Um diese einzusehen, klicken sie auf dem Reiter 'Info' den Button 'Testergebnisse anzeigen'.
+assessment#:#tst_results_access_enabled_desc#:#Teilnehmer erhalten Zugriff auf ihre Testergebnisse. Um diese einzusehen, klicken sie im 'Info'-Reiter den Button 'Testergebnisse anzeigen'.
 assessment#:#tst_results_access_setting#:#Zeitpunkt
 assessment#:#tst_results_access_always#:#Sofort
 assessment#:#tst_results_access_always_desc#:#Teilnehmer können ihre Ergebnisse schon während eines Testdurchlaufs im 'Info'-Reiter einsehen. Ihre Ergebnisse werden ihnen zudem direkt nach Abschluss des Testdurchlaufs präsentiert.
@@ -1340,9 +1240,9 @@ assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
 assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse direkt nach Abschluss eines Testdurchlaufs. Sie können ihre Ergebnisse danach jederzeit im 'Info'-Reiter einsehen.
 assessment#:#tst_results_details_options#:#Details Testergebnisse
 assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note anzeigen
-assessment#:#tst_results_grading_opt_show_mark_desc#:#Die resultierende Note wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über einen Button auf dem Reiter 'Info' einsehen.
+assessment#:#tst_results_grading_opt_show_mark_desc#:#Die resultierende Note wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über einen Button im 'Info'-Reiter einsehen.
 assessment#:#tst_results_grading_opt_show_status#:#"Bestanden" / "Nicht bestanden" anzeigen
-assessment#:#tst_results_grading_opt_show_status_desc#:#Der Status "Bestanden" / "Nicht bestanden" wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über einen Button auf dem Reiter 'Info' einsehen.
+assessment#:#tst_results_grading_opt_show_status_desc#:#Der Status "Bestanden" / "Nicht bestanden" wird in der Übersicht der Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über einen Button im 'Info'-Reiter einsehen.
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
 assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
@@ -1593,28 +1493,22 @@ assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl än
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
 assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren
+assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Der Kompetenzservice wurde aufgrund des Testmodus ohne feste Fragenauswahl deaktiviert.
+assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Die Aktivierung des Kompetenzservice ist aufgrund des Testmodus ohne feste Fragenauswahl nicht möglich.
 assessment#:#tst_tab_competences#:#Kompetenzen
-assessment#:#qpl_tab_competences#:#Kompetenzen
-assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
-assessment#:#qpl_skl_sub_tab_usages#:#Vergabehäufigkeit
+assessment#:#tst_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
 assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenz-Schwellenwerte
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenz-Schwellenwerte wurden gespeichert.
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
 assessment#:#tst_competence#:#Kompetenz
-assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
-assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
-assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
-assessment#:#qpl_qst_skl_assign_properties_modified#:#Die Eigenschaften der Zuweisung wurden gespeichert.
-assessment#:#qpl_qst_skl_assigns_updated#:#Die Kompetenzuweisungen wurden aktualisiert.
-assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
-assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzuweisungen wurden auf die Originalfrage übertragen.
-assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
-assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
-assessment#:#tst_comp_eval_mode#:#Evaluierung über
+assessment#:#tst_assign_competence#:#Kompetenz zuordnen
+assessment#:#tst_remove_competence#:#Kompetenz entfernen
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
+assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
 assessment#:#tst_num_questions#:#Anzahl Fragen
 assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
 assessment#:#tst_level#:#Kompetenz Level
-assessment#:#tst_threshold#:#Schwellenwert (in %)
+assessment#:#tst_threshold#:#Schwellenwert
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
 assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse anzeigen
 assessment#:#tst_analysis#:#Analyse
@@ -4895,7 +4789,9 @@ common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#setSystemLanguage#:#Systemsprache ändern
 common#:#settings#:#Einstellungen
+common#:#settings_for_all_members#:#Benachrichtigung für alle Kurs-/Gruppenmitglieder aktiviert
 common#:#settings_for_new_members#:#Einstellungen für neue Mitglieder
+common#:#settings_per_users#:#Individuelle Einstellung für jedes Kurs-/Gruppenmitglied
 common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
 common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#shib#:#Shibboleth
@@ -5892,7 +5788,7 @@ content#:#cont_link_int#:#Link (intern)
 content#:#cont_link_select#:#Interner Link
 content#:#cont_link_to_external#:#Link zu einer externen Webseite
 content#:#cont_link_to_internal#:#Link innerhalb von ILIAS
-content#:#cont_link_to_wiki#:#Link zu einer Wikiseite (Klammern einfügen)
+content#:#cont_link_to_wiki#:#Link zu einer Wikiseite
 content#:#cont_link_type#:#Linktyp
 content#:#cont_link_whole_picture#:#Komplettes Bild verlinken
 content#:#cont_linked_mobs#:#Verlinkte Medienobjekte
@@ -6562,7 +6458,7 @@ crs#:#crs_grouping_assign#:#Zuordnung ändern
 crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass Sie die folgenden Mitgliedschaftsbeschränkungen entfernen möchten?
 crs#:#crs_grouping_deleted#:#Die Gruppierung wurde gelöscht.
 crs#:#crs_grouping_modified_assignment#:#Die Zuordnung wurde geändert.
-crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Mitgliedschaftsbeschränkung aus.
+crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
 crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_groupings_ask_delete#:#Kursgruppierung löschen
 crs#:#crs_groups_nr#:#Anzahl Gruppen
@@ -6606,6 +6502,7 @@ crs#:#crs_info_reg_direct#:#Sie können diesem Kurs direkt beitreten.
 crs#:#crs_info_reg_password#:#Wenn Sie das Kurspasswort von einem Kursadministrator erhalten haben, können Sie in diesen Kurs beitreten.
 crs#:#crs_info_settings#:#Kursinfo
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
+crs#:#crs_intro_course_group_notification_for#:#Dies ist die tägliche Zusammenfassung der Mails für: %s
 crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung, um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_join_request#:#Abschicken
@@ -7892,7 +7789,7 @@ forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
 forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
 forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
 forum#:#forums_notification_show_post#:#Zum Beitrag gehen: %s
-forum#:#forums_notification_subject#:#Neuer Beitrag im Forum:
+forum#:#frm_noti_subject_new_post#:#Neuer Beitrag im Forum "%1$s" zum Thema "%2$s"
 forum#:#forums_post_activation_mail#:#Solange der folgende Beitrag nicht aktiviert ist, ist er für andere Forenteilnehmer nicht sichtbar. Sie erhalten diese Mail, da sie als Moderator eingetragen sind und die Berechtigung besitzen, diesen Beitrag zu aktivieren.
 forum#:#forums_post_and_children_were_activated#:#Der Beitrag und seine Folgebeiträge wurden aktiviert.
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
@@ -7954,6 +7851,7 @@ forum#:#thread#:#Thema
 forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in ein anderes Forum verschoben.
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
+forum#:#user_decides_notification#:#Benutzer entscheidet selbst über Benachrichtigung
 grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung entfernt werden soll ?
 grp#:#crs_grouping_deleted#:#Die Mitgliedschaftsbeschränkung wurde gelöscht.
@@ -8345,7 +8243,7 @@ mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Benutzernamen ei
 mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
 mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
 mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Benutzernamen.
-mail#:#mail_entry_of_addressbook#:#Eintrag aus den Kontakten
+mail#:#mail_entry_of_contacts#:#Eintrag aus den Kontakten
 mail#:#mail_external_sender_noreply#:#noreply-Adresse
 mail#:#mail_file_name#:#Dateiname
 mail#:#mail_file_size#:#Dateigröße
@@ -8374,8 +8272,8 @@ mail#:#mail_invite_users_to_chat#:#Benutzer in Chat einladen
 mail#:#mail_list_members#:#Mitglieder auflisten
 mail#:#mail_mailing_list#:#Verteilerliste
 mail#:#mail_mailing_lists#:#Verteilerlisten
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
-mail#:#mail_mailing_lists_no_addressbook_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
+mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
+mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
@@ -11134,7 +11032,7 @@ survey#:#categories#:#Antworten
 survey#:#category#:#Antwort
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Antwort(en) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Antwort aus, um den Löschvorgang durchzuführen!
-survey#:#category_nr_selected#:#Anzahl der Auswahlen
+survey#:#category_nr_selected#:#Anzahl der Teilnehmer, die diese Antwort ausgewählt haben
 survey#:#chart#:#Diagramm
 survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Antwort auswählen, um eine Phrase speichern zu können!
 survey#:#codes#:#Zugangsschlüssel
@@ -11452,7 +11350,7 @@ survey#:#outro#:#Abschließende Bemerkung
 survey#:#participating_users#:#Teilnehmende Benutzer
 survey#:#percentage_of_entered_values#:#Prozentsatz der Benutzer, die diesen Wert ausgewählt haben
 survey#:#percentage_of_offered_answers#:#Prozentsatz der angebotenen Antworten
-survey#:#percentage_of_selections#:#Anteil an den insgesamt ausgewählten Antwortoptionen in Prozent
+survey#:#percentage_of_selections#:#Prozentsatz der Benutzer, die diese Antwort ausgewählt haben
 survey#:#phrase_added#:#Phrase hinzugefügt
 survey#:#phrase_new#:#Neue Phrase erstellen
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
@@ -12457,7 +12355,7 @@ dcl#:#dcl_add#:#Datensammlung anlegen
 dcl#:#dcl_copy#:#Datensammlung kopieren
 dcl#:#dcl_edit#:#Datensammlung bearbeiten
 dcl#:#dcl_import#:#Datensammlung importieren
-dcl#:#dcl_in_export#:#Exportierbar
+dcl#:#dcl_in_export#:#Im Export
 rbac#:#dcl_visible#:#Datensammlung ist sichtbar
 rbac#:#dcl_read#:#Datensammlung lesen
 rbac#:#dcl_copy#:#Datensammlung kopieren
@@ -12478,7 +12376,7 @@ dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
 dcl#:#dcl_field_datatype#:#Feld Datentyp
-dcl#:#dcl_required#:#Verpflichtend
+dcl#:#dcl_required#:#Pflichtfeld
 dcl#:#dcl_edit_type_non#:#Nicht bearbeitbar
 dcl#:#dcl_edit_type_non_info#:#Um neue Einträge zu erstellen, ist das Recht 'Eintragen' notwendig.
 dcl#:#dcl_edit_type_unlim#:#Unlimitiert
@@ -12495,25 +12393,24 @@ dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_datatype#:#Datentyp
-dcl#:#dcl_integer#:#Ganze Zahlen
+dcl#:#dcl_integer#:#Ganzzahl
 dcl#:#dcl_text#:#Text
-dcl#:#dcl_reference#:#Auswahlmenü
-dcl#:#dcl_boolean#:#Checkbox
+dcl#:#dcl_reference#:#Referenz
+dcl#:#dcl_boolean#:#Boolean
 dcl#:#dcl_datetime#:#Datum
 dcl#:#dcl_file#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
-dcl#:#dcl_field_required#:#Verpflichtend
+dcl#:#dcl_field_required#:#Pflichtfeld
 dcl#:#dcl_length#:#Länge
-dcl#:#dcl_length_info#:#Maximale Anzahl von Zeichen, die ein Benutzer eingeben kann. Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option "Mehrzeiliges Texteingabefeld".
+dcl#:#dcl_length_info#:#(bei mehr als 200 Zeichen nutzen Sie zusätzlich die Option Texteingabefeld)
 dcl#:#dcl_regex#:#Regulärer Ausdruck
-dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
+dcl#:#dcl_regex_info#:#(ohne Trennsymbol/Delimiter)
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (Falscher Typ).
-dcl#:#dcl_unique#:#Gleiche Einträge verhindern
-dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
+dcl#:#dcl_unique#:#Einzigartig
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
 dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel '%s' existiert nicht
@@ -12528,7 +12425,6 @@ dcl#:#dcl_delete_records#:#Datensätze löschen
 dcl#:#dcl_confirm_delete_records#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
-dcl#:#dcl_info_text#:#Text, Links oder E-Mail-Adressen eingeben
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
@@ -12801,14 +12697,10 @@ dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_locked#:#Gesperrt
 dcl#:#dcl_table_settings#:#Tabelleneinstellungen
 dcl#:#dcl_add_perm#:#Neuen Eintrag hinzufügen
-dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
-dcl#:#dcl_edit_perm#:#Einträge bearbeiten
-dcl#:#dcl_delete_perm#:#Einträge löschen
-dcl#:#dcl_all_entries#:#Alle Einträge
-dcl#:#dcl_own_entries#:#Nur eigene Einträge
-dcl#:#dcl_edit_by_owner#:#Nur eigene Einträge bearbeiten oder löschen
-dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
-dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
+dcl#:#dcl_edit_perm#:#Datensätze bearbeiten
+dcl#:#dcl_delete_perm#:#Datensätze löschen
+dcl#:#dcl_edit_by_owner#:#Nur eigene Datensätze bearbeiten oder löschen
+dcl#:#dcl_limited#:#Zeitliche Beschränkung für das Hinzufügen, Bearbeiten und Löschen
 dcl#:#dcl_record_id#:#Eintrag-ID
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#Ende
@@ -12832,19 +12724,17 @@ dcl#:#dcl_edit_table#:#Tabelleneinstellungen
 dcl#:#dcl_msg_table_edited#:#Tabelleneinstellungen wurden gespeichert.
 dcl#:#dcl_legend_placeholders#:#Platzhalter
 dcl#:#dcl_any#:#Alle
-dcl#:#dcl_rating#:#Bewertung
-dcl#:#dcl_editable_in_table_gui#:#Ein Eintrag kann nur über die Tabellenansicht bewertet werden.
+dcl#:#dcl_rating#:#Rating
+dcl#:#dcl_editable_in_table_gui#:#Bewertung: Nutzen Sie die Tabellensicht.
 dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
-dcl#:#dcl_export_enabled#:#Tabelle exportieren
-dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selber exportieren. Dazu müssen in der Übersicht "Felder der ausgewählten Tabelle" die Felder einzeln als exportierbar ausgewählt werden.
+dcl#:#dcl_export_enabled#:#Tabellen export für alle Benutzer erlauben
 dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
 dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_prop_expression#:#Ausdruck
 dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
-dcl#:#dcl_display_action_menu#:#Kopieren
-dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
+dcl#:#dcl_display_action_menu#:#Das referenzierte Modul kann kopiert oder verlinkt werden
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender
@@ -12993,14 +12883,13 @@ dcl#:#dcl_actions#:#Actionen
 dcl#:#dcl_owner_editable#:#Nur eigene Einträge bearbeiten
 dcl#:#dcl_msg_table_created#:#Tabelle angelegt
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht
-dcl#:#dcl_ILIAS_reference#:#Objekt im Magazin
-dcl#:#dcl_learning_progress#:#Lernfortschritt anzeigen
-dcl#:#dcl_learning_progress_desc#:#Wenn vorhanden, wird der Lernfortschritts des Benutzers angezeigt
+dcl#:#dcl_ILIAS_reference#:#Link zu einem ILIAS-Modul
+dcl#:#dcl_learning_progress#:#Zeige den Lernfortschritt des verlinkten Moduls bezüglich des Betrachters
 dcl#:#dcl_status#:#Dein Status
 dcl#:#dcl_mob#:#Medienobjekt
 dcl#:#dcl_width#:#Breite
 dcl#:#dcl_height#:#Höhe
-dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht "Eintragen" besitzen.
+dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer mit dem Recht "Eintragen" in dieser Datensammlung tun dürfen. 
 dcl#:#dcl_delete_table#:#Lösche Tabelle
 dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
 dcl#:#dcl_cant_delete_main_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die zentrale Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
@@ -13030,9 +12919,8 @@ exc#:#exc_team_notification_body_rmv#:#Sie wurden aus einer Team-Upload-Übungse
 exc#:#exc_team_notification_changed_by#:#Status geändert durch
 exc#:#exc_team_notification_link#:#Link zur Übung
 poll#:#poll_absolute#:#Aktuelle Stimmen
-dcl#:#dcl_reference_link#:#Link zum referenzierten Feldeintrag
-dcl#:#dcl_ILIAS_reference_link#:#Link zum Objekt
-dcl#:#dcl_ILIAS_reference_link_desc#:#Objekt kann per Link aufgerufen werden, wenn Leserecht vorhanden ist
+dcl#:#dcl_reference_link#:#In der Tabellensicht als Link darstellen
+dcl#:#dcl_ILIAS_reference_link#:#In der Tabellensicht als Link darstellen
 dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
 forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
@@ -13053,15 +12941,14 @@ common#:#il_blog_contributor#:#Blog-Autor
 rbac#:#blog_contribute#:#Benutzer darf Einträge hinzufügen
 blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' können auch Benutzer mit einer der folgenden Rollen Einträge hinzufügen: %s
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
-dcl#:#dcl_visible#:#Im Menu zeigen
-dcl#:#dcl_visible_desc#:#Benutzer können diese Tabelle über das Auswahlmenü "Tabelle" aufrufen.
+dcl#:#dcl_visible#:#Sichtbar für alle Benutzer
 dcl#:#dcl_empty_view#:#Seitenvorlage löschen
 dcl#:#dcl_activate_view#:#Seitenvorlage aktivieren
 dcl#:#dcl_deactivate_view#:#Seitenvorlage deaktivieren
 dcl#:#dcl_confirm_delete_view_title#:#Seitenvorlage wirklich löschen?
 dcl#:#dcl_confirm_delete_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
 dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
-dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
+dcl#:#dcl_permissions_form#:#Benutzeraktionen
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_create_fields#:#Bitte erstellen Sie neue Felder unter dem "Felder" Tab.
 dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
@@ -13114,7 +13001,7 @@ content#:#cont_presentation#:#Darstellung
 content#:#cont_scorm_options#:#SCORM-Optionen
 content#:#cont_rte_settings#:#RTE-Einstellungen
 content#:#cont_debugging#:#Debugging
-content#:#cont_auto_last_visited_info#:#Dem Benutzer wird beim erneuten Aufrufen des SCORM-Lernmoduls das zuletzt besuchte SCO oder Asset angezeigt.
+content#:#cont_auto_last_visited_info#:#Öffnet das zuletzt besuchte SCO (oder Asset), wenn der Lerner das Lernmodul wieder aufruft.
 content#:#cont_credit_mode_info#:#Diese Einstellung ist nur wirksam im Modus 'normal'.
 content#:#cont_sc_auto_review_info_12#:#Setzt den Modus auf 'review', wenn der Lerner das SCO vollständig bearbeitet oder bestanden hat.
 content#:#cont_sc_usession_info#:#Wenn aktiviert werden periodisch Anfragen an den Server gesendet, um die Session des Benutzers aufrecht zu erhalten.
@@ -13268,14 +13155,14 @@ blog#:#blog_toggle_draft_admin#:#Blog-Eintrag deaktivieren
 blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.
 forum#:#merge#:#Zusammenführen
 forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung.
-forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden. 
+forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden! Das ältere der gewählten Themen wird immer als Zusammenführungs-Ziel behandelt. 
 forum#:#not_allowed_to_merge_into_another_forum#:#Es ist nicht möglich Themen verschiedener Foren zusammenzuführen.
 forum#:#frm_selected_merge_src#:#Gewähltes Thema für die Zusammenführung: %s
 forum#:#error_same_thread_ids#:#Es müssen zwei verschiedene Themen ausgewählt werden.
 forum#:#frm_merge_src#:#Ausgewähltes Thema: %s
 forum#:#frm_merge_target#:#Ziel: %s
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
-forum#:#switch_threads_for_merge#:#Das ausgewählte Thema ist älter als das Zielthema. Um eine sinnvolle Zusammenführung zu schaffen, werden Quell- und Zielthema getauscht.
+forum#:#switch_threads_for_merge#:#Das augewählte Thema ist älter als das Zielthema. Um eine sinnvolle Zusammenführung zu schaffen, werden Quell- und Zielthema getauscht.
 assessment#:#oq_btn_nest_terms#:#Zur Ansicht: Terme gliedern
 assessment#:#oq_btn_nest_pictures#:#Zur Ansicht: Bilder gliedern
 assessment#:#oq_btn_define_terms#:#Zur Ansicht: Terme anlegen
@@ -13346,17 +13233,15 @@ dcl#:#dcl_owner#:#Besitzer
 dcl#:#dcl_owner_description#:#Der Besitzer dieses Eintrages.
 dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edited_by_description#:#Der Benutzer der diesen Eintrag zuletzt geändert hat.
-dcl#:#dcl_public_comments#:#Kommentare
-dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren
-dcl#:#dcl_default_sort_field#:#Sortierung
-dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
-dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
+dcl#:#dcl_public_comments#:#Öffentliche Kommentare für Datensätze aktivieren
+dcl#:#dcl_default_sort_field#:#Standardmässige Sortierung
+dcl#:#dcl_default_sort_field_order#:#Standardmässige Sortierungs-Richtung
 dcl#:#dcl_prev_record#:#Vorheriger Eintrag
 dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_delete_fields#:#Felder löschen
-dcl#:#dcl_view_own_records_perm#:#Nur eigene Einträge anzeigen
-dcl#:#dcl_link_detail_page#:#Link zur Detailseite
+dcl#:#dcl_view_own_records_perm#:#Nur eigene Datensätze anzeigen
+dcl#:#dcl_link_detail_page#:#Einträge als Link zur Detail-Seite anzeigen
 crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
 common#:#objs_bibl#:#Literaturlisten
 common#:#obj_bibl#:#Literaturliste
@@ -13774,7 +13659,7 @@ search#:#search_add_members_from_container_grp#:#Benutzer aus aktueller Gruppe h
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_info#:#Nicht möglich für Team-Upload-Übungseinheiten
-exc#:#exc_peer_review_min_number#:#Anzahl der Bewertungen je Teilnehmer
+exc#:#exc_peer_review_min_number#:#Mindestanzahl Bewertungen
 exc#:#exc_peer_review_give#:#Feedback geben
 exc#:#exc_peer_review_no_peers#:#Es konnten keine Peers gefunden werden.
 exc#:#exc_peer_review_rating#:#Bewertung
@@ -13820,7 +13705,7 @@ blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da Sie di
 survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat die Umfrage beendet.
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
-content#:#cont_offline_mode_allow_info#:#Erlaubt die Nutzung des Lernmoduls ohne Internet-Anbindung im SCORM-Offline-Player. Dazu wird das Lernmodul über das 'Aktionen'-Menü  heruntergeladen und mit einem Add-on des Browsers Firefox dargestellt. Nach dem Bearbeiten des Lernmoduls müssen Benutzer über die Option 'Offline-Modus' ihre Lernstandsdaten in ILIAS importieren.
+content#:#cont_offline_mode_allow_info#:#Wenn der Offline-Modus erlaubt ist, erscheint unter 'Aktionen' beim Lernmodul zusätzlich die Option 'Offline-Modus' und für Nutzer mit dem Recht zur Bearbeitung des Lernfortschritts unter 'Einstellungen' zusätzlich der Reiter 'Offline-Nutzung'. Im Offline-Modus können Lernmodule nur im SCORM-Offline-Player von ILIAS (Firefox Add-on) dargestelllt werden. Zum Beenden des Offline-Modus können Nutzer über die Option 'Offline-Modus' Lernstandsdaten importieren. Daten im SCORM-Offline-Player werden somit für dieses Lernmodul gelöscht. Bevor Sie den Offline-Modus erlauben, sollten Sie die erforderlichen Einstellungen zum Lernfortschritt abgeschlossen haben.
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
 administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Magazin 
@@ -13910,11 +13795,6 @@ content#:#cont_ed_plachverification#:#Platzhalter Zertifikat
 cld#:#cld_auth_failed_no_object_created#:#Authentifzierung fehlgeschlagen. Es wurde kein Cloud-Objekt angelegt.
 common#:#objs_orgu#:#Organisationseinheiten
 common#:#obj_orgu#:#Organisationseinheit
-common#:#obj_orgu_description#:#Anlage und Verwaltung der Organisationsstruktur
-common#:#il_orgu_employee#:#Mitarbeiter
-common#:#il_orgu_superior#:#Vorgesetzte
-common#:#view_learning_progress#:#Zeige Lernfortschritt
-common#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#orgu_msg_info_paste#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen.
@@ -14581,8 +14461,6 @@ rbac#:#orgu_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und 
 rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
 rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rbac_create_orgu#:#Organisationseinheiten anlegen
-rbac#:#orgu_copy#:#Organisationseinheit kopieren
-rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 book#:#book_post_booking_text_info#:#Verwenden Sie [PERIOD] und [OBJECT], um Buchungsdetails zum Infotext hinzuzufügen.
 blog#:#blog_abstract_shorten#:#Auszug kürzen
 blog#:#blog_abstract_shorten_length#:#Maximale Länge
@@ -15039,7 +14917,7 @@ crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Mater
 ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
 bibl#:#bibl_library_show_in_list#:#Link auch in der Liste anzeigen
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
-content#:#cont_ie_compatibility_info#:#Vermindert Darstellungsprobleme älterer SCORM-Lernmodule, die für den Internet Explorer optimiert wurden. Wenn bei neueren Versionen des Internet Explorers der Kompatibilitätsmodus deaktiviert ist, greift diese Einstellung nicht. <br />
+content#:#cont_ie_compatibility_info#:#Insbesondere für ältere Lernmodule kann das Aktivieren des Kompatibilitätsmodus hilfreich sein. Bitte beachten Sie, dass bei neueren Versionen des Internet Explorer der Kompatibilitätsmodus deaktiviert werden kann.
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Aktivieren Sie diese Option nur, wenn Inhalte des Lernmoduls im Internet Explorer auf Grund vieler Frames oder iFrames nicht korrekt angezeigt werden. Die Anzeige des Lernmoduls muss in einem neuen Fenster erfolgen.
 maps#:#maps_enable_maps_info#:#Activiert Karten in Benutzerprofil, Gruppen und Kursen
@@ -15328,6 +15206,8 @@ mob#:#mob_object#:#Objekt
 content#:#cont_qtries_info#:#Standardwert "Anzahl der Versuche" für neu angelegte Fragen.
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
 content#:#cont_settings#:#Lernmoduleinstellungen
+rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
+rbac#:#orgu_copy#:#Organisationseinheit kopieren
 exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an!
 prtf#:#prtf_edit_embedded_blog#:#Blog "%s" bearbeiten
 exc#:#exc_manage_team#:#Team verwalten
@@ -15359,194 +15239,10 @@ meta#:#md_adv_confirm_definition_select_option_all#:#Alle vorhandenen Einträge 
 meta#:#md_adv_confirm_definition_select_option_single#:#Jeden vorhandenen Eintrag einzeln entscheiden
 meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
 file#:#file_import#:#Dateiimport
-dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
-dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
-dcl#:#dcl_integer_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
-dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
-dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
-dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
-dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden
-dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
-dcl#:#dcl_ILIAS_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
-dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit bis zu fünf Sternen bewerten.
-dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
-dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
-dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
-dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.
-adve#:#adve_auto_url_linking#:#URL Auto-Linking
-adve#:#adve_auto_url_linking_info#:#ILIAS durchsucht Textparagraphen nach URLs (z.B. "http://..") und verlinkt diese entsprechend automatisch.
-content#:#cont_auto_time#:#Wartezeit Animation
-content#:#cont_rand_start#:#Zufällige Startseite
-content#:#cont_tabs_carousel#:#Karussell
-exc#:#exc_adopt_group_teams#:#Teams aus Gruppen bilden
-exc#:#exc_adopt_group_teams_added#:#%s Benutzer wurden hinzugefügt.
-exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.
-exc#:#exc_adopt_group_teams_conflict#:#Benutzer "%1$s" ist bereits in Gruppe "%2$s" gewählt.
-exc#:#exc_adopt_group_teams_no_members#:#Keine Mitglieder
-exc#:#exc_deadline_ext_mismatch#:#Die Karenzzeit muss nach dem Abgabetermin enden.
-exc#:#exc_deadline_extended#:#Karenzzeit
-exc#:#exc_deadline_extended_info#:#Im Zeitraum zwischen dem Abgabetermin und dem Ende der Karenzzeit können verspätete Abgaben vorgenommen werden.
-exc#:#exc_late_submission#:#Verspätete Abgabe
-exc#:#exc_late_submission_warning#:#Abgaben nach %s werden als verspätet gekennzeichnet.
-exc#:#exc_max_file#:#Maximale Dateianzahl
-exc#:#exc_max_file_info#:#Nach Erreichen des Limits können Teilnehmer keine weiteren Dateien hochladen.
-exc#:#exc_max_file_reached#:#Sie können maximal %s Dateien hochladen.
-exc#:#exc_max_file_tgl#:#Uploads begrenzen
-exc#:#exc_no_team_yet_info_tutor#:#Teams werden von den Übungstutoren verwaltet.
-exc#:#exc_peer_review_chars_invalid#:#Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen in mind. einem Feedback erreicht.
-exc#:#exc_peer_review_completion#:#Bestimmung des Status "Bestanden"
-exc#:#exc_peer_review_completion_all#:#Erst nach Abgabe aller Bewertungen
-exc#:#exc_peer_review_completion_none#:#Keine Abgabe einer Bewertung notwendig
-exc#:#exc_peer_review_completion_one#:#Bereits nach Abgabe einer Bewertung
-exc#:#exc_peer_review_given#:#Gegebenes Feedback zeigen
-exc#:#exc_peer_review_min_chars#:#Mindestanzahl Zeichen
-exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback.
-exc#:#exc_peer_review_min_chars_tgl#:#Mindestlänge
-exc#:#exc_peer_review_show_missing#:#Sie können das erhaltene Feedback nicht einsehen, da Sie zu wenig Feedback gegeben haben.
-exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
-exc#:#exc_peer_review_simple_unlock#:#Anzeige der erhaltenen Bewertungen
-exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung
-exc#:#exc_peer_review_simple_unlock_inactive#:#Nach Abgabe aller Bewertungen
-exc#:#exc_team_management_tutor#:#Team-Management durch Tutoren
-exc#:#exc_team_management_tutor_info#:#Bei Aktivierung dieser Option könne Teilnehmer ihre Teams nicht selbst organisieren.
-exc#:#exc_team_multi_create#:#Team erstellen
-exc#:#exc_team_multi_dissolve#:#Team(s) auflösen
-style#:#sty_type_ca_cntr#:#Carousel Container
-style#:#sty_type_ca_icntr#:#Carousel Item Container
-style#:#sty_type_ca_icont#:#Carousel Item Content
-style#:#sty_type_ca_ihead#:#Carousel Item Header
-wiki#:#wiki_link_md_values#:#Automatische Verlinkung
-wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
-cron#:#cron_result_status_fail#:#Fehler
-wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
-content#:#cont_wiki_link_dialog#:#Link zu einer Wikiseite (Dialog)
-link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Antworten
-forum#:#add_new_answer#:#Neuer Beitrag 
-mail#:#mail_orphaned_mails#:#Löschen alter oder verwaister Mails
-mail#:#mail_threshold#:#Schwellenwert
-mail#:#mail_threshold_info#:#Interne Mails, die älter als der hier definierte Schwellenwert sind, werden unwiderruflich gelöscht (inklusive evtl vorhandener Anhänge).<br> Bitte bedenken Sie, dass bei erstmaliger Ausführung dieses Cron-Jobs je nach Schwellenwert sehr viele Nachrichten gelöscht werden und eine E-Mail als Warnung nicht mehr versendet werden kann.
-mail#:#mail_orphaned_mails_desc#:#Löschen alter oder verwaister Mails
-mail#:#only_inbox_trash#:#Nur Posteingang/Papierkorb berücksichtigen
-mail#:#only_inbox_trash_info#:#Fallls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Benutzer befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
-mail#:#mail_notify_orphaned#:#Benachrichtigungsmail
-mail#:#mail_notify_orphaned_info#:#Wenn Sie hier einen Wert größer oder gleich 1 eintragen, sendet ILIAS eine E-Mail an den Benutzer bevor eine interne Mail gelöscht wird. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist.
-prtt#:#prtt_portfolio_created#:#Portfoliovorlage wurde hinzugefügt
-forum#:#frm_censorship#:#Zensieren
-forum#:#frm_revoke_censorship#:#Zensur aufheben
-forum#:#frm_censorship_applied#:#Der Beitrag wurde erfolgreich zensiert.
-forum#:#frm_censorship_revoked#:#Die Zensur für den Beitrag wurde aufgehoben.
-forum#:#frm_mark_as_read#:#Als gelesen markieren
-forum#:#frm_mark_as_unread#:#Als ungelesen markieren
-common#:#clientlist_clientlist#:#Mandantenauswahl
-common#:#clientlist_available_clients#:#Mandantenauswahl
-common#:#clientlist_installation_name#:#Mandanten
-common#:#clientlist_public_access#:#Öffentlicher Bereich
-common#:#clientlist_login#:#Anmelden
-common#:#clientlist_start_page#:#Öffentlicher Bereich
-common#:#clientlist_login_page#:#Anmelden
-forum#:#file_upload_allowed_fora_desc#:#Wenn "Anhängen von Dateien in ausgewählten Foren erlauben" ausgewählt ist, können Moderatoren das Anhängen von Dateien in den jeweiligen Foren-Einstellungen gezielt aktivieren. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
-forum#:#file_upload_allowed_fora#:#Dateien anhängen
-forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
-forum#:#file_upload_option_disallow#:#Anhängen von Dateien in ausgewählten Foren erlauben
-forum#:#file_upload_allowed#:#Erlaube das Anhängen von Dateien
-forum#:#allow_file_upload_desc#:#Wenn diese Option aktiviert ist, wird das Anhängen von Dateien in diesem Forum ermöglicht.
-sysc#:#sysc_overview#:#Übersicht
-sysc#:#sysc_groups#:#Systemcheck-Gruppen
-sysc#:#sysc_grp_tree#:#Magazinbaum
-sysc#:#sysc_grp_tree_desc#:#Analysiert und repariert die Datenintegrität des Magazinbaums
-sysc#:#sysc_completed_num#:#Erfüllte Aufgaben
-sysc#:#sysc_failed_num#:#Nicht erfüllte Aufgaben
-sysc#:#sysc_task_overview#:#Aufgaben
-sysc#:#sysc_action_validate#:#Überprüfen
-sysc#:#sysc_action_repair#:#Reparieren
-sysc#:#sysc_task_tree_duplicates#:#Doppelte Einträge in der Baumstruktur
-sysc#:#sysc_task_tree_duplicates_desc#:#Durchsucht das System nach doppelten Einträgen in Magazinbaum.
-sysc#:#sysc_task_tree_dump#:#Baum auflisten
-sysc#:#sysc_task_tree_dump_desc#:#Analysiert die Baumstruktur und listet alle Baumknoten zusammen mit den Analysedaten auf.
-sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen
-sysc#:#sysc_action_show_tree#:#Baumstruktur anzeigen
-sysc#:#sysc_tree_duplicate_failures#:#Es wurden doppelte Einträge in der Baumstruktur gefunden. Anzahl doppelter Einträge:
-sysc#:#sysc_message_success#:#Es wurden keine Fehler festgestellt.
-sysc#:#sysc_tree_list_failures#:#Ein Dump des Magazinbaums wurde erstellt. Anzahl gefundener Fehler:
-sysc#:#sysc_status_na#:#Noch nicht ausgeführt
-sysc#:#sysc_status_running#:#Wird durchgeführt
-sysc#:#sysc_status_failed#:#Fehlgschlagen
-sysc#:#sysc_status_completed#:#Erfüllt
-sysc#:#sysc_task_tree_missing#:#Fehlende Einträge in der Baumstruktur
-sysc#:#sysc_task_tree_missing_desc#:#Durchsucht das System nach fehlenden Einträgen in der Baumstruktur
-sysc#:#sysc_message_tree_missing_confirm#:#Möchten sie die fehlenden Einträge in der Baumstruktur wieder herstellen?
-sysc#:#sysc_btn_tree_missing#:#Wiederherstellung starten
-sysc#:#sysc_tree_missing_failures#:#Es gibt fehlende Einträge in der Baumstruktur. Anzahl fehlender Einträge:
-sysc#:#sysc_cron_empty_trash#:#Papierkorb löschen
-sysc#:#sysc_cron_empty_trash_desc#:#Wenn aktiviert, werden Objekte des Papierkorbs automatisch anhand bestimmter Kriterien (Alter, Objekttyp, Anzahl) aus dem System entfernt.
-sysc#:#sysc_task_tree_missing_tree#:#Fehlende Einträge im Magazinbaum
-sysc#:#sysc_task_tree_missing_tree_desc#:#Sucht und repariert fehlende Einträge referenzierter Objekte im Magazinbaum.
-sysc#:#sysc_task_tree_missing_reference#:#Fehlende Referenzen
-sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objekt-Referenzen für Einträge im Magazinbaum.
-sysc#:#sysc_task_structure#:#Baumstruktur
-sysc#:#sysc_task_structure_desc#:#Analyiert und korrigiert die Struktur des Magazinbaums
-forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert
-forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr
-forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert
-forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert
-forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen
-forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet
-blog#:#blog_keywords_other#:#Sonstige Schlagwörter
-blog#:#blog_keywords_other_info#:#Diese Schlagwörter sind für andere Blog-Einträge vergeben worden.
-content#:#cont_cc_sub#:#Tiefgestellt
-content#:#cont_cc_sup#:#Hochgestellt
-style#:#sty_type_sub#:#Tiefgestellt
-style#:#sty_type_sup#:#Hochgestellt
-content#:#cont_text_sub#:#Tiefgestellt
-content#:#cont_text_sup#:#Hochgestellt
-cmps#:#cmps_uninstall#:#Deinstallieren
-cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin "%s" deinstallieren? 
-cmps#:#cmps_plugin_uninstalled#:#Das Plugin wurde deinstalliert.
-content#:#cont_pc_carousel#:#Karussell
-style#:#sty_carousel_templates#:#Karussell Templates
-style#:#sty_ca_cntr_class#:#Carousel Container
-style#:#sty_ca_icntr_class#:#Carousel Item Container
-style#:#sty_ca_icont_class#:#Carousel Item Content
-style#:#sty_ca_ihead_class#:#Carousel Item Header
-membership#:#mem_force_notification#:#Benachrichtigung per Mail 
-membership#:#mem_force_notification_mode_self#:#Mitglieder müssen Benachrichtigungen aktivieren 
-membership#:#mem_force_notification_mode_blocked#:#Mitglieder werden automatisch benachrichtigt
-membership#:#mem_force_notification_mode_all#:#Aktiviert für alle Mitglieder (frei änderbar)
-membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglieder können Benachrichtigungen deaktivieren
-membership#:#mem_force_notification_mode_custom#:#Einstellungen für jedes Mitglied
-common#:#settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
-common#:#settings_per_users#:#Für jedes Mitglied können individuelle Voreinstellungen getroffen werden
-forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren 
-crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
-crs#:#crs_intro_course_group_notification_period#:#Diese Mail umfasst Nachrichten für den Zeitraum von %1$s bis %2$s.
-crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen:
-forum#:#post_deleted_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" gelöscht:
-forum#:#content_deleted_post#:#Inhalt des gelöschten Beitrags:
-forum#:#post_updated_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" geändert
-forum#:#content_post_updated#:#Inhalt des geänderten Beitrags:
-forum#:#post_censored_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" zensiert:
-forum#:#content_censored_post#:#Inhalt des zensierten Beitrags:
-forum#:#forums_notification_show_frm#:#Zum Forum gehen: %s
-forum#:#thread_deleted_by#:#folgendes Thema im Forum "%2$s" wurde von "%1$s" gelöscht:
-forum#:#content_deleted_thread#:#Inhalt des gelöschten Themas:
-forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" aufgehoben:
-forum#:#frm_noti_message#:#Nachricht:
-forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
-forum#:#frm_noti_subject_new_post#:#Neuer Beitrag im Forum "%1$s" zum Thema "%2$s"
-forum#:#frm_noti_subject_del_thread#:#Thema "%2$s" im Forum "%1$s" gelöscht
-forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
-forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
-forum#:#frm_noti_subject_upt_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" geändert
-forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" zensiert
-forum#:#frm_noti_subject_uncens_post#:#Zensur aufgehoben für einen Beitrag im Forum "%1$s" zum Thema "%2$s"
-forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
-search#:#search_show_inactive_user#:#Zeige Inaktive Benutzer
-search#:#search_show_inactive_user_info#:#Inaktive Benutzer werden in der Benutzersuche angezeigt.
-search#:#search_show_limited_user#:#Zeige Begrenzte Benutzer
-search#:#search_show_limited_user_info#:#Benutzer mit begrenztem Zugang, die außerhalb ihrer zeitlichen Begrenzung sind werden in der Benutzersuche angezeigt.
-mail#:#mail_enable_crs_admin_notification#:#Standardwert Benachrichtigung neue Mitglieder
-mail#:#mail_enable_grp_admin_notification#:#Standardwert Benachrichtigung
-mail#:#mail_enable_crs_admin_notification_info#:#Standardwert für die Einstellung "Benachrichtigung über neue Mitglieder" im Reiter "Mitglieder" für administratoren in neuen Kursen.
-mail#:#mail_enable_grp_admin_notification_info#:#Standardwert für die Einstellung "Benachrichtigung" im Reiter "Mitglieder" für administratoren in neuen Gruppen.
+forum#:#add_new_answer#:#Neuer Beitrag
+prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
+blog#:#blog_back_to_blog_owner#:#Blog bearbeiten
+meta#:#md_adv_deleted_fields#:#Die Felder wurden gelöscht.
+search#:#btn_search#:#Suchen
