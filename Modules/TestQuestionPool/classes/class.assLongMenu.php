@@ -17,6 +17,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	const ANSWER_TYPE_TEXT_VAL		= 1;
 	const GAP_PLACEHOLDER			= 'Longmenu';
 	const MIN_LENGTH_AUTOCOMPLETE 	= 0;
+	const MAX_INPUT_FIELDS 			= 500;
 
 	function __construct(
 		$title 		= "",
@@ -244,7 +245,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		);
 		$this->createFileFromArray();
 	}
-	
+
 	public function saveAnswerSpecificDataToDb()
 	{
 		$this->clearAnswerSpecificDataFromDb($this->getId());
@@ -262,17 +263,17 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 					$type = $type_array[$gap_number];
 				}
 				$this->db->replace(
-					$this->getAnswerTableName(),
-					array(
-						'question_fi' => array('integer', (int)$this->getId()),
-						'gap_number'  => array('integer', (int)$gap_number),
-						'position'    => array('integer', (int)$position)
-					),
-					array(
-						'answer_text' => array('text', $answer),
-						'points'      => array('float', $gap[1]), 
-						'type'        => array('integer', (int)  $type)
-					)
+						$this->getAnswerTableName(),
+						array(
+								'question_fi' => array('integer', (int)$this->getId()),
+								'gap_number'  => array('integer', (int)$gap_number),
+								'position'    => array('integer', (int)$position)
+						),
+						array(
+								'answer_text' => array('text', $answer),
+								'points'      => array('float', $gap[1]),
+								'type'        => array('integer', (int)  $type)
+						)
 				);
 			}
 		}

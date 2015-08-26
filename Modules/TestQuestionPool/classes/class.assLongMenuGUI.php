@@ -5,7 +5,13 @@ require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
 include_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
-
+/**
+ * @version		$Id$
+ *
+ * @package     Modules/TestQuestionPool
+ *
+ * @ilCtrl_Calls assLongMenuGUI: ilPropertyFormGUI
+ */
 class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
 	private $rbacsystem, $ilTabs;
@@ -190,6 +196,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 			$tpl->setVariable('CORRECT_ANSWERS', 	$this->object->getJsonStructure());
 			$tpl->setVariable('ALL_ANSWERS', 		$this->object->getAnswersObject());
 		}
+		$tpl->setVariable('MAX_INPUT_FIELDS', 	assLongMenu::MAX_INPUT_FIELDS);
 		$tpl->setVariable('GAP_PLACEHOLDER', 	assLongMenu::GAP_PLACEHOLDER);
 		$tpl->setVariable('SELECT_BOX', 		$this->lng->txt('insert_gap'));
 		$tpl->setVariable("SELECT", 			$this->lng->txt('answers_select'));
