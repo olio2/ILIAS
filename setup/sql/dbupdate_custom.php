@@ -1226,3 +1226,7 @@ $ilDB->addPrimaryKey('qpl_qst_lome', array('question_fi'));
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#70>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
