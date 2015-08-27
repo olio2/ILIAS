@@ -277,3 +277,5 @@ rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
 prtf#:#prtf_manage_portfolios#:#Manage Portfolios
 pd#:#block_show_pdportf#:#Show Portfolios
+prtf#:#prtf_pd_block#:#Personal Desktop Block
+prtf#:#prtf_pd_block_info#:#Aktivates a block on the personal desktop that lists all portfolios of the user.

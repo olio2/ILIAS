@@ -278,3 +278,5 @@ rbac#:#wiki_activate_wiki_protection#:#Schreibschutz für einzelne Wikiseiten ak
 rbac#:#wiki_wiki_html_export#:#Wiki nach HTML exportieren
 prtf#:#prtf_manage_portfolios#:#Portfolios verwalten
 pd#:#block_show_pdportf#:#Portfolios anzeigen
+prtf#:#prtf_pd_block#:#Block auf Persönlichem Schreibtisch
+prtf#:#prtf_pd_block_info#:#Aktiviert einen Seitenblock auf dem Persönlichem Schreibtisch, der alle Portfolios des Benutzers auflistet.
