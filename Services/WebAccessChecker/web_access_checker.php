@@ -1,10 +1,36 @@
 <?php
-/**
- * Runs the ILIAS WebAccessChecker 2.0
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-chdir('../../');
-require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
-ilWebAccessChecker::run(urldecode($_SERVER['REQUEST_URI']));
+/**
+* Web Access Checker
+*
+* Checks the access rights of a directly requested content file.
+* Called from a web server redirection rule.
+*
+* - determines the related learning module and checks the permission
+* - either delivers the accessed file (without redirect)
+* - or prints an error message (if too less rights)
+*
+* @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
+* @version $Id$
+ *
+ *          @deprecated
+*/
+
+// Change to ILIAS main directory
+chdir("../..");
+
+// Load the checker class, which also initializes ILIAS
+require_once "./Services/WebAccessChecker/classes/class.ilWebAccessCheckerOld.php";
+
+$checker = new ilWebAccessCheckerOld();
+
+if ($checker->checkAccess())
+{
+	$checker->sendFile();
+}
+else
+{
+	$checker->sendError();
+}
+?>
