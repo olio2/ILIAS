@@ -1,12 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mjansen
- * Date: 22.06.2016
- * Time: 17:04
- */
-
-
 global $ilDB;
 
 include_once "Services/Context/classes/class.ilContext.php";
@@ -16,8 +8,8 @@ include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 
 $_COOKIE["ilClientId"] = 'default';
-$_POST['username'] = 'root';
-$_POST['password'] = 'homer';
+$_POST['username']     = 'root';
+$_POST['password']     = 'homer';
 
 include_once './include/inc.header.php';
 
