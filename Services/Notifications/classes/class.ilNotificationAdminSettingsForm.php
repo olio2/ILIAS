@@ -22,7 +22,7 @@ class ilNotificationAdminSettingsForm
 			'disabled'     => $lng->txt('disabled'),
 		);
 
-		foreach ($types as $type)
+		foreach($types as $type)
 		{
 			$select = new ilSelectInputGUI($lng->txt('nott_' . $type['name']), 'notifications[' . $type['name'] . ']');
 			$select->setOptions($options);
@@ -45,7 +45,7 @@ class ilNotificationAdminSettingsForm
 			'disabled'     => $lng->txt('disabled'),
 		);
 
-		foreach ($types as $type)
+		foreach($types as $type)
 		{
 			$select = new ilSelectInputGUI($lng->txt('notc_' . $type['name']), 'notifications[' . $type['name'] . ']');
 			$select->setOptions($options);
@@ -75,7 +75,7 @@ class ilNotificationAdminSettingsForm
 		 */
 		$form->restored_values = array();
 		$store_values          = array();
-		foreach ($channels as $channel)
+		foreach($channels as $channel)
 		{
 
 			$chb = new ilCheckboxInputGUI($lng->txt('enable_' . $channel['name']), 'enable_' . $channel['name']);
@@ -97,7 +97,7 @@ class ilNotificationAdminSettingsForm
 			// checkbox
 			$inst   = new $channel['handler']();
 			$result = $inst->{'showSettings'}($chb);
-			if ($result)
+			if($result)
 			{
 				$store_values = array_merge($result, $store_values);
 			}

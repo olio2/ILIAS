@@ -63,7 +63,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-		switch ($next_class)
+		switch($next_class)
 		{
 			case 'ilpermissiongui':
 				//$ilTabs->activateTab("id_permissions");
@@ -76,7 +76,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 				$this->__initSubTabs();
 				$ilTabs->activateTab("view");
 
-				if (empty($cmd) || $cmd == 'view')
+				if(empty($cmd) || $cmd == 'view')
 				{
 					$cmd = 'showTypes';
 				}
@@ -105,14 +105,14 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
 		$this->ctrl->setParameter($this, "ref_id", $this->ref_id);
 
-		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		if($ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$ilTabs->addTab("id_info",
 				$lng->txt("info_short"),
 				$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary"));
 		}
 
-		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+		if($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
 			$ilTabs->addTab("id_permissions",
 				$lng->txt("perm_settings"),
@@ -124,7 +124,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 	{
 		global $ilLocator;
 
-		if (is_object($this->object))
+		if(is_object($this->object))
 		{
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
 		}
@@ -139,7 +139,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
 		$form = ilNotificationAdminSettingsForm::getGeneralSettingsForm();
 		$form->setValuesByPost();
-		if (!$form->checkInput())
+		if(!$form->checkInput())
 		{
 			$this->showGeneralSettingsObject($form);
 		}
@@ -154,12 +154,12 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 			$values = $form->store_values;//array('enable_osd', 'osd_polling_intervall', 'enable_mail');
 
 			// handle custom channel settings
-			foreach ($values as $v)
+			foreach($values as $v)
 			{
 				$settings->set($v, $_POST[$v]);
 			}
 
-			foreach ($_REQUEST['notifications'] as $type => $value)
+			foreach($_REQUEST['notifications'] as $type => $value)
 			{
 				ilNotificationDatabaseHandler::setConfigTypeForChannel($type, $value);
 			}
@@ -170,9 +170,13 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
 	function showGeneralSettingsObject($form = null)
 	{
+		global $ilTabs;
+
 		require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
 
-		if ($form == null)
+		$ilTabs->activateSubTab('notification_general');
+
+		if($form == null)
 		{
 			$form     = ilNotificationAdminSettingsForm::getGeneralSettingsForm();
 			$settings = new ilSetting('notifications');
@@ -187,8 +191,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 		}
 
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveGeneralSettings'));
-		$form->addCommandButton('saveGeneralSettings', 'save');
-		$form->addCommandButton('showGeneralSettings', 'cancel');
+		$form->addCommandButton('saveGeneralSettings', $this->lng->txt('save'));
 
 		$this->tpl->setContent($form->getHtml());
 	}
@@ -196,7 +199,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 	public function saveTypesObject()
 	{
 		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-		foreach ($_REQUEST['notifications'] as $type => $value)
+		foreach($_REQUEST['notifications'] as $type => $value)
 		{
 			ilNotificationDatabaseHandler::setConfigTypeForType($type, $value);
 		}
@@ -215,14 +218,13 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 		$form = ilNotificationAdminSettingsForm::getTypeForm(ilNotificationDatabaseHandler::getAvailableTypes());
 		$form->setFormAction($this->ctrl->getFormAction($this, 'showTypes'));
 		$form->addCommandButton('saveTypes', $this->lng->txt('save'));
-		$form->addCommandButton('showTypes', $this->lng->txt('cancel'));
 		$this->tpl->setContent($form->getHtml());
 	}
 
 	public function saveChannelsObject()
 	{
 		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-		foreach ($_REQUEST['notifications'] as $type => $value)
+		foreach($_REQUEST['notifications'] as $type => $value)
 		{
 			ilNotificationDatabaseHandler::setConfigTypeForChannel($type, $value);
 		}
@@ -272,7 +274,6 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 		$table->setData(ilNotificationDatabaseHandler::getAvailableTypes());
 		$table->setDescription($lng->txt('notification_admin_matrix_settings_table_desc'));
 		$table->addCommandButton('saveConfigMatrix', $lng->txt('save'));
-		$table->addCommandButton('showConfigMatrix', $lng->txt('cancel'));
 
 		$this->tpl->setContent($table->getHtml());
 	}

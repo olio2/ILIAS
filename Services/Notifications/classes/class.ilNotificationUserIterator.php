@@ -9,8 +9,11 @@ require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php
 class ilNotificationUserIterator implements Iterator
 {
 	private $userids;
+
 	private $rset;
+
 	private $data;
+
 	private $module;
 
 	public function __construct($module, array $userids = array())

@@ -15747,7 +15747,7 @@ notification#:#notc_osd#:#On Screen Notification (OSD)
 notification#:#enable_osd#:#Enable On Screen Notifications (OSD)
 notification#:#enable_mail#:#Enable Mail Notifications
 notification#:#polling_intervall#:#Polling Intervall
-notification#:#polling_in_seconds#:#Time in seconds, the Userinterface will look for new notifications.<br /><b>Attention:</b> This will prevent users from beeing logged out automatically (session timeout).
+notification#:#polling_in_seconds#:#Time in seconds, the Userinterface will look for new notifications.<br /><b>Attention: </b> This will prevent users from beeing logged out automatically (session timeout).
 notification#:#enable_custom_notification_configuration#:#Activate custom notification configuration
 notification#:#config_type#:#Configuration
 notification#:#notification_general#:#General

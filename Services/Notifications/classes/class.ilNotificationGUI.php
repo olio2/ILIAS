@@ -36,7 +36,7 @@ class ilNotificationGUI
 	{
 		global $ilCtrl;
 
-		if (!$ilCtrl->getCmd())
+		if(!$ilCtrl->getCmd())
 		{
 			return;
 		}
@@ -63,7 +63,7 @@ class ilNotificationGUI
 
 		ilSession::enableWebAccessWithoutSession(true);
 
-		if ($ilUser->getId() == ANONYMOUS_USER_ID)
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
 			return '{}';
 		}
@@ -95,7 +95,7 @@ class ilNotificationGUI
 
 	public function addHandler($channel, ilNotificationHandler $handler)
 	{
-		if (!array_key_exists($channel, $this->handler) || !is_array($this->handler[$channel]))
+		if(!array_key_exists($channel, $this->handler) || !is_array($this->handler[$channel]))
 		{
 			$this->handler[$channel] = array();
 		}
@@ -107,7 +107,7 @@ class ilNotificationGUI
 	{
 		global $ilLocator, $ilCtrl;
 
-		if (is_object($this->object))
+		if(is_object($this->object))
 		{
 			$ilLocator->addItem($this->object->getTitle(), $ilCtrl->getLinkTarget($this, ''), '', $_GET["ref_id"]);
 		}
@@ -117,7 +117,7 @@ class ilNotificationGUI
 	{
 		global $ilUser;
 
-		if ($_POST['enable_custom_notification_configuration'])
+		if($_POST['enable_custom_notification_configuration'])
 		{
 			$ilUser->writePref('use_custom_notification_setting', 1);
 		}
@@ -156,7 +156,7 @@ class ilNotificationGUI
 		$table->setFormAction($ilCtrl->getFormAction($this, 'saveSettings'));
 		$table->setData($this->getAvailableTypes(array('set_by_user')));
 
-		if ($ilUser->getPref('use_custom_notification_setting') == 1)
+		if($ilUser->getPref('use_custom_notification_setting') == 1)
 		{
 			$table->addCommandButton('saveSettings', $lng->txt('save'));
 			$table->addCommandButton('showSettings', $lng->txt('cancel'));

@@ -20,13 +20,13 @@ class ilNotificationDatabaseHandler
 		$where             = array();
 		$langVarToTypeDict = array();
 
-		foreach ($vars as $type => $var)
+		foreach($vars as $type => $var)
 		{
 			/**
 			 * @var $type string (title, longDescription or shortDescription, ...)
 			 * @var $var  ilNotificationParameter
 			 */
-			if (!$var)
+			if(!$var)
 			{
 				continue;
 			}
@@ -34,7 +34,7 @@ class ilNotificationDatabaseHandler
 			$langVarToTypeDict[$var->getName()] = $type;
 		}
 
-		if (!$where)
+		if(!$where)
 		{
 			return array();
 		}
@@ -43,9 +43,9 @@ class ilNotificationDatabaseHandler
 		$res     = $ilDB->query($query);
 		$results = array();
 
-		while ($row = $ilDB->fetchAssoc($res))
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			if (!$results[$row['identifier']])
+			if(!$results[$row['identifier']])
 			{
 				$results[$row['identifier']]                 = new stdClass();
 				$results[$row['identifier']]->lang_untouched = array();
@@ -69,12 +69,12 @@ class ilNotificationDatabaseHandler
 		$pattern_old = '/##(.+?)##/im';
 		$pattern     = '/\[(.+?)\]/im';
 
-		foreach ($results as $langVar => $res)
+		foreach($results as $langVar => $res)
 		{
 			$placeholdersStack = array();
 			$res->lang         = array();
 
-			foreach ($res->lang_untouched as $iso2shorthandle => $translation)
+			foreach($res->lang_untouched as $iso2shorthandle => $translation)
 			{
 				$translation                 = str_replace("\\n", "\n", $translation);
 				$placeholdersStack[]         = self::findPlaceholders($pattern, $translation);
@@ -119,13 +119,13 @@ class ilNotificationDatabaseHandler
 	 */
 	private static function replaceFields($string, $foundPlaceholders, $params, $startTag, $endTage)
 	{
-		foreach ($foundPlaceholders as $placeholder)
+		foreach($foundPlaceholders as $placeholder)
 		{
-			if (array_key_exists(strtoupper($placeholder), $params))
+			if(array_key_exists(strtoupper($placeholder), $params))
 			{
 				$string = str_ireplace($startTag . $placeholder . $endTage, $params[strtoupper($placeholder)], $string);
 			}
-			if (array_key_exists(strtolower($placeholder), $params))
+			if(array_key_exists(strtolower($placeholder), $params))
 			{
 				$string = str_ireplace($startTag . $placeholder . $endTage, $params[strtolower($placeholder)], $string);
 			}
@@ -162,7 +162,7 @@ class ilNotificationDatabaseHandler
 	{
 		global $ilDB;
 
-		if ($userid != -1)
+		if($userid != -1)
 		{
 			$channels = self::getAvailableChannels(array('set_by_user'));
 			$types    = self::getAvailableTypes(array('set_by_user'));
@@ -181,11 +181,11 @@ class ilNotificationDatabaseHandler
 		// delete old settings
 		$ilDB->manipulateF($query, $types, $values);
 
-		foreach ($configArray as $type => $channels)
+		foreach($configArray as $type => $channels)
 		{
-			foreach ($channels as $channel => $value)
+			foreach($channels as $channel => $value)
 			{
-				if (!$value)
+				if(!$value)
 				{
 					continue;
 				}
@@ -206,7 +206,7 @@ class ilNotificationDatabaseHandler
 		global $ilDB;
 
 		$query = 'SELECT channel_name, title, description, class, include, config_type FROM ' . ilNotificationSetupHelper::$tbl_notification_channels;
-		if ($config_types)
+		if($config_types)
 		{
 			$query .= ' WHERE ' . $ilDB->in('config_type', $config_types, false, 'text');
 		}
@@ -217,9 +217,9 @@ class ilNotificationDatabaseHandler
 
 		$settings = new ilSetting('notifications');
 
-		while ($row = $ilDB->fetchAssoc($rset))
+		while($row = $ilDB->fetchAssoc($rset))
 		{
-			if (!$includeDisabled && !$settings->get('enable_' . $row['channel_name']))
+			if(!$includeDisabled && !$settings->get('enable_' . $row['channel_name']))
 			{
 				continue;
 			}
@@ -242,7 +242,7 @@ class ilNotificationDatabaseHandler
 		global $ilDB;
 
 		$query = 'SELECT type_name, title, description, notification_group, config_type FROM ' . ilNotificationSetupHelper::$tbl_notification_types;
-		if ($config_types)
+		if($config_types)
 		{
 			$query .= ' WHERE ' . $ilDB->in('config_type', $config_types, false, 'text');
 		}
@@ -251,7 +251,7 @@ class ilNotificationDatabaseHandler
 
 		$result = array();
 
-		while ($row = $ilDB->fetchAssoc($rset))
+		while($row = $ilDB->fetchAssoc($rset))
 		{
 			$result[$row['type_name']] = array(
 				'name'        => $row['type_name'],
@@ -277,9 +277,9 @@ class ilNotificationDatabaseHandler
 
 		$result = array();
 
-		while ($row = $ilDB->fetchAssoc($res))
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			if (!$result[$row['module']])
+			if(!$result[$row['module']])
 			{
 				$result[$row['module']] = array();
 			}
@@ -316,7 +316,7 @@ class ilNotificationDatabaseHandler
 
 	public static function enqueueByUsers(ilNotificationConfig $notification, array $userids)
 	{
-		if (!$userids)
+		if(!$userids)
 		{
 			return;
 		}
@@ -326,7 +326,7 @@ class ilNotificationDatabaseHandler
 		$notification_id = ilNotificationDatabaseHandler::storeNotification($notification);
 		$valid_until     = $notification->getValidForSeconds() ? (time() + $notification->getValidForSeconds()) : 0;
 
-		foreach ($userids as $userid)
+		foreach($userids as $userid)
 		{
 			$ilDB->insert(
 				ilNotificationSetupHelper::$tbl_notification_queue,
@@ -396,7 +396,7 @@ class ilNotificationDatabaseHandler
 		$users = array();
 
 		$rset = $ilDB->queryF($query, $types, $values);
-		while ($row = $ilDB->fetchAssoc($rset))
+		while($row = $ilDB->fetchAssoc($rset))
 		{
 			$users[] = $row['usr_id'];
 		}
@@ -421,7 +421,7 @@ class ilNotificationDatabaseHandler
 
 		$query = 'UPDATE ' . ilNotificationSetupHelper::$tbl_userlistener . ' SET disabled = 0 WHERE module = %s AND sender_id = %s';
 
-		if ($users)
+		if($users)
 		{
 			$query .= ' ' . $ilDB->in('usr_id', $users);
 		}
@@ -512,7 +512,7 @@ class ilNotificationDatabaseHandler
 		$query  = 'SELECT usr_id, value FROM usr_pref WHERE ' . $ilDB->in('usr_id', $userid, false, 'integer') . ' AND keyword="use_custom_notification_setting" AND value="1"';
 		$rset   = $ilDB->query($query);
 		$result = array();
-		while ($row = $ilDB->fetchAssoc($rset))
+		while($row = $ilDB->fetchAssoc($rset))
 		{
 			$result[$row['usr_id']] = (bool)$row['value'];
 		}

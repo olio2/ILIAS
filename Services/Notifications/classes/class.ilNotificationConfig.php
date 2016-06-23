@@ -7,18 +7,23 @@
 class ilNotificationConfig
 {
 	const TTL_LONG = 1800;
+
 	const TTL_SHORT = 120;
+
 	const DEFAULT_TTS = 5;
+
 	/**
 	 * Value in seconds after user interface notification (e.g. OSD) disappear
 	 * @var int
 	 */
 	protected $visibleForSeconds = 0;
+
 	/**
 	 * the type of the notification
 	 * @var string
 	 */
 	private $type;
+
 	/**
 	 * a link to send with the notification
 	 * the notification channel decides what to do with this information
@@ -26,16 +31,22 @@ class ilNotificationConfig
 	 * @var string
 	 */
 	private $link;
+
 	private $linktarget = '_self';
+
 	private $title;
+
 	/**
 	 * an icon to send with the notification
 	 * the notification channel decides what to do with this information
 	 * @var string
 	 */
 	private $iconPath;
+
 	private $short_description;
+
 	private $long_description;
+
 	/**
 	 * used only for notifications that are sent to listeners
 	 * if set to true, the listener is disabled after this notification has
@@ -47,12 +58,14 @@ class ilNotificationConfig
 	 * @var boolean
 	 */
 	private $disableAfterDelivery = false;
+
 	/**
 	 * validity in seconds after the notification will be dismissed from the
 	 * database
 	 * @var integer
 	 */
 	private $validForSeconds = 0;
+
 	/**
 	 * additional parameters to pass to the handlers
 	 * @var array
@@ -260,11 +273,11 @@ class ilNotificationConfig
 		$short = '';
 		$long  = '';
 
-		if ($languageVars[$this->title->getName()]->lang[$user->getLanguage()])
+		if($languageVars[$this->title->getName()]->lang[$user->getLanguage()])
 		{
 			$title = $languageVars[$this->title->getName()]->lang[$user->getLanguage()];
 		}
-		else if ($languageVars[$this->title->getName()]->lang[$defaultLanguage])
+		else if($languageVars[$this->title->getName()]->lang[$defaultLanguage])
 		{
 			$title = $languageVars[$this->title->getName()]->lang[$defaultLanguage];
 		}
@@ -273,11 +286,11 @@ class ilNotificationConfig
 			$title = $this->title->getName();
 		}
 
-		if ($languageVars[$this->short_description->getName()]->lang[$user->getLanguage()])
+		if($languageVars[$this->short_description->getName()]->lang[$user->getLanguage()])
 		{
 			$short = $languageVars[$this->short_description->getName()]->lang[$user->getLanguage()];
 		}
-		else if ($languageVars[$this->short_description->getName()]->lang[$defaultLanguage])
+		else if($languageVars[$this->short_description->getName()]->lang[$defaultLanguage])
 		{
 			$short = $languageVars[$this->short_description->getName()]->lang[$defaultLanguage];
 		}
@@ -286,11 +299,11 @@ class ilNotificationConfig
 			$short = $this->short_description->getName();
 		}
 
-		if ($languageVars[$this->long_description->getName()]->lang[$user->getLanguage()])
+		if($languageVars[$this->long_description->getName()]->lang[$user->getLanguage()])
 		{
 			$long = $languageVars[$this->long_description->getName()]->lang[$user->getLanguage()];
 		}
-		else if ($languageVars[$this->long_description->getName()]->lang[$defaultLanguage])
+		else if($languageVars[$this->long_description->getName()]->lang[$defaultLanguage])
 		{
 			$long = $languageVars[$this->long_description->getName()]->lang[$defaultLanguage];
 		}
@@ -310,7 +323,7 @@ class ilNotificationConfig
 
 	public function setHandlerParam($name, $value)
 	{
-		if (strpos($name, '.'))
+		if(strpos($name, '.'))
 		{
 			$nsParts                          = explode('.', $name, 2);
 			$ns                               = $nsParts[0];
@@ -345,16 +358,24 @@ class ilNotificationObject
 	 * @var ilNotification
 	 */
 	public $baseNotification;
+
 	/**
 	 * @var ilObjUser
 	 */
 	public $user;
+
 	public $title;
+
 	public $shortDescription;
+
 	public $longDescription;
+
 	public $link;
+
 	public $linktarget;
+
 	public $iconPath;
+
 	public $handlerParams;
 
 	public function __construct(ilNotificationConfig $baseNotification, ilObjUser $user)
@@ -381,7 +402,9 @@ class ilNotificationObject
 class ilNotificationParameter
 {
 	private $name;
+
 	private $parameters = array();
+
 	private $language_module = array();
 
 	public function __construct($name, $parameters = array(), $language_module = 'notification')

@@ -5,6 +5,7 @@
 class ilNotificationHandlerIterator implements Iterator
 {
 	private $items = array();
+
 	private $index = 0;
 
 	public function __construct(array $items = array())

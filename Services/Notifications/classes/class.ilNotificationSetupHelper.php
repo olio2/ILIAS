@@ -9,18 +9,24 @@ require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.
 class ilNotificationSetupHelper
 {
 	public static $tbl_userconfig = 'notification_usercfg';
+
 	public static $tbl_userlistener = 'notification_listener';
+
 	public static $tbl_notification_data = 'notification_data';
+
 	public static $tbl_notification_queue = 'notification_queue';
+
 	public static $tbl_notification_osd_handler = 'notification_osd';
+
 	public static $tbl_notification_channels = 'notification_channels';
+
 	public static $tbl_notification_types = 'notification_types';
 
 	public static function setupTables()
 	{
 		global $ilDB;
 
-		if (!$ilDB->tableExists(self::$tbl_userconfig))
+		if(!$ilDB->tableExists(self::$tbl_userconfig))
 		{
 			$fields = array(
 				'usr_id'  => array('type' => 'integer', 'notnull' => true, 'length' => 4),
@@ -31,7 +37,7 @@ class ilNotificationSetupHelper
 			$ilDB->addPrimaryKey(self::$tbl_userconfig, array('usr_id', 'module', 'channel'));
 		}
 
-		if (!$ilDB->tableExists(self::$tbl_userlistener))
+		if(!$ilDB->tableExists(self::$tbl_userlistener))
 		{
 			$fields = array(
 				'usr_id'    => array('type' => 'integer', 'notnull' => true, 'length' => 4),
@@ -43,7 +49,7 @@ class ilNotificationSetupHelper
 			$ilDB->addPrimaryKey(self::$tbl_userlistener, array('usr_id', 'module', 'sender_id'));
 		}
 
-		if (!$ilDB->tableExists(self::$tbl_notification_data))
+		if(!$ilDB->tableExists(self::$tbl_notification_data))
 		{
 			$fields = array(
 				'notification_id' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
@@ -55,7 +61,7 @@ class ilNotificationSetupHelper
 			$ilDB->createSequence(self::$tbl_notification_data);
 		}
 
-		if (!$ilDB->tableExists(self::$tbl_notification_queue))
+		if(!$ilDB->tableExists(self::$tbl_notification_queue))
 		{
 			$fields = array(
 				'notification_id' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
@@ -68,7 +74,7 @@ class ilNotificationSetupHelper
 			$ilDB->addPrimaryKey(self::$tbl_notification_queue, array('notification_id', 'usr_id'));
 		}
 
-		if (!$ilDB->tableExists(self::$tbl_notification_osd_handler))
+		if(!$ilDB->tableExists(self::$tbl_notification_osd_handler))
 		{
 			$fields = array(
 				'notification_osd_id' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
@@ -89,7 +95,7 @@ class ilNotificationSetupHelper
 			$ilDB->createSequence(self::$tbl_notification_osd_handler);
 		}
 
-		if (!$ilDB->tableExists(self::$tbl_notification_channels))
+		if(!$ilDB->tableExists(self::$tbl_notification_channels))
 		{
 			$fields = array(
 				'channel_name' => array('type' => 'text', 'notnull' => true, 'length' => 100),
@@ -107,7 +113,7 @@ class ilNotificationSetupHelper
 			ilNotificationSetupHelper::registerChannel('osd', 'osd', 'osd_desc', 'ilNotificationOSDHandler', 'Services/Notifications/classes/class.ilNotificationOSDHandler.php');
 		}
 
-		if (!$ilDB->tableExists(self::$tbl_notification_types))
+		if(!$ilDB->tableExists(self::$tbl_notification_types))
 		{
 			$fields = array(
 				'type_name'          => array('type' => 'text', 'notnull' => true, 'length' => 100),

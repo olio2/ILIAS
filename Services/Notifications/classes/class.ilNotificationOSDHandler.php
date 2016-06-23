@@ -23,17 +23,17 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler
 		$rset          = $ilDB->queryF($query, $types, $values);
 		$notifications = array();
 
-		while ($row = $ilDB->fetchAssoc($rset))
+		while($row = $ilDB->fetchAssoc($rset))
 		{
 			$row['data'] = unserialize($row['serialized']);
 			unset($row['serialized']);
 
 			$row['data']->handlerParams = array('general' => $row['data']->handlerParams[''], 'osd' => $row['data']->handlerParams['osd']);
 
-			if ($append_osd_id_to_link)
+			if($append_osd_id_to_link)
 			{
 
-				if ($row['data']->link)
+				if($row['data']->link)
 				{
 					$row['data']->link = self::appendParamToLink($row['data']->link, 'osd_id', $row['notification_osd_id']);
 				}
@@ -59,7 +59,7 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler
 	 */
 	private static function appendParamToLink($link, $param, $value)
 	{
-		if (strpos($link, '?') !== false)
+		if(strpos($link, '?') !== false)
 		{
 			$link .= '&' . $param . '=' . $value;
 		}
@@ -75,9 +75,9 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler
 	{
 		$matches = array();
 		preg_match_all('/href="(.*?)"/', $subject, $matches);
-		if ($matches[1])
+		if($matches[1])
 		{
-			foreach ($matches[1] as $match)
+			foreach($matches[1] as $match)
 			{
 				$match_appended = self::appendParamToLink($match, 'osd_id', $osd_id);
 				$subject        = str_replace($match, $match_appended, $subject);
@@ -93,7 +93,7 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler
 	public static function cleanupOnRandom()
 	{
 		$rnd = rand(0, 10000);
-		if ($rnd == 500)
+		if($rnd == 500)
 		{
 			self::cleanup();
 		}
@@ -128,7 +128,7 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler
 
 		$rset = $ilDB->queryF($query, $types, $values);
 
-		if ($row = $ilDB->fetchAssoc($rset))
+		if($row = $ilDB->fetchAssoc($rset))
 		{
 
 			$query  = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE notification_osd_id = %s';
