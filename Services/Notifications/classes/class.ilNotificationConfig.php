@@ -1,21 +1,24 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Describes a notification and provides methods for publishing this notification
  */
 class ilNotificationConfig
 {
-	const TTL_LONG  = 1800;
+	const TTL_LONG = 1800;
 	const TTL_SHORT = 120;
-
-	const DEFAULT_TTS = 5; 
-
+	const DEFAULT_TTS = 5;
+	/**
+	 * Value in seconds after user interface notification (e.g. OSD) disappear
+	 * @var int
+	 */
+	protected $visibleForSeconds = 0;
 	/**
 	 * the type of the notification
 	 * @var string
 	 */
 	private $type;
-
 	/**
 	 * a link to send with the notification
 	 * the notification channel decides what to do with this information
@@ -24,19 +27,15 @@ class ilNotificationConfig
 	 */
 	private $link;
 	private $linktarget = '_self';
-
 	private $title;
-
 	/**
 	 * an icon to send with the notification
 	 * the notification channel decides what to do with this information
 	 * @var string
 	 */
 	private $iconPath;
-
 	private $short_description;
 	private $long_description;
-
 	/**
 	 * used only for notifications that are sent to listeners
 	 * if set to true, the listener is disabled after this notification has
@@ -54,13 +53,6 @@ class ilNotificationConfig
 	 * @var integer
 	 */
 	private $validForSeconds = 0;
-
-	/**
-	 * Value in seconds after user interface notification (e.g. OSD) disappear
-	 * @var int
-	 */
-	protected $visibleForSeconds = 0;
-
 	/**
 	 * additional parameters to pass to the handlers
 	 * @var array
@@ -87,24 +79,24 @@ class ilNotificationConfig
 		return (bool)$this->disableAfterDelivery;
 	}
 
-	public function setLink($link)
-	{
-		$this->link = $link;
-	}
-
 	public function getLink()
 	{
 		return $this->link;
 	}
 
-	public function setIconPath($path)
+	public function setLink($link)
 	{
-		$this->iconPath = $path;
+		$this->link = $link;
 	}
 
 	public function getIconPath()
 	{
 		return $this->iconPath;
+	}
+
+	public function setIconPath($path)
+	{
+		$this->iconPath = $path;
 	}
 
 	/**
@@ -190,14 +182,14 @@ class ilNotificationConfig
 		$this->linktarget = $linktarget;
 	}
 
-	public function setValidForSeconds($seconds)
-	{
-		$this->validForSeconds = $seconds;
-	}
-
 	public function getValidForSeconds()
 	{
 		return $this->validForSeconds;
+	}
+
+	public function setValidForSeconds($seconds)
+	{
+		$this->validForSeconds = $seconds;
 	}
 
 	/**
@@ -216,26 +208,6 @@ class ilNotificationConfig
 		$this->visibleForSeconds = $visibleForSeconds;
 	}
 
-	protected function beforeSendToUsers()
-	{
-
-	}
-
-	protected function afterSendToUsers()
-	{
-
-	}
-
-	protected function beforeSendToListeners()
-	{
-
-	}
-
-	protected function afterSendToListeners()
-	{
-
-	}
-
 	/**
 	 * sends this notification to a list of users
 	 * @param array $recipients
@@ -248,12 +220,28 @@ class ilNotificationConfig
 		$this->afterSendToUsers();
 	}
 
+	protected function beforeSendToUsers()
+	{
+	}
+
+	protected function afterSendToUsers()
+	{
+	}
+
 	final public function notifyByListeners($ref_id, $processAsync = false)
 	{
 		require_once 'Services/Notifications/classes/class.ilNotificationSystem.php';
 		$this->beforeSendToListeners();
 		ilNotificationSystem::sendNotificationToListeners($this, $ref_id, $processAsync);
 		$this->afterSendToListeners();
+	}
+
+	protected function beforeSendToListeners()
+	{
+	}
+
+	protected function afterSendToListeners()
+	{
 	}
 
 	final public function notifyByRoles(array $roles, $processAsync = false)
@@ -272,11 +260,11 @@ class ilNotificationConfig
 		$short = '';
 		$long  = '';
 
-		if($languageVars[$this->title->getName()]->lang[$user->getLanguage()])
+		if ($languageVars[$this->title->getName()]->lang[$user->getLanguage()])
 		{
 			$title = $languageVars[$this->title->getName()]->lang[$user->getLanguage()];
 		}
-		else if($languageVars[$this->title->getName()]->lang[$defaultLanguage])
+		else if ($languageVars[$this->title->getName()]->lang[$defaultLanguage])
 		{
 			$title = $languageVars[$this->title->getName()]->lang[$defaultLanguage];
 		}
@@ -285,11 +273,11 @@ class ilNotificationConfig
 			$title = $this->title->getName();
 		}
 
-		if($languageVars[$this->short_description->getName()]->lang[$user->getLanguage()])
+		if ($languageVars[$this->short_description->getName()]->lang[$user->getLanguage()])
 		{
 			$short = $languageVars[$this->short_description->getName()]->lang[$user->getLanguage()];
 		}
-		else if($languageVars[$this->short_description->getName()]->lang[$defaultLanguage])
+		else if ($languageVars[$this->short_description->getName()]->lang[$defaultLanguage])
 		{
 			$short = $languageVars[$this->short_description->getName()]->lang[$defaultLanguage];
 		}
@@ -298,11 +286,11 @@ class ilNotificationConfig
 			$short = $this->short_description->getName();
 		}
 
-		if($languageVars[$this->long_description->getName()]->lang[$user->getLanguage()])
+		if ($languageVars[$this->long_description->getName()]->lang[$user->getLanguage()])
 		{
 			$long = $languageVars[$this->long_description->getName()]->lang[$user->getLanguage()];
 		}
-		else if($languageVars[$this->long_description->getName()]->lang[$defaultLanguage])
+		else if ($languageVars[$this->long_description->getName()]->lang[$defaultLanguage])
 		{
 			$long = $languageVars[$this->long_description->getName()]->lang[$defaultLanguage];
 		}
@@ -322,7 +310,7 @@ class ilNotificationConfig
 
 	public function setHandlerParam($name, $value)
 	{
-		if(strpos($name, '.'))
+		if (strpos($name, '.'))
 		{
 			$nsParts                          = explode('.', $name, 2);
 			$ns                               = $nsParts[0];
@@ -353,17 +341,14 @@ class ilNotificationConfig
  */
 class ilNotificationObject
 {
-
 	/**
 	 * @var ilNotification
 	 */
 	public $baseNotification;
-
 	/**
 	 * @var ilObjUser
 	 */
 	public $user;
-
 	public $title;
 	public $shortDescription;
 	public $longDescription;
@@ -387,7 +372,6 @@ class ilNotificationObject
 	{
 		return array('title', 'shortDescription', 'longDescription', 'iconPath', 'link', 'linktarget', 'handlerParams');
 	}
-
 }
 
 /**
@@ -396,7 +380,6 @@ class ilNotificationObject
  */
 class ilNotificationParameter
 {
-
 	private $name;
 	private $parameters = array();
 	private $language_module = array();

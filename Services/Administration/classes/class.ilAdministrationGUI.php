@@ -450,7 +450,7 @@ class ilAdministrationGUI
 				),
 			2 => array(
 				"user_services" =>
-					array("pdts", "prfa", "nwss", "awra", "cadm", "cals", "mail"),
+					array("pdts", "prfa", "nwss", "awra", "cadm", "cals", "mail", "nota"),
 				"content_services" =>
 					array("seas", "mds", "tags", "taxs", 'ecss', "otpl"),
 				"maintenance" =>

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Services/Object/classes/class.ilObjectGUI.php';
 require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
@@ -14,7 +14,6 @@ require_once 'Services/Notifications/classes/class.ilNotificationHandler.php';
  */
 class ilNotificationGUI
 {
-
 	private $handler = array();
 
 	/**
@@ -37,27 +36,18 @@ class ilNotificationGUI
 	{
 		global $ilCtrl;
 
-		if(!$ilCtrl->getCmd())
+		if (!$ilCtrl->getCmd())
+		{
 			return;
+		}
 
 		$cmd = $ilCtrl->getCmd() . 'Object';
 		$this->$cmd();
-
 	}
 
 	public function getHandler($type)
 	{
 		return $this->handler[$type];
-	}
-
-	private function getAvailableTypes($types = array())
-	{
-		return ilNotificationDatabaseHandler::getAvailableTypes($types);
-	}
-
-	private function getAvailableChannels($types = array())
-	{
-		return ilNotificationDatabaseHandler::getAvailableChannels($types);
 	}
 
 	/**
@@ -73,7 +63,7 @@ class ilNotificationGUI
 
 		ilSession::enableWebAccessWithoutSession(true);
 
-		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		if ($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
 			return '{}';
 		}
@@ -105,17 +95,29 @@ class ilNotificationGUI
 
 	public function addHandler($channel, ilNotificationHandler $handler)
 	{
-		if(!array_key_exists($channel, $this->handler) || !is_array($this->handler[$channel]))
+		if (!array_key_exists($channel, $this->handler) || !is_array($this->handler[$channel]))
+		{
 			$this->handler[$channel] = array();
+		}
 
 		$this->handler[$channel][] = $handler;
+	}
+
+	function addLocatorItems()
+	{
+		global $ilLocator, $ilCtrl;
+
+		if (is_object($this->object))
+		{
+			$ilLocator->addItem($this->object->getTitle(), $ilCtrl->getLinkTarget($this, ''), '', $_GET["ref_id"]);
+		}
 	}
 
 	private function saveCustomizingOptionObject()
 	{
 		global $ilUser;
 
-		if($_POST['enable_custom_notification_configuration'])
+		if ($_POST['enable_custom_notification_configuration'])
 		{
 			$ilUser->writePref('use_custom_notification_setting', 1);
 		}
@@ -154,7 +156,7 @@ class ilNotificationGUI
 		$table->setFormAction($ilCtrl->getFormAction($this, 'saveSettings'));
 		$table->setData($this->getAvailableTypes(array('set_by_user')));
 
-		if($ilUser->getPref('use_custom_notification_setting') == 1)
+		if ($ilUser->getPref('use_custom_notification_setting') == 1)
 		{
 			$table->addCommandButton('saveSettings', $lng->txt('save'));
 			$table->addCommandButton('showSettings', $lng->txt('cancel'));
@@ -168,6 +170,16 @@ class ilNotificationGUI
 		$tpl->setContent($form->getHtml() . $table->getHTML());
 	}
 
+	private function getAvailableChannels($types = array())
+	{
+		return ilNotificationDatabaseHandler::getAvailableChannels($types);
+	}
+
+	private function getAvailableTypes($types = array())
+	{
+		return ilNotificationDatabaseHandler::getAvailableTypes($types);
+	}
+
 	private function saveSettingsObject()
 	{
 		global $ilUser, $ilCtrl;
@@ -175,15 +187,5 @@ class ilNotificationGUI
 
 		ilNotificationDatabaseHandler::setUserConfig($ilUser->getId(), $_REQUEST['notification'] ? $_REQUEST['notification'] : array());
 		$this->showSettingsObject();
-	}
-
-	function addLocatorItems()
-	{
-		global $ilLocator, $ilCtrl;
-
-		if(is_object($this->object))
-		{
-			$ilLocator->addItem($this->object->getTitle(), $ilCtrl->getLinkTarget($this, ''), '', $_GET["ref_id"]);
-		}
 	}
 }

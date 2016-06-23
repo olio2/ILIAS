@@ -304,7 +304,6 @@ class ilMainMenuGUI
 
 					// php7-workaround JL start
 					// the frequent polling messes up the log files
-					/* 
 					$this->tpl->touchBlock('osd_container');
 
 					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -324,7 +323,22 @@ class ilMainMenuGUI
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
 					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
 					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
-					*/
+					foreach($notifications as $notification)
+					{
+						if($notification['type'] == 'osd_maint')
+						{
+							continue;
+						}
+						$this->tpl->setCurrentBlock('osd_notification_item');
+
+						$this->tpl->setVariable('NOTIFICATION_ICON_PATH', $notification['data']->iconPath);
+						$this->tpl->setVariable('NOTIFICATION_TITLE', $notification['data']->title);
+						$this->tpl->setVariable('NOTIFICATION_LINK', $notification['data']->link);
+						$this->tpl->setVariable('NOTIFICATION_LINKTARGET', $notification['data']->linktarget);
+						$this->tpl->setVariable('NOTIFICATION_ID', $notification['notification_osd_id']);
+						$this->tpl->setVariable('NOTIFICATION_SHORT_DESCRIPTION', $notification['data']->shortDescription);
+						$this->tpl->parseCurrentBlock();
+					}
 					// php7-workaround end
 				}
 

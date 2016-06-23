@@ -6,7 +6,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ilCtrl_Calls ilPersonalSettingsGUI:
+ * @ilCtrl_Calls ilPersonalSettingsGUI: ilNotificationGUI
  */
 class ilPersonalSettingsGUI
 {
@@ -50,7 +50,16 @@ class ilPersonalSettingsGUI
 
 		switch($next_class)
 		{
-			
+			case "ilnotificationgui":
+				$this->__initSubTabs('showNotificationOptions');
+
+				require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
+				$obj = new ilNotificationGUI();
+				$ilCtrl->forwardCommand($obj);
+				$tpl->show();
+				exit();
+				break;
+
 			default:
 				$cmd = $this->ctrl->getCmd("showGeneralSettings");
 				$this->$cmd();
@@ -302,6 +311,7 @@ class ilPersonalSettingsGUI
 		$showMailOptions = ($a_cmd == 'showMailOptions') ? true : false;
 //		$showjsMath = ($a_cmd == 'showjsMath') ? true : false;
 		$showChatOptions = ($a_cmd == 'showChatOptions') ? true : false;
+		$showNotificationOptions = ($a_cmd == 'showNotificationOptions') ? true : false;
 
 		// old profile
 
@@ -330,7 +340,7 @@ class ilPersonalSettingsGUI
 			$chatSettings->get('play_invitation_sound', false)
 		)
 		{		
-			$ilTabs->addTarget('chat_settings', $this->ctrl->getLinkTarget($this, 'showChatOptions'), '', '', '', $showChatOptions);
+			//$ilTabs->addTarget('chat_settings', $this->ctrl->getLinkTarget($this, 'showChatOptions'), '', '', '', $showChatOptions);
 		}
 
 		include_once "./Services/Administration/classes/class.ilSetting.php";
@@ -340,7 +350,8 @@ class ilPersonalSettingsGUI
 			$ilTabs->addTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "showjsMath"),
 									 "", "", "", $showjsMath);
 		}*/
-		
+		$ilTabs->addTarget("notification_settings", $this->ctrl->getLinkTargetByClass('ilnotificationgui', "showSettings"),
+			"", "", "", $showNotificationOptions);
 		if((bool)$ilSetting->get('user_delete_own_account') &&
 			$ilUser->getId() != SYSTEM_USER_ID)
 		{
@@ -1376,6 +1387,18 @@ class ilPersonalSettingsGUI
 		session_destroy();		
 		
 		ilUtil::redirect("login.php?accdel=1");		 		
+	}
+
+	public function showNotificationOptions()
+	{
+		global $ilCtrl, $tpl;
+
+		$this->__initSubTabs('showNotificationOptions');
+
+		require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
+		$obj = new ilNotificationGUI();
+		$ilCtrl->forwardCommand($obj);
+		$tpl->show();
 	}
 }
 ?>

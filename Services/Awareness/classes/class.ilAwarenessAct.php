@@ -132,7 +132,7 @@ class ilAwarenessAct
 		);
 //var_dump($bodyParams); exit;
 		require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
-		$notification = new ilNotificationConfig('osd_main');
+		$notification = new ilNotificationConfig('aw_now_online');
 		$notification->setTitleVar('awareness_now_online', $bodyParams, 'awrn');
 		$notification->setShortDescriptionVar('awareness_now_online_users', $bodyParams, 'awrn');
 		$notification->setLongDescriptionVar('', $bodyParams, '');

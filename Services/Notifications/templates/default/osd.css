@@ -1,3 +1,9 @@
+.optionSetByUser input[type="checkbox"] {
+	padding: 2px;
+	background-color: rgba(0, 255, 0, 0.5);
+	display: block;
+}
+
 .osdNotificationContainer {
 	position: fixed;
 	right: 30px;
