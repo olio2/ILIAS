@@ -29,11 +29,11 @@ class ilNotificationSettingsTable extends ilTable2GUI
 
 		$this->setId('notifications_settings');
 
-		$this->addColumn($lng->txt('notification_target'), '', '');
+		$this->addColumn($lng->txt('notification_target'), '', '70%');
 
 		foreach($channels as $key => $channel)
 		{
-			$this->addColumn($lng->txt('notc_' . $channel['title']), '', '20%', false, ($channel['config_type'] == 'set_by_user' && false ? 'optionSetByUser' : ''));
+			$this->addColumn($lng->txt('notc_' . $channel['title']), '', '', false, ($channel['config_type'] == 'set_by_user' && false ? 'optionSetByUser text-center' : 'text-center'));
 		}
 
 		$this->setRowTemplate('tpl.type_line.html', 'Services/Notifications');
