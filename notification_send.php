@@ -2,16 +2,11 @@
 global $ilUser;
 
 include_once "Services/Context/classes/class.ilContext.php";
-ilContext::init(ilContext::CONTEXT_CRON);
+ilContext::init(ilContext::CONTEXT_SESSION_REMINDER);
 
-include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
-ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
-
-$_COOKIE["ilClientId"] = 'default';
-$_POST['username']     = 'root';
-$_POST['password']     = 'homer';
-
-include_once './include/inc.header.php';
+require_once("Services/Init/classes/class.ilInitialisation.php");
+ilInitialisation::initILIAS();
+die("Remove this to send example notifications");
 
 /***************************** Types ****************************/
 

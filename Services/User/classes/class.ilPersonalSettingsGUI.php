@@ -59,14 +59,12 @@ class ilPersonalSettingsGUI
 				$this->ctrl->forwardCommand($chatSettingsGui);
 				break;
 
-			case "ilnotificationgui":
+			case 'ilnotificationgui':
 				$this->__initSubTabs('showNotificationOptions');
 
 				require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
-				$obj = new ilNotificationGUI();
-				$ilCtrl->forwardCommand($obj);
-				$tpl->show();
-				exit();
+				$notificationGui = new ilNotificationGUI();
+				$this->ctrl->forwardCommand($notificationGui);
 				break;
 
 			default:
@@ -74,6 +72,7 @@ class ilPersonalSettingsGUI
 				$this->$cmd();
 				break;
 		}
+
 		return true;
 	}
 
@@ -301,10 +300,12 @@ class ilPersonalSettingsGUI
 			);
 		}
 
+		$ilTabs->addTarget(
+			'notification_settings', $this->ctrl->getLinkTargetByClass('ilnotificationgui', 'showSettings'),
+			'', '', '', $showNotificationOptions
+		);
+
 		include_once "./Services/Administration/classes/class.ilSetting.php";
-		
-		$ilTabs->addTarget("notification_settings", $this->ctrl->getLinkTargetByClass('ilnotificationgui', "showSettings"),
-			"", "", "", $showNotificationOptions);
 		if((bool)$ilSetting->get('user_delete_own_account') &&
 			$ilUser->getId() != SYSTEM_USER_ID)
 		{

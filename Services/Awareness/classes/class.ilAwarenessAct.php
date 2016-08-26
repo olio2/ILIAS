@@ -96,12 +96,6 @@ class ilAwarenessAct
 	{
 		global $lng;
 
-		$awrn_set = new ilSetting("awrn");
-		if (!$awrn_set->get("use_osd", true))
-		{
-			return;
-		}
-
 		$ts = ilSession::get("awr_online_user_ts");
 
 		$data = ilAwarenessData::getInstance($this->user_id);
