@@ -170,9 +170,7 @@ class ilNotificationDatabaseHandler
 		}
 		else
 		{
-			$query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_userconfig . ' WHERE usr_id=%s'
-				. ' AND module != ' . $ilDB->quote('buddysystem_request', 'text')
-				. ' AND module != ' . $ilDB->quote('aw_now_online', 'text');
+			$query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_userconfig . ' WHERE usr_id= %s';
 		}
 
 		$types  = array('integer');
