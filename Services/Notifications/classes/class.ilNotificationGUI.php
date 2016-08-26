@@ -34,7 +34,7 @@ class ilNotificationGUI
 
 	function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $tpl;
 
 		if(!$ilCtrl->getCmd())
 		{
@@ -43,6 +43,7 @@ class ilNotificationGUI
 
 		$cmd = $ilCtrl->getCmd() . 'Object';
 		$this->$cmd();
+		$tpl->show();
 	}
 
 	public function getHandler($type)
