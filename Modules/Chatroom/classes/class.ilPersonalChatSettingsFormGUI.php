@@ -39,11 +39,6 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 	protected $chatSettings = array();
 
 	/**
-	 * @var array
-	 */
-	protected $notificationSettings = array();
-
-	/**
 	 * ilPersonalChatSettingsFormGUI constructor.
 	 * @param bool $init_form
 	 */
@@ -59,8 +54,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		$this->mainTpl  = $DIC['tpl'];
 		$this->lng      = $DIC['lng'];
 
-		$this->chatSettings         = new ilSetting('chatroom');
-		$this->notificationSettings = new ilSetting('notifications');
+		$this->chatSettings = new ilSetting('chatroom');
 
 		if($init_form)
 		{
@@ -92,18 +86,8 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 	public function isAccessible()
 	{
 		return (
-			$this->chatSettings->get('chat_enabled', false) && (
-				$this->shouldShowNotificationOptions() || $this->shouldShowOnScreenChatOptions()
-			)
+			$this->chatSettings->get('chat_enabled', false) && $this->shouldShowOnScreenChatOptions()
 		);
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function shouldShowNotificationOptions()
-	{
-		return $this->notificationSettings->get('enable_osd', false) && $this->chatSettings->get('play_invitation_sound', false);
 	}
 
 	/**
@@ -127,12 +111,6 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 
 		$this->setFormAction($this->ctrl->getFormAction($this, 'saveChatOptions'));
 		$this->setTitle($this->lng->txt("chat_settings"));
-
-		if($this->shouldShowNotificationOptions())
-		{
-			$chb = new ilCheckboxInputGUI($this->lng->txt('play_invitation_sound'), 'play_invitation_sound');
-			$this->addItem($chb);
-		}
 
 		if($this->shouldShowOnScreenChatOptions())
 		{
@@ -177,11 +155,6 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		{
 			$this->showChatOptions();
 			return;
-		}
-
-		if($this->shouldShowNotificationOptions())
-		{
-			$this->user->setPref('chat_play_invitation_sound', (int)$this->getInput('play_invitation_sound'));
 		}
 
 		if($this->shouldShowOnScreenChatOptions())
