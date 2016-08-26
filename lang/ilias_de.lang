@@ -2254,8 +2254,8 @@ chatroom#:#fontstyle#:#Schriftbild
 chatroom#:#hide_settings#:#Einstellungen verbergen
 chatroom#:#hint_display_past_msgs#:#Anzahl der vergangenen Nachrichten, die beim Betreten des Chatraums angezeigt werden sollen. "0" deaktiviert die Anzeige vergangener Nachrichten.
 chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kann im Reiter Smilies vorgenommen werden.
-chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen informiert.
-chatroom#:#hint_osd_interval#:#Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
+notification#:#enable_osd_info#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Benachrichtigungen informiert.
+notification#:#noti_osd_interval_info#:#Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
 chatroom#:#hint_unique_name#:#Ein eindeutiger Name der diesen ILIAS-Mandanten beim Chat-Server identifiziert. Diese Einstellung ist vorallem bei der Nutzung von mehreren ILIAS-Mandanten auf einem Chat-Server zu beachten.
 chatroom#:#history_by_day#:#Tageshistorie
 chatroom#:#history_by_session#:#Sitzungshistorie
@@ -2341,7 +2341,6 @@ common#:#chta_read#:#Lesezugriff auf Chatraum-Administration
 common#:#chta_visible#:#Chatraum-Administration sichtbar
 common#:#chta_write#:#Chatraum-Administration bearbeiten
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
-chatroom_adm#:#enable_osd#:#On-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
 chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#https#:#HTTPS
@@ -2349,8 +2348,7 @@ chatroom_adm#:#instance#:#Instanz
 chatroom_adm#:#keypass#:#Keypass
 chatroom_adm#:#keystore#:#Keystore
 administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
-chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
-chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
+notification#:#noti_osd_interval#:#Abfrageintervall (Sekunden)
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chat-Server aufbauen können, wenn der eingetragene Port nicht offen ist.
 chatroom_adm#:#priv_hosts#:#Bevorzugte Hosts
 chatroom_adm#:#protocol#:#Protokoll
@@ -16502,14 +16500,13 @@ notification#:#notc_mail#:#Mail
 notification#:#notc_osd#:#On Screen Display-Benachrichtigungen (OSD)
 notification#:#enable_osd#:#On Screen Display-Benachrichtigungen (OSD) aktivieren
 notification#:#enable_mail#:#Mail-Benachrichtigungen aktiveren
-notification#:#polling_intervall#:#Anfrage-Intervall
-notification#:#polling_in_seconds#:#Intervall in Sekunden, in der der Browser bei ILIAS anfragt, ob neue Benachrichtigungen vorliegen.<br /><b>Achtung: </b>Dies wird dazu führen, dass Benutzer bei sonstiger Inaktivität auf der Plattform nicht mehr automatisch abgemeldet werden (Session-Timeout). Um das automatische Anfragen zu deaktivieren tragen Sie bitte "0" ein. In diesem Fall werden Benachrichtigungen erst beim Neuladen der Seite abgefragt und angezeigt.
 notification#:#enable_custom_notification_configuration#:#Benutzerdefinierte Konfiguration aktivieren
 notification#:#config_type#:#Konfiguration
 notification#:#notification_general#:#Allgemein
 common#:#notification_options#:#Einstellungen
 common#:#obj_nota_desc#:#Hier können Sie konfigurieren, wie ILIAS sich bzgl. Benachrichtigungen verhält.
-notification#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
+notification#:#noti_play_sound#:#Ton abspielen
+notification#:#noti_play_sound_info#:#Ton bei Erhalt einer neuen Einladung abspielen
 common#:#notification_settings#:#Benachrichtigungs-Einstellungen
 notification#:#nott_buddysystem_request#:#Kontaktanfragen
 notification#:#nott_buddysystem_request_desc#:#Benachrichtigung bei Kontaktanfragen

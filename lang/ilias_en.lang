@@ -11321,10 +11321,9 @@ chatroom_adm#:#client_settings#:#General Settings
 chatroom_adm#:#priv_hosts#:#Privileged Hosts
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Enable Chat
-chatroom_adm#:#enable_osd#:#Enable On-Screen Notifications
 chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#general_settings_title#:#General Chat Settings
-chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
+notification#:#noti_osd_interval#:#Refreshinterval (seconds)
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
@@ -11665,8 +11664,8 @@ chatroom#:#instance_name#:#Unique Identifier
 chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation
 chatroom#:#soap_user#:#Name of SOAP User
 chatroom#:#soap_user_password#:#Password of SOAP User
-chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
-chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
+notification#:#enable_osd_info#:#If enabled, users are notified by a popup about new notifications.
+notification#:#noti_osd_interval_info#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
 chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chat server to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.<br/>The name may contain letters (A-Z/a-z), numerics (0-9) and the characters ‘-’ and ‘_’.
 chatroom#:#enable_smilies#:#Enable Smileys
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smileys tab for configuration.
@@ -11692,7 +11691,8 @@ chatroom#:#clear_room_history_question#:#Do you really want to delete all messag
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom_adm#:#public_chat_settings#:#Public Chat Room Settings
 chatroom_adm#:#public_chat_permissions#:#Public Chat Room Permissions
-chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
+notification#:#noti_play_sound#:#Play Sound
+notification#:#noti_play_sound_info#:#Play a sound when receiving a new notifications
 chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#invite_username#:#Username
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
@@ -16446,15 +16446,12 @@ notification#:#notc_mail#:#Mail
 notification#:#notc_osd#:#On Screen Notification (OSD)
 notification#:#enable_osd#:#Enable On Screen Notifications (OSD)
 notification#:#enable_mail#:#Enable Mail Notifications
-notification#:#polling_intervall#:#Polling Intervall
-notification#:#polling_in_seconds#:#Time in seconds, the Userinterface will look for new notifications.<br /><b>Attention: </b> This will prevent users from beeing logged out automatically (session timeout).
 notification#:#enable_custom_notification_configuration#:#Activate custom notification configuration
 notification#:#config_type#:#Configuration
 notification#:#notification_general#:#General
 common#:#notification_options#:#Notification Settings
 common#:#obj_nota_desc#:#Configure how the System handles Notifications
 common#:#notifcation_general#:#General Settings
-notification#:#play_invitation_sound#:#Play a sound when receiving a new invitation
 common#:#notification_settings#:#Notification Settings
 notification#:#nott_buddysystem_request#:#Contact Requests
 notification#:#nott_buddysystem_request_desc#:#Notification for Contact Requests

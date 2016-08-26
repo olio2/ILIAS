@@ -236,18 +236,11 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 
 		$settings = array(
 			'name'                  => CLIENT_ID,
-			'enable_osd'            => (boolean)$form->getInput('enable_osd'),
 			'enable_osc'            => (boolean)$form->getInput('enable_osc'),
-			'osd_intervall'         => (int)$form->getInput('osd_intervall'),
 			'chat_enabled'          => ((boolean)$form->getInput('chat_enabled')),
 			'enable_smilies'        => (boolean)$form->getInput('enable_smilies'),
-			'play_invitation_sound' => (boolean)$form->getInput('play_invitation_sound'),
 			'auth'                  => $form->getInput('auth')
 		);
-
-		$notificationSettings = new ilSetting('notifications');
-		$notificationSettings->set('osd_polling_intervall', (int)$form->getInput('osd_intervall'));
-		$notificationSettings->set('enable_osd', (boolean)$form->getInput('enable_osd'));
 
 		$chatSettings = new ilSetting('chatroom');
 		$chatSettings->set('chat_enabled', $settings['chat_enabled']);

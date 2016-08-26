@@ -150,6 +150,9 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function notify(ilNotificationObject $notification)
 	{
 		global $ilDB;
@@ -165,21 +168,29 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler
 				'valid_until'         => array('integer', $notification->baseNotification->getValidForSeconds() ? ($notification->baseNotification->getValidForSeconds() + time()) : 0),
 				'visible_for'         => array('integer', $notification->baseNotification->getVisibleForSeconds() ? $notification->baseNotification->getVisibleForSeconds() : 0),
 				'type'                => array('text', $notification->baseNotification->getType()),
-				'time_added'          => array('integer', time()),
+				'time_added'          => array('integer', time())
 			)
 		);
 	}
 
-	public function showSettings($item)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function showSettings(ilSubEnabledFormPropertyGUI $item)
 	{
 		global $lng;
-		$txt = new ilTextInputGUI($lng->txt('polling_intervall'), 'osd_polling_intervall');
-		$txt->setRequired(true);
-		$txt->setInfo($lng->txt('polling_in_seconds'));
-		$txt->setValue('300');
 
-		$item->addSubItem($txt);
+		$interval = new ilNumberInputGUI($lng->txt('noti_osd_interval'), 'osd_interval');
+		$interval->setMinValue(1);
+		$interval->setRequired(true);
+		$interval->setInfo($lng->txt('noti_osd_interval_info'));
+		$item->addSubItem($interval);
 
-		return array('osd_polling_intervall');
+		$play_sound = new ilCheckboxInputGUI($lng->txt('noti_play_sound'), 'play_sound');
+		$play_sound->setInfo($lng->txt('noti_play_sound_info'));
+		$play_sound->setValue(1);
+		$item->addSubItem($play_sound);
+
+		return array('osd_interval', 'play_sound');
 	}
 }

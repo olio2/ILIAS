@@ -373,20 +373,6 @@ class ilChatroomFormFactory
 		$enable_osc->setInfo($lng->txt('chatroom_enable_osc_info'));
 		$enable_chat->addSubItem($enable_osc);
 
-		$osd = new ilCheckboxInputGUI($lng->txt('enable_osd'), 'enable_osd');
-		$osd->setInfo($lng->txt('hint_osd'));
-		$enable_chat->addSubItem($osd);
-
-		$interval = new ilNumberInputGUI($lng->txt('osd_intervall'), 'osd_intervall');
-		$interval->setMinValue(1);
-		$interval->setRequired(true);
-		$interval->setInfo($lng->txt('hint_osd_interval'));
-		$osd->addSubItem($interval);
-
-		$play_sound = new ilCheckboxInputGUI($lng->txt('play_invitation_sound'), 'play_invitation_sound');
-		$play_sound->setInfo($lng->txt('play_invitation_sound'));
-		$osd->addSubItem($play_sound);
-
 		$enable_smilies = new ilCheckboxInputGUI($lng->txt('enable_smilies'), 'enable_smilies');
 		$enable_smilies->setInfo($lng->txt('hint_enable_smilies'));
 		$enable_chat->addSubItem($enable_smilies);

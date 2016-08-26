@@ -16,9 +16,17 @@ require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
  */
 abstract class ilNotificationHandler
 {
+	/**
+	 * @param ilNotificationObject $notification
+	 */
 	abstract public function notify(ilNotificationObject $notification);
 
-	public function showSettings($form)
+	/**
+	 * @param ilSubEnabledFormPropertyGUI $item
+	 * @return array
+	 */
+	public function showSettings(ilSubEnabledFormPropertyGUI $item)
 	{
+		return array();
 	}
 }

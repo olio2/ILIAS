@@ -8,57 +8,78 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilNotificationAdminSettingsForm
 {
-	public static function getTypeForm($types)
+	/**
+	 * @param array $types
+	 * @return ilPropertyFormGUI
+	 */
+	public static function getTypeForm(array $types)
 	{
 		global $lng;
 
 		$lng->loadLanguageModule('notification');
 
 		$form = new ilPropertyFormGUI();
+		$form->setTitle($lng->txt('notification_admin_types'));
 
 		$options = array(
-			'set_by_user'  => $lng->txt('set_by_user'),
-			'set_by_admin' => $lng->txt('set_by_admin'),
 			'disabled'     => $lng->txt('disabled'),
+			'set_by_user'  => $lng->txt('set_by_user'),
+			'set_by_admin' => $lng->txt('set_by_admin')
 		);
 
 		foreach($types as $type)
 		{
-			$select = new ilSelectInputGUI($lng->txt('nott_' . $type['name']), 'notifications[' . $type['name'] . ']');
-			$select->setOptions($options);
-			$select->setValue($type['config_type']);
-			$form->addItem($select);
+			$mode = new ilRadioGroupInputGUI($lng->txt('nott_' . $type['name']), 'notifications[' . $type['name'] . ']');
+			foreach($options as $key => $translation)
+			{
+				$option = new ilRadioOption($translation, $key);
+				$mode->addOption($option);
+			}
+			$mode->setValue($type['config_type']);
+			$form->addItem($mode);
 		}
 
 		return $form;
 	}
 
-	public static function getChannelForm($types)
+	/**
+	 * @param array $types
+	 * @return ilPropertyFormGUI
+	 */
+	public static function getChannelForm(array $types)
 	{
 		global $lng;
 
 		$form = new ilPropertyFormGUI();
 
 		$options = array(
-			'set_by_user'  => $lng->txt('set_by_user'),
-			'set_by_admin' => $lng->txt('set_by_admin'),
 			'disabled'     => $lng->txt('disabled'),
+			'set_by_user'  => $lng->txt('set_by_user'),
+			'set_by_admin' => $lng->txt('set_by_admin')
 		);
 
 		foreach($types as $type)
 		{
-			$select = new ilSelectInputGUI($lng->txt('notc_' . $type['name']), 'notifications[' . $type['name'] . ']');
-			$select->setOptions($options);
-			$select->setValue($type['config_type']);
-			$form->addItem($select);
+			$mode = new ilRadioGroupInputGUI($lng->txt('notc_' . $type['name']), 'notifications[' . $type['name'] . ']');
+			foreach($options as $key => $translation)
+			{
+				$option = new ilRadioOption($translation, $key);
+				$mode->addOption($option);
+			}
+			$mode->setValue($type['config_type']);
+			$form->addItem($mode);
 		}
 
 		return $form;
 	}
 
+	/**
+	 * @return ilPropertyFormGUI
+	 */
 	public static function getGeneralSettingsForm()
 	{
 		global $lng;
+
 		$form = new ilPropertyFormGUI();
 
 		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
@@ -67,8 +88,7 @@ class ilNotificationAdminSettingsForm
 
 		$options = array(
 			'set_by_user'  => $lng->txt('set_by_user'),
-			'set_by_admin' => $lng->txt('set_by_admin'),
-			//'disabled' => $lng->txt('disabled'),
+			'set_by_admin' => $lng->txt('set_by_admin')
 		);
 		/**
 		 * @todo dirty...
@@ -77,15 +97,22 @@ class ilNotificationAdminSettingsForm
 		$store_values          = array();
 		foreach($channels as $channel)
 		{
-
 			$chb = new ilCheckboxInputGUI($lng->txt('enable_' . $channel['name']), 'enable_' . $channel['name']);
+			if($lng->txt('enable_' . $channel['name'] . '_info') != '-enable_' . $channel['name'] . '_info-')
+			{
+				$chb->setInfo($lng->txt('enable_' . $channel['name'] . '_info'));
+			}
 
 			$store_values[] = 'enable_' . $channel['name'];
 
-			$select = new ilSelectInputGUI($lng->txt('config_type'), 'notifications[' . $channel['name'] . ']');
-			$select->setOptions($options);
-			$select->setValue($channel['config_type']);
-			$chb->addSubItem($select);
+			$mode = new ilRadioGroupInputGUI($lng->txt('config_type'), 'notifications[' . $channel['name'] . ']');
+			foreach($options as $key => $translation)
+			{
+				$option = new ilRadioOption($translation, $key);
+				$mode->addOption($option);
+			}
+			$mode->setValue($channel['config_type']);
+			$chb->addSubItem($mode);
 
 			/**
 			 * @todo dirty...
@@ -113,5 +140,3 @@ class ilNotificationAdminSettingsForm
 		return $form;
 	}
 }
-
-?>

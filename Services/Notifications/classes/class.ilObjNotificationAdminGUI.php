@@ -1,9 +1,9 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once "./Services/Notifications/classes/class.ilObjNotificationAdmin.php";
-require_once "./Services/Notifications/classes/class.ilObjNotificationAdminAccess.php";
+require_once './Services/Object/classes/class.ilObjectGUI.php';
+require_once './Services/Notifications/classes/class.ilObjNotificationAdmin.php';
+require_once './Services/Notifications/classes/class.ilObjNotificationAdminAccess.php';
 
 /**
  * GUI class for notification objects.
@@ -19,45 +19,41 @@ require_once "./Services/Notifications/classes/class.ilObjNotificationAdminAcces
 class ilObjNotificationAdminGUI extends ilObjectGUI
 {
 	/**
-	 * Constructor
-	 * @access    public
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		$this->type = "nota";
+		global $DIC;
+
+		$this->type = 'nota';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 		$this->lng->loadLanguageModule('notification');
+
+		$this->tabs    = $DIC->tabs();
+		$this->access  = $DIC->access();
+		$this->locator = $DIC['ilLocator'];
 	}
-	
+
 	/**
-	 * save object
-	 *
-	 * @access    public
+	 * {@inheritdoc}
 	 */
-	static function saveObject2($params = array())
+	public function executeCommand()
 	{
-		global $objDefinition, $ilUser;
-
-		// create and insert file in grp_tree
-		require_once 'Services/Notifications/classes/class.ilObjNotificationAdmin.php';
-		$fileObj = new ilObjNotificationAdmin();
-		$fileObj->setTitle('notification admin');
-		$fileObj->create();
-		$fileObj->createReference();
-		$fileObj->putInTree(SYSTEM_FOLDER_ID);
-		//$fileObj->setPermissions($params['ref_id']);
-		// upload file to filesystem
-	}
-
-	static function _forwards()
-	{
-		return array();
-	}
-
-	function executeCommand()
-	{
-		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs;
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd        = $this->ctrl->getCmd();
 
@@ -66,74 +62,70 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
-				//$ilTabs->activateTab("id_permissions");
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+				require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 				$perm_gui = new ilPermissionGUI($this);
-				$ret      =& $this->ctrl->forwardCommand($perm_gui);
+				$this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
-				$this->__initSubTabs();
-				$ilTabs->activateTab("view");
+				$this->initSubTabs();
+				$this->tabs->activateTab('view');
 
-				if(empty($cmd) || $cmd == 'view')
+				if(strlen($cmd) == 0 || $cmd == 'view')
 				{
-					$cmd = 'showTypes';
+					$cmd = 'showGeneralSettings';
 				}
 
-				$cmd .= "Object";
+				$cmd .= 'Object';
 				$this->$cmd();
 				break;
 		}
 	}
 
-	function __initSubTabs()
+	public function initSubTabs()
 	{
-		global $ilTabs, $ilSetting, $ilCtrl;
-
-		$ilTabs->addSubTabTarget("notification_general", $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showGeneralSettings"));
-		//$ilTabs->addSubTabTarget("notification_admin_channels", $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showChannels"));
-		$ilTabs->addSubTabTarget("notification_admin_types", $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showTypes"));
-		$ilTabs->addSubTabTarget("notification_admin_matrix", $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showConfigMatrix"));
+		$this->tabs->addSubTabTarget('notification_general', $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', 'showGeneralSettings'));
+		//$this->tabs->addSubTabTarget('notification_admin_channels', $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', 'showChannels'));
+		$this->tabs->addSubTabTarget('notification_admin_types', $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', 'showTypes'));
+		$this->tabs->addSubTabTarget('notification_admin_matrix', $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', 'showConfigMatrix'));
 	}
 
-	// init sub tabs
-
-	function setTabs()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function setTabs()
 	{
-		global $ilAccess, $ilTabs, $lng;
+		$this->ctrl->setParameter($this, 'ref_id', $this->ref_id);
 
-		$this->ctrl->setParameter($this, "ref_id", $this->ref_id);
-
-		if($ilAccess->checkAccess("visible", "", $this->ref_id))
+		if($this->access->checkAccess('visible', '', $this->ref_id))
 		{
-			$ilTabs->addTab("id_info",
-				$lng->txt("info_short"),
-				$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary"));
+			$this->tabs->addTab('id_info',
+				$this->lng->txt('info_short'),
+				$this->ctrl->getLinkTargetByClass(array('ilobjfilegui', 'ilinfoscreengui'), 'showSummary'));
 		}
 
-		if($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+		if($this->access->checkAccess('edit_permission', '', $this->ref_id))
 		{
-			$ilTabs->addTab("id_permissions",
-				$lng->txt("perm_settings"),
-				$this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), "perm"));
+			$this->tabs->addTab('id_permissions',
+				$this->lng->txt('perm_settings'),
+				$this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'));
 		}
 	}
 
-	function addLocatorItems()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function addLocatorItems()
 	{
-		global $ilLocator;
-
 		if(is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
+			$this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ''), '', (int)$_GET['ref_id']);
 		}
 	}
 
-	function saveGeneralSettingsObject()
+	public function saveGeneralSettingsObject()
 	{
 		require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
-		#require_once 'Services/Administration/classes/class.ilSetting.php';
 
 		$settings = new ilSetting('notifications');
 
@@ -164,17 +156,19 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 				ilNotificationDatabaseHandler::setConfigTypeForChannel($type, $value);
 			}
 
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 			$this->showGeneralSettingsObject();
 		}
 	}
 
-	function showGeneralSettingsObject($form = null)
+	/**
+	 * @param ilPropertyFormGUI|null $form
+	 */
+	public function showGeneralSettingsObject(ilPropertyFormGUI $form = null)
 	{
-		global $ilTabs;
-
 		require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
 
-		$ilTabs->activateSubTab('notification_general');
+		$this->tabs->activateSubTab('notification_general');
 
 		if($form == null)
 		{
@@ -193,24 +187,25 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveGeneralSettings'));
 		$form->addCommandButton('saveGeneralSettings', $this->lng->txt('save'));
 
-		$this->tpl->setContent($form->getHtml());
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	public function saveTypesObject()
 	{
 		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+
 		foreach($_REQUEST['notifications'] as $type => $value)
 		{
 			ilNotificationDatabaseHandler::setConfigTypeForType($type, $value);
 		}
+
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->showTypesObject();
 	}
 
 	public function showTypesObject()
 	{
-		global $ilTabs;
-
-		$ilTabs->activateSubTab('notification_admin_types');
+		$this->tabs->activateSubTab('notification_admin_types');
 
 		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
 		require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
@@ -218,24 +213,25 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 		$form = ilNotificationAdminSettingsForm::getTypeForm(ilNotificationDatabaseHandler::getAvailableTypes());
 		$form->setFormAction($this->ctrl->getFormAction($this, 'showTypes'));
 		$form->addCommandButton('saveTypes', $this->lng->txt('save'));
-		$this->tpl->setContent($form->getHtml());
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	public function saveChannelsObject()
 	{
 		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+
 		foreach($_REQUEST['notifications'] as $type => $value)
 		{
 			ilNotificationDatabaseHandler::setConfigTypeForChannel($type, $value);
 		}
+
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->showChannelsObject();
 	}
 
 	public function showChannelsObject()
 	{
-		global $ilTabs;
-
-		$ilTabs->activateSubTab('notification_admin_channels');
+		$this->tabs->activateSubTab('notification_admin_channels');
 
 		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
 		require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
@@ -244,38 +240,34 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this, 'showChannels'));
 		$form->addCommandButton('saveChannels', $this->lng->txt('save'));
 		$form->addCommandButton('showChannels', $this->lng->txt('cancel'));
-		$this->tpl->setContent($form->getHtml());
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	private function saveConfigMatrixObject()
 	{
-		global $ilUser, $ilCtrl;
 		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
 
 		ilNotificationDatabaseHandler::setUserConfig(-1, $_REQUEST['notification'] ? $_REQUEST['notification'] : array());
+
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->showConfigMatrixObject();
 	}
 
 	public function showConfigMatrixObject()
 	{
-		global $ilTabs;
-
-		$ilTabs->activateSubTab('notification_admin_matrix');
+		$this->tabs->activateSubTab('notification_admin_matrix');
 
 		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
 		require_once 'Services/Notifications/classes/class.ilNotificationSettingsTable.php';
 
-		global $ilCtrl, $lng;
-
 		$userdata = ilNotificationDatabaseHandler::loadUserConfig(-1);
 
 		$table = new ilNotificationSettingsTable($this, 'a title', ilNotificationDatabaseHandler::getAvailableChannels(), $userdata, true);
-		$table->setFormAction($ilCtrl->getFormAction($this, 'saveConfigMatrix'));
+		$table->setFormAction($this->ctrl->getFormAction($this, 'saveConfigMatrix'));
 		$table->setData(ilNotificationDatabaseHandler::getAvailableTypes());
-		$table->setDescription($lng->txt('notification_admin_matrix_settings_table_desc'));
-		$table->addCommandButton('saveConfigMatrix', $lng->txt('save'));
+		$table->setDescription($this->lng->txt('notification_admin_matrix_settings_table_desc'));
+		$table->addCommandButton('saveConfigMatrix', $this->lng->txt('save'));
 
-		$this->tpl->setContent($table->getHtml());
+		$this->tpl->setContent($table->getHTML());
 	}
-} // END class.ilObjFileGUI
-?>
+}
