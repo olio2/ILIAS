@@ -36,6 +36,12 @@ class ilNotificationGUI
 	{
 		global $ilCtrl, $tpl;
 
+		if(in_array($_REQUEST['cmd'], array('getOSDNotifications', 'removeOSDNotifications')))
+		{
+			$this->{$_REQUEST['cmd'] . 'Object'}();
+			exit;
+		}
+
 		if(!$ilCtrl->getCmd())
 		{
 			return;

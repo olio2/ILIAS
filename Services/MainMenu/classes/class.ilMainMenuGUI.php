@@ -297,7 +297,6 @@ class ilMainMenuGUI
 				if($this->getMode() != self::MODE_TOPBAR_REDUCED && !$ilUser->isAnonymous())
 				{
 					$notificationSettings = new ilSetting('notifications');
-					$chatSettings = new ilSetting('chatroom');
 
 					/**
 					 * @var $tpl ilTemplate
@@ -321,8 +320,8 @@ class ilMainMenuGUI
 					$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
 					$this->tpl->setVariable('NOTIFICATION_CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt('close'))));
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
-					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
-					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
+					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_interval') ? $notificationSettings->get('osd_interval') : '60');
+					$this->tpl->setVariable('OSD_PLAY_SOUND', $notificationSettings->get('play_sound') && $ilUser->getPref('play_sound') ? 'true' : 'false');
 				}
 
 				$this->tpl->setCurrentBlock("userisloggedin");

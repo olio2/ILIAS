@@ -31,7 +31,7 @@ var OSDNotifications = function (settings) {
 				$.get(
 					"ilias.php",
 					{
-						baseClass:       'ilObjChatroomGUI',
+						baseClass:       'ilNotificationGUI',
 						cmd:             'removeOSDNotifications',
 						cmdMode:         'asynch',
 						notification_id: id
@@ -110,13 +110,13 @@ var OSDNotifications = function (settings) {
 						var id = 'notification_' + Math.random().toString(36).substr(2, 5);
 						if($.browser.msie)
 						{
-							var $notielm = $('<audio id="' + id + '" src="Modules/Chatroom/sounds/receive.mp3" type="audio/mp3"></audio>');
+							var $notielm = $('<audio id="' + id + '" src="Services/Notifications/sounds/receive.mp3" type="audio/mp3"></audio>');
 						}
 						else
 						{
 							var $notielm = $('<audio id="' + id + '"></audio>');
-							$notielm.append($('<source src="Modules/Chatroom/sounds/receive.mp3" type="audio/mp3" />'));
-							$notielm.append($('<source src="Modules/Chatroom/sounds/receive.ogg" type="audio/ogg" />'));
+							$notielm.append($('<source src="Services/Notifications/sounds/receive.mp3" type="audio/mp3" />'));
+							$notielm.append($('<source src="Services/Notifications/sounds/receive.ogg" type="audio/ogg" />'));
 						}
 						$notielm.css({
 							width: 0,
@@ -147,7 +147,7 @@ var OSDNotifications = function (settings) {
 				$.get(
 					"ilias.php",
 					{
-						baseClass:'ilObjChatroomGUI',
+						baseClass:'ilNotificationGUI',
 						cmd:      'getOSDNotifications',
 						cmdMode:  'asynch',
 						/*
