@@ -1,72 +1,85 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 
-class ilNotificationSettingsTable extends ilTable2GUI {
+class ilNotificationSettingsTable extends ilTable2GUI
+{
+	private $channels;
 
-    private $channels;
-    private $userdata = array();
+	private $userdata = array();
 
-    private $adminMode = false;
-    private $editable = true;
+	private $adminMode = false;
 
-    public function __construct($a_ref, $title, $channels, $userdata, $adminMode = false) {
+	private $editable = true;
 
-        global $lng, $ilCtrl;
+	public function __construct($a_ref, $title, $channels, $userdata, $adminMode = false)
+	{
 
-        $lng->loadLanguageModule('notification');
+		global $lng, $ilCtrl;
 
-        $this->channels = $channels;
-        $this->userdata = $userdata;
-        $this->adminMode = $adminMode;
+		$lng->loadLanguageModule('notification');
 
-        parent::__construct($a_ref, $title);
-        $this->setTitle($lng->txt('notification_options'));
+		$this->channels  = $channels;
+		$this->userdata  = $userdata;
+		$this->adminMode = $adminMode;
 
-        $this->setId('notifications_settings');
+		parent::__construct($a_ref, $title);
+		$this->setTitle($lng->txt('notification_options'));
 
-        $this->addColumn($lng->txt('notification_target'), '', '');
+		$this->setId('notifications_settings');
 
-        foreach ($channels as $key => $channel) {
-            $this->addColumn($lng->txt('notc_' . $channel['title']), '', '20%', false, ($channel['config_type'] == 'set_by_user' && false ? 'optionSetByUser' : ''));
-        }
+		$this->addColumn($lng->txt('notification_target'), '', '70%');
 
-        $this->setRowTemplate('tpl.type_line.html', 'Services/Notifications');
-        $this->setSelectAllCheckbox('');
-    }
+		foreach($channels as $key => $channel)
+		{
+			$this->addColumn($lng->txt('notc_' . $channel['title']), '', '', false, ($channel['config_type'] == 'set_by_user' && false ? 'optionSetByUser text-center' : 'text-center'));
+		}
 
-    public function setEditable($editable) {
-        $this->editable = $editable;
-    }
+		$this->setRowTemplate('tpl.type_line.html', 'Services/Notifications');
+		$this->setSelectAllCheckbox('');
+	}
 
-    public function isEditable() {
-        return (bool) $this->editable;
-    }
+	public function fillRow($type)
+	{
+		global $ilCtrl, $lng;
+		$this->tpl->setVariable('NOTIFICATION_TARGET', $lng->txt('nott_' . $type['title']));
 
-    public function fillRow($type) {
-        global $ilCtrl, $lng;
-        $this->tpl->setVariable('NOTIFICATION_TARGET', $lng->txt('nott_' . $type['title']));
+		foreach($this->channels as $channeltype => $channel)
+		{
+			if(array_key_exists($type['name'], $this->userdata) && in_array($channeltype, $this->userdata[$type['name']]))
+			{
+				$this->tpl->touchBlock('notification_cell_checked');
+			}
 
-        foreach ($this->channels as $channeltype => $channel) {
-            if (array_key_exists($type['name'], $this->userdata) && in_array($channeltype, $this->userdata[$type['name']]))
-                    $this->tpl->touchBlock ('notification_cell_checked');
+			if(!$this->isEditable())
+			{
+				$this->tpl->touchBlock('notification_cell_disabled');
+			}
 
-            if (!$this->isEditable()) {
-                $this->tpl->touchBlock ('notification_cell_disabled');
-            }
+			$this->tpl->setCurrentBlock('notification_cell');
 
-            $this->tpl->setCurrentBlock('notification_cell');
+			if($this->adminMode && $channel['config_type'] == 'set_by_user' && $type['config_type'] == 'set_by_user')
+			{
+				$this->tpl->setVariable('NOTIFICATION_SET_BY_USER_CELL', 'optionSetByUser');
+			}
 
-            if ($this->adminMode && $channel['config_type'] == 'set_by_user' && $type['config_type'] == 'set_by_user')
-                $this->tpl->setVariable('NOTIFICATION_SET_BY_USER_CELL', 'optionSetByUser');
+			$this->tpl->setVariable('CHANNEL', $channeltype);
+			$this->tpl->setVariable('TYPE', $type['name']);
 
-            $this->tpl->setVariable('CHANNEL', $channeltype);
-            $this->tpl->setVariable('TYPE', $type['name']);
-            
-            $this->tpl->parseCurrentBlock();
-        }
-    }
+			$this->tpl->parseCurrentBlock();
+		}
+	}
 
+	public function isEditable()
+	{
+		return (bool)$this->editable;
+	}
+
+	public function setEditable($editable)
+	{
+		$this->editable = $editable;
+	}
 }
 
 ?>

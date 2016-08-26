@@ -16491,3 +16491,29 @@ buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
 usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
 chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen
 chatroom#:#chat_user_action_invite_osd#:#On-Screen-Chat starten
+notification#:#notification_target#:#Benachrichtigung
+notification#:#notification_admin_channels#:#Kanäle
+notification#:#notification_admin_types#:#Typen
+notification#:#notification_admin_matrix#:#Benachrichtigungen
+notification#:#set_by_user#:#Durch den Benutzer änderbar/überschreibbar
+notification#:#set_by_admin#:#Durch den Administrator vorgegeben
+notification#:#notification_admin_matrix_settings_table_desc#:#In dieser Matrix können Sie die unterstützten Benachrichtigungs-Kanäle pro Benachrichtigung konfigurieren. Die farblich hervorgehobenen Felder zeigen an, dass die Benutzer die Einstellung selbständig ändern können.
+notification#:#nott_chat_invitation#:#Chat-Einladung
+notification#:#nott_osd_maint#:#Wartungsinformationen (noch nicht implementiert)
+notification#:#notc_mail#:#Mail
+notification#:#notc_osd#:#On Screen Display-Benachrichtigungen (OSD)
+notification#:#enable_osd#:#On Screen Display-Benachrichtigungen (OSD) aktivieren
+notification#:#enable_mail#:#Mail-Benachrichtigungen aktiveren
+notification#:#polling_intervall#:#Anfrage-Intervall
+notification#:#polling_in_seconds#:#Intervall in Sekunden, in der der Browser bei ILIAS anfragt, ob neue Benachrichtigungen vorliegen.<br /><b>Achtung: </b>Dies wird dazu führen, dass Benutzer bei sonstiger Inaktivität auf der Plattform nicht mehr automatisch abgemeldet werden (Session-Timeout). Um das automatische Anfragen zu deaktivieren tragen Sie bitte "0" ein. In diesem Fall werden Benachrichtigungen erst beim Neuladen der Seite abgefragt und angezeigt.
+notification#:#enable_custom_notification_configuration#:#Benutzerdefinierte Konfiguration aktivieren
+notification#:#config_type#:#Konfiguration
+notification#:#notification_general#:#Allgemein
+common#:#notification_options#:#Einstellungen
+common#:#obj_nota_desc#:#Hier können Sie konfigurieren, wie ILIAS sich bzgl. Benachrichtigungen verhält.
+notification#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
+common#:#notification_settings#:#Benachrichtigungs-Einstellungen
+notification#:#nott_buddysystem_request#:#Kontaktanfragen
+notification#:#nott_buddysystem_request_desc#:#Benachrichtigung bei Kontaktanfragen
+notification#:#nott_aw_now_online#:#Benutzer Online
+notification#:#nott_aw_now_online_desc#:#Benachrichtigungen für den Fall, dass Kontakte online kommen

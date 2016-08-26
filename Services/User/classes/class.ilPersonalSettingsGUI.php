@@ -6,7 +6,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ilCtrl_Calls ilPersonalSettingsGUI:
+ * @ilCtrl_Calls ilPersonalSettingsGUI: ilNotificationGUI
  */
 class ilPersonalSettingsGUI
 {
@@ -57,6 +57,16 @@ class ilPersonalSettingsGUI
 				require_once 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php';
 				$chatSettingsGui = new ilPersonalChatSettingsFormGUI();
 				$this->ctrl->forwardCommand($chatSettingsGui);
+				break;
+
+			case "ilnotificationgui":
+				$this->__initSubTabs('showNotificationOptions');
+
+				require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
+				$obj = new ilNotificationGUI();
+				$ilCtrl->forwardCommand($obj);
+				$tpl->show();
+				exit();
 				break;
 
 			default:
@@ -260,6 +270,7 @@ class ilPersonalSettingsGUI
 		$showPassword = ($a_cmd == 'showPassword') ? true : false;
 		$showGeneralSettings = ($a_cmd == 'showGeneralSettings') ? true : false;
 		$showMailOptions = ($a_cmd == 'showMailOptions') ? true : false;
+		$showNotificationOptions = ($a_cmd == 'showNotificationOptions') ? true : false;
 
 		// old profile
 
@@ -292,6 +303,8 @@ class ilPersonalSettingsGUI
 
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		
+		$ilTabs->addTarget("notification_settings", $this->ctrl->getLinkTargetByClass('ilnotificationgui', "showSettings"),
+			"", "", "", $showNotificationOptions);
 		if((bool)$ilSetting->get('user_delete_own_account') &&
 			$ilUser->getId() != SYSTEM_USER_ID)
 		{
@@ -1186,6 +1199,18 @@ class ilPersonalSettingsGUI
 		// terminate session
 		$GLOBALS['DIC']['ilAuthSession']->logout();
 		ilUtil::redirect("login.php?accdel=1");		 		
+	}
+
+	public function showNotificationOptions()
+	{
+		global $ilCtrl, $tpl;
+
+		$this->__initSubTabs('showNotificationOptions');
+
+		require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
+		$obj = new ilNotificationGUI();
+		$ilCtrl->forwardCommand($obj);
+		$tpl->show();
 	}
 }
 ?>

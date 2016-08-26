@@ -1,3 +1,7 @@
+.optionSetByUser {
+	background-color: rgba(0, 255, 0, 0.1);
+}
+
 .osdNotificationContainer {
 	position: fixed;
 	right: 30px;

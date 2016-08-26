@@ -16435,3 +16435,30 @@ buddysystem#:#buddy_handle_contact_request#:#Contact Request
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
 chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
 chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
+notification#:#notification_target#:#Notification Type
+notification#:#notification_admin_channels#:#Notification Channels
+notification#:#notification_admin_types#:#Notification Types
+notification#:#notification_admin_matrix#:#Notification Settings
+notification#:#set_by_user#:#Set by User
+notification#:#set_by_admin#:#Set by Admin
+notification#:#notification_admin_matrix_settings_table_desc#:#In this table you set the notification channels for each notification type. The colored fields indicate, that the users may override that a
+notification#:#nott_chat_invitation#:#Chat Invitation
+notification#:#nott_osd_maint#:#Maintenance Information for On Screen Notifications (OSD)
+notification#:#notc_mail#:#Mail
+notification#:#notc_osd#:#On Screen Notification (OSD)
+notification#:#enable_osd#:#Enable On Screen Notifications (OSD)
+notification#:#enable_mail#:#Enable Mail Notifications
+notification#:#polling_intervall#:#Polling Intervall
+notification#:#polling_in_seconds#:#Time in seconds, the Userinterface will look for new notifications.<br /><b>Attention: </b> This will prevent users from beeing logged out automatically (session timeout).
+notification#:#enable_custom_notification_configuration#:#Activate custom notification configuration
+notification#:#config_type#:#Configuration
+notification#:#notification_general#:#General
+common#:#notification_options#:#Notification Settings
+common#:#obj_nota_desc#:#Configure how the System handles Notifications
+common#:#notifcation_general#:#General Settings
+notification#:#play_invitation_sound#:#Play a sound when receiving a new invitation
+common#:#notification_settings#:#Notification Settings
+notification#:#nott_buddysystem_request#:#Contact Requests
+notification#:#nott_buddysystem_request_desc#:#Notification for Contact Requests
+notification#:#nott_aw_now_online#:#User Online
+notification#:#nott_aw_now_online_desc#:#Notification in case a contact is online

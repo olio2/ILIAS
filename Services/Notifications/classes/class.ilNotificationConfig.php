@@ -1,14 +1,22 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Describes a notification and provides methods for publishing this notification
  */
 class ilNotificationConfig
 {
-	const TTL_LONG  = 1800;
+	const TTL_LONG = 1800;
+
 	const TTL_SHORT = 120;
 
-	const DEFAULT_TTS = 5; 
+	const DEFAULT_TTS = 5;
+
+	/**
+	 * Value in seconds after user interface notification (e.g. OSD) disappear
+	 * @var int
+	 */
+	protected $visibleForSeconds = 0;
 
 	/**
 	 * the type of the notification
@@ -23,6 +31,7 @@ class ilNotificationConfig
 	 * @var string
 	 */
 	private $link;
+
 	private $linktarget = '_self';
 
 	private $title;
@@ -35,6 +44,7 @@ class ilNotificationConfig
 	private $iconPath;
 
 	private $short_description;
+
 	private $long_description;
 
 	/**
@@ -48,18 +58,13 @@ class ilNotificationConfig
 	 * @var boolean
 	 */
 	private $disableAfterDelivery = false;
+
 	/**
 	 * validity in seconds after the notification will be dismissed from the
 	 * database
 	 * @var integer
 	 */
 	private $validForSeconds = 0;
-
-	/**
-	 * Value in seconds after user interface notification (e.g. OSD) disappear
-	 * @var int
-	 */
-	protected $visibleForSeconds = 0;
 
 	/**
 	 * additional parameters to pass to the handlers
@@ -87,24 +92,24 @@ class ilNotificationConfig
 		return (bool)$this->disableAfterDelivery;
 	}
 
-	public function setLink($link)
-	{
-		$this->link = $link;
-	}
-
 	public function getLink()
 	{
 		return $this->link;
 	}
 
-	public function setIconPath($path)
+	public function setLink($link)
 	{
-		$this->iconPath = $path;
+		$this->link = $link;
 	}
 
 	public function getIconPath()
 	{
 		return $this->iconPath;
+	}
+
+	public function setIconPath($path)
+	{
+		$this->iconPath = $path;
 	}
 
 	/**
@@ -190,14 +195,14 @@ class ilNotificationConfig
 		$this->linktarget = $linktarget;
 	}
 
-	public function setValidForSeconds($seconds)
-	{
-		$this->validForSeconds = $seconds;
-	}
-
 	public function getValidForSeconds()
 	{
 		return $this->validForSeconds;
+	}
+
+	public function setValidForSeconds($seconds)
+	{
+		$this->validForSeconds = $seconds;
 	}
 
 	/**
@@ -216,26 +221,6 @@ class ilNotificationConfig
 		$this->visibleForSeconds = $visibleForSeconds;
 	}
 
-	protected function beforeSendToUsers()
-	{
-
-	}
-
-	protected function afterSendToUsers()
-	{
-
-	}
-
-	protected function beforeSendToListeners()
-	{
-
-	}
-
-	protected function afterSendToListeners()
-	{
-
-	}
-
 	/**
 	 * sends this notification to a list of users
 	 * @param array $recipients
@@ -248,12 +233,28 @@ class ilNotificationConfig
 		$this->afterSendToUsers();
 	}
 
+	protected function beforeSendToUsers()
+	{
+	}
+
+	protected function afterSendToUsers()
+	{
+	}
+
 	final public function notifyByListeners($ref_id, $processAsync = false)
 	{
 		require_once 'Services/Notifications/classes/class.ilNotificationSystem.php';
 		$this->beforeSendToListeners();
 		ilNotificationSystem::sendNotificationToListeners($this, $ref_id, $processAsync);
 		$this->afterSendToListeners();
+	}
+
+	protected function beforeSendToListeners()
+	{
+	}
+
+	protected function afterSendToListeners()
+	{
 	}
 
 	final public function notifyByRoles(array $roles, $processAsync = false)
@@ -353,7 +354,6 @@ class ilNotificationConfig
  */
 class ilNotificationObject
 {
-
 	/**
 	 * @var ilNotification
 	 */
@@ -365,11 +365,17 @@ class ilNotificationObject
 	public $user;
 
 	public $title;
+
 	public $shortDescription;
+
 	public $longDescription;
+
 	public $link;
+
 	public $linktarget;
+
 	public $iconPath;
+
 	public $handlerParams;
 
 	public function __construct(ilNotificationConfig $baseNotification, ilObjUser $user)
@@ -387,7 +393,6 @@ class ilNotificationObject
 	{
 		return array('title', 'shortDescription', 'longDescription', 'iconPath', 'link', 'linktarget', 'handlerParams');
 	}
-
 }
 
 /**
@@ -396,9 +401,10 @@ class ilNotificationObject
  */
 class ilNotificationParameter
 {
-
 	private $name;
+
 	private $parameters = array();
+
 	private $language_module = array();
 
 	public function __construct($name, $parameters = array(), $language_module = 'notification')

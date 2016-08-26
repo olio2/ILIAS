@@ -1,54 +1,67 @@
 <?php
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php';
 
 /**
  * wrapper for iterating a list of user settings by providing the user ids
  */
-class ilNotificationUserIterator implements Iterator {
+class ilNotificationUserIterator implements Iterator
+{
+	private $userids;
 
-    private $userids;
-    private $rset;
-    private $data;
-    private $module;
+	private $rset;
 
-    public function __construct($module, array $userids = array()) {
-        global $ilDB;
+	private $data;
 
-        $this->db = $ilDB;
-        $this->userids = $userids;
+	private $module;
 
-        $this->module = $module;
+	public function __construct($module, array $userids = array())
+	{
+		global $ilDB;
 
-        $this->rewind();
-    }
+		$this->db      = $ilDB;
+		$this->userids = $userids;
 
-    public function  __destruct() {
-        $this->db->free($this->rset);
-    }
+		$this->module = $module;
 
-    public function current() {
-        return $this->data;
-    }
+		$this->rewind();
+	}
 
-    public function key() {
-        return (int)$this->data['usr_id'];
-    }
+	public function rewind()
+	{
+		$query      = 'SELECT usr_id, module, channel FROM ' . ilNotificationSetupHelper::$tbl_userconfig . ' WHERE module = %s AND ' . $this->db->in('usr_id', $this->userids, false, 'integer');
+		$types      = array('text');
+		$values     = array($this->module);
+		$this->rset = $this->db->queryF($query, $types, $values);
+	}
 
-    public function next() {
-        //$this->data = $this->db->fetchAssoc($this->rset);
-    }
+	public function __destruct()
+	{
+		$this->db->free($this->rset);
+	}
 
-    public function rewind() {
-        $query = 'SELECT usr_id, module, channel FROM ' . ilNotificationSetupHelper::$tbl_userconfig . ' WHERE module=%s AND ' . $this->db->in('usr_id', $this->userids, false, 'integer');
-        $types = array('text');
-        $values = array($this->module);
-        $this->rset = $this->db->queryF($query, $types, $values);
-    }
+	public function current()
+	{
+		return $this->data;
+	}
 
-    public function valid() {
-        $this->data = $this->db->fetchAssoc($this->rset);
-        return is_array($this->data);
-    }
+	public function key()
+	{
+		return (int)$this->data['usr_id'];
+	}
+
+	public function next()
+	{
+		//$this->data = $this->db->fetchAssoc($this->rset);
+	}
+
+	public function valid()
+	{
+		$this->data = $this->db->fetchAssoc($this->rset);
+
+		return is_array($this->data);
+	}
 }
+
 ?>
