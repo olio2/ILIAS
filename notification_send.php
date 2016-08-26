@@ -1,9 +1,6 @@
 <?php
 global $ilUser;
 
-include_once "Services/Context/classes/class.ilContext.php";
-ilContext::init(ilContext::CONTEXT_SESSION_REMINDER);
-
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 die("Remove this to send example notifications");
