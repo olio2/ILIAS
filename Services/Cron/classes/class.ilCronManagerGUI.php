@@ -417,6 +417,28 @@ class ilCronManagerGUI
 			return array("cron_jobs"=>array("jumpToCronJobs", $fields));
 		}
 	}
+
+	/**
+	 *
+	 */
+	public function saveSorting()
+	{
+		global $lng;
+
+		$positions = is_array($_POST['cron_job_position']) ? $_POST['cron_job_position'] : array();
+
+		foreach($positions as $job_id => $position)
+		{
+			$position = str_replace(',', '.', $position);
+			$position = (float)$position * 100;
+
+			$job = ilCronManager::getJobInstanceById($job_id);
+			ilCronManager::updateJobPosition($job, (int)$position);
+		}
+
+		ilUtil::sendSuccess($lng->txt('saved_successfully'));
+		$this->render();
+	}
 }
 
 ?>

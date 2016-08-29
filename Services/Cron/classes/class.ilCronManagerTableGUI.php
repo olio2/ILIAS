@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
+include_once './Services/Form/classes/class.ilNumberInputGUI.php';
 
 /**
  * List all active cron jobs
@@ -10,7 +11,12 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  * @ingroup ServicesCron
  */
 class ilCronManagerTableGUI extends ilTable2GUI
-{	
+{
+	/**
+	 * @var int
+	 */
+	protected $position = 1;
+
 	/**
 	 * Constructor
 	 *
@@ -26,6 +32,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->addColumn("", "", 1);
+		$this->addColumn($this->lng->txt("cron_job_sorting"), "sorting");
 		$this->addColumn($this->lng->txt("cron_job_id"), "title");
 		$this->addColumn($this->lng->txt("cron_component"), "component");
 		$this->addColumn($this->lng->txt("cron_schedule"), "schedule");
@@ -37,8 +44,8 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("actions"), "");
 		
 		$this->setTitle($this->lng->txt("cron_jobs"));
-		$this->setDefaultOrderField("title");
-		
+		$this->setDefaultOrderField("position");
+
 		$this->setSelectAllCheckbox("mjid");
 		$this->addMultiCommand("activate", $lng->txt("cron_action_activate"));
 		$this->addMultiCommand("deactivate", $lng->txt("cron_action_deactivate"));
@@ -46,7 +53,12 @@ class ilCronManagerTableGUI extends ilTable2GUI
 						
 		$this->setRowTemplate("tpl.cron_job_row.html", "Services/Cron");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
-				
+
+		$this->setLimit(PHP_INT_MAX);
+		$this->setShowRowsSelector(false);
+		$this->addCommandButton('saveSorting', $this->lng->txt('sorting_save'));
+		$this->disable('sort');
+
 		$this->getItems();
 	}
 	
@@ -265,7 +277,13 @@ class ilCronManagerTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{		
 		global $ilCtrl, $lng;
-		
+
+		$positionGui = new ilNumberInputGUI('', "cron_job_position[" . $a_set["job_id"] . "]");
+		$positionGui->setSize(3);
+		$positionGui->setMaxLength(4);
+		$positionGui->setValue($this->position++ * 10);
+		$this->tpl->setVariable('VAL_POSITION', $positionGui->render());
+
 		$this->tpl->setVariable("VAL_ID", $a_set["title"]);
 		$this->tpl->setVariable("VAL_JID", $a_set["job_id"]);
 		

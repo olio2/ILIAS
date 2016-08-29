@@ -29,7 +29,10 @@ class ilCronManager
 		{
 			define("ILIAS_HTTP_PATH", ilUtil::_getHttpPath());
 		}
-		
+
+		$jobs          = array();
+		$sortable_jobs = array();
+
 		// system
 		foreach(self::getCronJobData(null, false) as $row)
 		{					
@@ -37,16 +40,28 @@ class ilCronManager
 			if($job)
 			{
 				// #18411 - we are NOT using the initial job data as it might be outdated at this point
-				self::runJob($job);
+				$job_data = array_pop(self::getCronJobData($job->getId()));
+				$jobs[$job->getId()]          = array($job, $job_data);
+				$sortable_jobs[$job->getId()] = $job_data['position'];
 			}
 		}
 		
 		// plugins
 		foreach(self::getPluginJobs(true) as $item)
 		{
-			self::runJob($item[0], $item[1]);
-		}		
-		
+			$jobs[$item[1]['job_id']]          = array($item[0], $item[1]);
+			$sortable_jobs[$item[1]['job_id']] = $item[1]['position'];
+		}
+
+		// sort
+		asort($sortable_jobs);
+
+		// run
+		foreach($sortable_jobs as $job_id => $position)
+		{
+			call_user_func_array(array('ilCronManager', 'runJob'), $jobs[$job_id]);
+		}
+
 		$ilLog->write("CRON - batch end");
 	}
 	
@@ -531,8 +546,7 @@ class ilCronManager
 			$sql .= " WHERE ".implode(" AND ", $where);			
 		}
 		
-		// :TODO: discuss job execution order
-		$sql .= " ORDER BY job_id";
+		$sql .= " ORDER BY position, job_id";
 		
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
@@ -613,7 +627,21 @@ class ilCronManager
 				
 		$a_job->activationWasToggled(false);				
 	}
-	
+
+	/**
+	 * @param ilCronJob $a_job
+	 * @param integer   $a_position
+	 */
+	public static function updateJobPosition(ilCronJob $a_job, $a_position = 0)
+	{
+		global $ilDB;
+
+		$sql = "UPDATE cron_job SET " .
+			" position = " . $ilDB->quote($a_position, "integer") .
+			" WHERE job_id = " . $ilDB->quote($a_job->getId(), "text");
+		$ilDB->manipulate($sql);
+	}
+
 	/**
 	 * Check if given job is currently active
 	 * 
